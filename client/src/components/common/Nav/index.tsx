@@ -74,9 +74,9 @@ export function Nav(props: any) {
     }
 
     if (isConnected) {
+      setModalOpen(false)
       getArweavePublicAddress(),
       connectFinnie();
-      setModalOpen(false)
     }
   },[
     dispatch,

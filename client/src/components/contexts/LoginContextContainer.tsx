@@ -86,7 +86,6 @@ const ContextProvider = ({ children }: WithChildren) => {
   };
 
   const setSeedPhraseSaved = (): Promise<void> => {
-    console.log("here");
     return Promise.all([
       _setSeedPhraseSaved(),
       unregisterSeedPhraseSaveReminder(),

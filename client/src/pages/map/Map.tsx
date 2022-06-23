@@ -67,7 +67,7 @@ export function Map (mapProps: any) {
               new mapboxgl.Popup({ offset: -100 }) // add popups
               .setHTML(`<div>
                 <h3>Cateory: ${marker?.properties?.category}</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
-                <a href="/screen/${marker?.properties?.screen}" fontweight="600">Click her for screen details</a>
+                <a href="/#/screen/${marker?.properties?.screen}" fontweight="600">Click her for screen details</a>
               </div>`)
           ).addTo(map);
         })

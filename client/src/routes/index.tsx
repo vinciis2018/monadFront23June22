@@ -110,6 +110,7 @@ export const Routes = () => {
 
         <PublicRoute exact path="/screens" component={Screens} layout={AppLayout} />
         <PrivateRoute exact path="/screen/:id/:txId?" component={ScreenDetail} layout={AppLayout} />
+        <PrivateRoute exact path="/#/screen/:id/:txId?" component={ScreenDetail} layout={AppLayout} />
         <PrivateRoute exact path="/screen/:id/edit" component={ScreenEdit} layout={AppLayout} />
 
         <PublicRoute exact path="/adverts" component={Adverts} layout={AppLayout} />
