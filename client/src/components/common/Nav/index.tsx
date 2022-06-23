@@ -297,7 +297,7 @@ export function Nav(props: any) {
                   {isConnected ? (
                     <Badge onClick={isModalOpen} borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
                       <Flex align="center" justify="space-between">
-                        <Text lineHeight="1" p="1">{(walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData) || "wallet locked"}</Text>
+                        <Text lineHeight="1" p="1">{myWallet ? (walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
                         <RiWallet3Line size="15px" color="black"/>
                       </Flex>
                     </Badge>
