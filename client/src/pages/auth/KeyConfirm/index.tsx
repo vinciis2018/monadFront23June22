@@ -64,13 +64,14 @@ export function KeyConfirm() {
     if (phrasesPairsMatches()) {
       console.log("done")
       await setSeedPhraseSaved();
+      console.log("done")
       const defWallet = getArweavePublicAddress();
       console.log(defWallet)
       if(userInfo.defaultWallet === undefined || null || "") {
         dispatch(createWallet(defWallet));
-        dispatch(signout());
       }
       navigate.push("/upload");
+      dispatch(signout());
     } else {
       setErr("Please input matched characters");
     }

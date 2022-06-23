@@ -23,9 +23,9 @@ export default function CameraHandlers({
 
   return (
       <Flex p="4" align="center" justify="space-between">
-        <MdOutlineFlipCameraAndroid  onClick={onSwitch} size="40px" color="gray.500" />
-        <MdOutlineCamera onClick={onShut} size="40px" color="gray.500" />
-        <RiGalleryLine size="40px" color="gray.500" />
+        <MdOutlineFlipCameraAndroid  onClick={onSwitch} size="40px" color="gray" />
+        <MdOutlineCamera onClick={onShut} size="40px" color="gray" />
+        <RiGalleryLine size="40px" color="gray" />
       </Flex>
   );
 }

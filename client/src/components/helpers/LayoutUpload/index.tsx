@@ -103,22 +103,6 @@ export default function LayoutUpload(props: Props) {
     lock();
   };
 
-  const takePhoto = async () => {
-    if (camera.current) {
-      const photo = camera.current.takePhoto();
-      setImageUrl(photo);
-      // window.location.replace("/upload-photos");
-      navigate.push("/upload-photos");
-    }
-  };
-
-  const onSwitch = () => {
-    facingMode === "user"
-      ? setFacingMode("environment")
-      : setFacingMode("user");
-    if (camera.current) camera.current.switchCamera();
-  };
-
 
   return (
     <Layout sx={{ paddingTop: paddingTop }}>
@@ -139,10 +123,10 @@ export default function LayoutUpload(props: Props) {
           <DrawerCloseButton onClick={() => onClose()} />
           <DrawerHeader direction="row" p="4" align="center">
             <Flex pt="10" align="center" justify="space-between">
-              <AiOutlineHome onClick={() => window.location.replace("/")} size="20px" color="black"/>
-              <GrGallery onClick={() => window.location.replace("/gallery")} size="20px" color="black" />
-              <AiOutlineCamera onClick={() => window.location.replace("/upload")} size="20px" color="black" />
-              <AiOutlineSetting onClick={() => window.location.replace("/setting")} size="20px" color="black" />
+              <AiOutlineHome onClick={() => navigate.push("/")} size="20px" color="black"/>
+              <GrGallery onClick={() => navigate.push("/gallery")} size="20px" color="black" />
+              <AiOutlineCamera onClick={() => navigate.push("/upload")} size="20px" color="black" />
+              <AiOutlineSetting onClick={() => navigate.push("/setting")} size="20px" color="black" />
               <AiOutlineLock onClick={lockScreen} size="20px" color="black" />
             </Flex>
           </DrawerHeader>

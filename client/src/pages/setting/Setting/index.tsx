@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useWallet } from "components/contexts";
 import { Box, Tooltip, FormControl, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 import { CopyableAddress, EmptyState, ErrorState } from "components/ui";
+import { isPWA } from "utils/util";
 
 import {
   setting_bomb,
@@ -12,8 +13,13 @@ import {
   icon_back2,
 } from "assets/svgs";
 
+let deferredPrompt: Event;
+
 export function Setting() {
   const navigate = useHistory();
+  const [pwaMode, setPwaMode] = useState(false);
+  const [installable, setInstallable] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo, loading, error } = userSignin;
@@ -29,6 +35,23 @@ export function Setting() {
     }
   };
 
+  const appInstallLuncher = () => {
+    // Hide the app provided install promotion
+    setInstallable(false);
+    let dt: any = deferredPrompt;
+    // Show the install prompt
+    dt.prompt();
+    // Wait for the user to respond to the prompt
+    dt.userChoice.then((choiceResult: any) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the install prompt");
+      } else {
+        console.log("User dismissed the install prompt");
+        setOpen(true);
+      }
+    });
+  };
+
   useEffect(() => {
     const wallet = getArweavePublicAddress();
 
@@ -36,8 +59,21 @@ export function Setting() {
       navigate.push("/login")
     }
 
+    if (isPWA()) {
+      setPwaMode(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
   },[userInfo.defaultWallet, getArweavePublicAddress()])
 
+ 
+  const onClick = async () => {
+    if (installable) {
+      // Show the install prompt
+      await appInstallLuncher();
+    }
+  };
   return (
     <Box px="2" pt="20">
       <Center maxW="container.lg" minH="600" mx="auto" pb="8">
@@ -62,6 +98,11 @@ export function Setting() {
                   <Text p="4" fontSize="sm">WALLET ADDRESS :</Text>
                   <CopyableAddress address={getArweavePublicAddress()} w="100%" maxW="200px" />
                 </Flex>
+                <Box align="center">
+                  <Text color="violet.500" onClick={onClick}>
+                    {pwaMode && "Save on HomeScreen"}
+                  </Text>
+                </Box>
                 <Flex align="center" justify="space-between">
                   <Text p="4" fontSize="sm">GET RECOVERY PHRASE</Text>
                   <Button variant="outline" color="violet.500" onClick={gotoRecovery}>Reveal Recovery Phrase</Button>

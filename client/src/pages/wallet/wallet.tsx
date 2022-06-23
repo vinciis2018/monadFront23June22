@@ -128,15 +128,12 @@ export function Wallet(props: any) {
       setWalletId(walletAdd)
       dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
       dispatch(getWalletDetails(walletAdd));
+    } else {
+      navigate.push(redirect);
     }
-
-    if(props?.match?.params?.id === walletAdd) {
-      
-    }
-    
 
     if(walletAddress === walletAddAr) {
-      props.history.push(`/wallet/${walletAddress}`);
+      navigate.push(`/wallet/${walletAddress}`);
     }
 
     if(wallet === null || undefined) {
@@ -162,10 +159,6 @@ export function Wallet(props: any) {
       })
       window.alert(`${quantity} ${ticker} transferred to ${toWallet} successfully!`);
       setTransferModalVisible(false);
-    }
-
-    if(!userInfo) {
-      props.history.push(redirect);
     }
 
 
