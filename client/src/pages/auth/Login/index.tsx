@@ -54,9 +54,8 @@ export function Login() {
               await login(expired);
               if (target) {
                 navigate.push("/" + target);
-              } else {
+              } 
                 navigate.push("/setting");
-              }
             })
             .catch((error: Error) => {
               if (error.message.includes(ERROR_IDS.NO_CONTENT)) {

@@ -22,6 +22,7 @@ import Name from "assets/name.png";
 import { LoadingBox, MessageBox } from "components/helpers";
 import { useLogin, useWallet } from "components/contexts";
 import { LoginHelper } from "components/helpers";
+import { editWallet } from "../../../Actions/walletActions";
 
 export function Nav(props: any) {
   const { width } = useWindowSize();
@@ -44,8 +45,8 @@ export function Nav(props: any) {
   } = useFinnie();
   console.log(walletAddress)
 
-  const {isUnlocked, unlock, getArweavePublicAddress, isLoading, isConnected
-
+  const {
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
   } = useWallet();
 
   const [myWallet, setMyWallet] = React.useState<String>(getArweavePublicAddress());
@@ -70,7 +71,7 @@ export function Nav(props: any) {
       setMyWallet(walletAdd);
       connectFinnie();
     } else {
-      logout();
+      dispatch(editWallet({ walletAdd }))
     }
 
     if (isConnected) {
@@ -89,11 +90,14 @@ export function Nav(props: any) {
     disconnectFinnie();
     logout();
     lock();
+    lockMyWallet();
     dispatch(signout());
   }
 
   const lockWallet = () => {
     lock();
+    logout();
+    lockMyWallet();
     navigate.push("/login")
 
   }

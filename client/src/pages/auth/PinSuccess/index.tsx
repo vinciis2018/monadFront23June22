@@ -15,7 +15,7 @@ import { useDropzone } from "react-dropzone";
 import {BsUpload} from 'react-icons/bs';
 import { getFileData } from "services/utils";
 import { KeyRecovery } from "../KeyRecovery";
-import {createWallet} from "../../../Actions/walletActions";
+import {createWallet, editWallet} from "../../../Actions/walletActions";
 import {signout } from "../../../Actions/userActions";
 
 let deferredPrompt: Event;
@@ -35,6 +35,7 @@ export function PinSuccess() {
   const dispatch = useDispatch();
 
   const { setupPin, generateAndSave, getTempSavedPin, wipeTempSavedPin, getArweavePublicAddress } = useWallet();
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -50,16 +51,30 @@ export function PinSuccess() {
           .then(() => generateAndSave(pin))
         const defWallet = getArweavePublicAddress();
         console.log(defWallet)
-        if(userInfo.defaultWallet === undefined || null) {
+        if(userInfo?.defaultWallet === undefined || null || "") {
           dispatch(createWallet(defWallet));
         }
-        navigate.push("/upload");
-        dispatch(signout());
+        if(userInfo?.defaultWallet !== defWallet) {
+          dispatch(editWallet({
+            defWallet
+          }))
+        }
+        navigate?.push("/upload");
 
       } else {
         navigate.push("/pin-create");
       }
     });
+  };
+
+  
+  const handleAgree = async () => {
+    if (installable) {
+      // Show the install prompt
+      await appInstallLuncher();
+    } else {
+      await registerUser();
+    }
   };
 
  
@@ -90,12 +105,7 @@ export function PinSuccess() {
   }, []);
 
   const onClick = async () => {
-    if (installable) {
-      // Show the install prompt
-      await appInstallLuncher();
-    } else {
-      await registerUser();
-    }
+    handleAgree();
   };
 
   const openRecoveryModal = () => {

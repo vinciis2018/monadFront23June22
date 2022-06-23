@@ -109,16 +109,16 @@ const ContextProvider = ({ children }: WithChildren) => {
             const target = searchParams.get("target");
             if (target) return;
           }
-          navigate.push("/upload");
+          navigate?.push("/upload");
         }
       } else {
         if (AUTH_ROUTES.includes(pathname)) {
-          navigate.push("/login");
+          navigate?.push("/setting");
         }
       }
     } else {
       if (AUTH_ROUTES.includes(pathname)) {
-        navigate.push("/");
+        // navigate.push("/");
       }
     }
     /* eslint-disable-next-line */
@@ -130,7 +130,7 @@ const ContextProvider = ({ children }: WithChildren) => {
       const current = Math.floor(Date.now() / 1000);
       if (current - Number(expired) > 0) {
         if (AUTH_ROUTES.includes(pathname)) {
-          navigate.push("/login");
+          navigate?.push("/login");
         }
       }
     }

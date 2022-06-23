@@ -16,7 +16,7 @@ export function KeyManagement() {
   useEffect(() => {
     const data = getArweavePublicAddress();
     if(!data) {
-      // navigate.push("/login")
+      navigate.push("/login")
     }
   }, [navigate])
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 // hooks
-import { useWallet } from "components/contexts";
+import { useLogin, useWallet } from "components/contexts";
 import { Box, Tooltip, FormControl, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 import { CopyableAddress, EmptyState, ErrorState } from "components/ui";
 import { isPWA } from "utils/util";
@@ -12,6 +12,7 @@ import {
   icon_close,
   icon_back2,
 } from "assets/svgs";
+import { signout } from "Actions/userActions";
 
 let deferredPrompt: Event;
 
@@ -23,6 +24,9 @@ export function Setting() {
 
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo, loading, error } = userSignin;
+
+  const { logout, lock } = useLogin();
+  const { lock: lockMyWallet } = useWallet();
 
   const dispatch = useDispatch();
 
@@ -55,8 +59,16 @@ export function Setting() {
   useEffect(() => {
     const wallet = getArweavePublicAddress();
 
-    if(userInfo.defaultWallet !== wallet) {
-      navigate.push("/login")
+
+
+    if(!wallet) {
+      navigate?.push("/login")
+    } else {
+      if(userInfo?.defaultWallet !== wallet) {
+        logout();
+        lock();
+        lockMyWallet();
+      }
     }
 
     if (isPWA()) {
@@ -65,7 +77,7 @@ export function Setting() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
-  },[userInfo.defaultWallet, getArweavePublicAddress()])
+  },[userInfo, getArweavePublicAddress()])
 
  
   const onClick = async () => {

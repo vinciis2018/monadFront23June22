@@ -127,7 +127,7 @@ export const editWallet = (wallet) => async (dispatch, getState) => {
   const {userSignin: {userInfo}} = getState();
 
   try {
-    const {data} = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/${wallet._id}`, wallet, {
+    const {data} = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/${userInfo._id}`, wallet, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       },

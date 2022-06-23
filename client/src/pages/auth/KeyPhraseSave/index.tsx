@@ -21,9 +21,6 @@ export function KeyPhraseSave() {
 
 
   useEffect(() => {
-    if(!mnemonics) {
-      navigate.push("/login")
-    }
   }, [navigate])
 
   const onClick = async () => {

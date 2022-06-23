@@ -148,6 +148,7 @@ export const ContextProvider = ({ children }: WithChildren) => {
   const lock = (): void => {
     set$jwk(undefined);
     setMnemonics(undefined);
+    return;
   };
 
   const setSelfDestructPin = (destructPin: string): Promise<void> => {

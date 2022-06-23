@@ -14,10 +14,6 @@ import {
   FacingMode,
 } from "react-camera-pro/dist/components/Camera/types";
 
-import {
-  icon_lock,
-  icon_back2
-} from "assets/svgs";
 import { AiOutlineArrowLeft, AiOutlineLock } from "react-icons/ai"
 
 export function Active() {
@@ -99,12 +95,13 @@ export function Active() {
               }}
             />
             <CameraHandlers onShut={takePhoto} onSwitch={onSwitch} />
-            <KeyPhraseSaveModal
-              onClose={handleCloseModal}
-              open={showKeyPhraseSaveModal}
-              onSecureMyAccountClick={handleSecureMyAccountClick}
-            />
+   
           </LayoutUpload>
+          <KeyPhraseSaveModal
+            onClose={handleCloseModal}
+            open={showKeyPhraseSaveModal}
+            onSecureMyAccountClick={handleSecureMyAccountClick}
+          />
         </Stack>
       </Center>
     </Box>

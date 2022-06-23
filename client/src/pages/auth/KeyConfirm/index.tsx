@@ -17,7 +17,7 @@ import {
   warning_red_icon,
   bk_key_part1, icon_back, icon_check, warning_icon
 } from "assets/svgs";
-import {createWallet} from "../../../Actions/walletActions";
+import {createWallet, editWallet} from "../../../Actions/walletActions";
 import {signout } from "../../../Actions/userActions";
 
 const hiddenKeyPhrasesKeys = getUniqueRandomNumbersArray(3, 11);
@@ -63,15 +63,19 @@ export function KeyConfirm() {
   const onConfirm = async () => {
     if (phrasesPairsMatches()) {
       console.log("done")
-      await setSeedPhraseSaved();
-      console.log("done")
       const defWallet = getArweavePublicAddress();
       console.log(defWallet)
-      if(userInfo.defaultWallet === undefined || null || "") {
+      if(userInfo?.defaultWallet === undefined || null || "") {
         dispatch(createWallet(defWallet));
       }
+      if(userInfo?.defaultWallet !== defWallet) {
+        dispatch(editWallet({
+          defWallet
+        }))
+      }
       navigate.push("/upload");
-      dispatch(signout());
+      await setSeedPhraseSaved();
+      console.log("done")
     } else {
       setErr("Please input matched characters");
     }
