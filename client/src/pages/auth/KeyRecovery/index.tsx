@@ -107,7 +107,7 @@ export function KeyRecovery() {
               />
             </Box>
             <Button mx="4" variant="outline" color="violet.500" onClick={onClick}>Continue</Button>
-            <Text p="2" textAlign="center" fontSize="sm" fontWeight="600"><Link color="teal.500" onClick={() => window.location.replace("/welcome")}>Or make a new key</Link></Text>
+            <Text p="2" textAlign="center" fontSize="sm" fontWeight="600"><Link color="teal.500" onClick={() => navigate.push("/welcome")}>Or make a new key</Link></Text>
           </KeyRecoveryContainer>
         </Stack>
       </Center>

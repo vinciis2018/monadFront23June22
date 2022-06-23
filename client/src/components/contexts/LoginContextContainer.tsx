@@ -110,7 +110,7 @@ const ContextProvider = ({ children }: WithChildren) => {
             const target = searchParams.get("target");
             if (target) return;
           }
-          window.location.replace("/upload");
+          navigate.push("/upload");
         }
       } else {
         if (AUTH_ROUTES.includes(pathname)) {
@@ -119,7 +119,7 @@ const ContextProvider = ({ children }: WithChildren) => {
       }
     } else {
       if (AUTH_ROUTES.includes(pathname)) {
-        // window.location.replace("/");
+        // navigate.push("/");
       }
     }
     /* eslint-disable-next-line */
@@ -131,7 +131,7 @@ const ContextProvider = ({ children }: WithChildren) => {
       const current = Math.floor(Date.now() / 1000);
       if (current - Number(expired) > 0) {
         if (AUTH_ROUTES.includes(pathname)) {
-          window.location.replace("/login");
+          navigate.push("/login");
         }
       }
     }
@@ -141,7 +141,7 @@ const ContextProvider = ({ children }: WithChildren) => {
   useEffect(() => {
     isPinSetup().then((hasData) => {
       if (!hasData) {
-        // window.location.replace("/welcome");
+        // navigate.push("/welcome");
       }
     });
 

@@ -4,7 +4,7 @@ import { getWalletDetails, createWallet, editWallet, transferTokens } from '../.
 import { ReactNode, useMemo, memo } from "react";
 import { useDropzone } from "react-dropzone";
 
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useHistory} from 'react-router-dom';
 import { Box, Heading, Slider, SliderTrack, SliderMark, SliderFilledTrack, SliderThumb, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
 import { useArtist } from "api/hooks";
@@ -33,6 +33,7 @@ import { useWallet } from 'components/contexts';
 export function Wallet(props: any) {
 
   const walletAddAr = props.match.params.id;
+  const navigate = useHistory();
 
   const [keyModal, setKeyModal] = useState<any>(false)
   const [toWallet, setToWallet] = useState<any>("");
@@ -120,7 +121,7 @@ export function Wallet(props: any) {
     const walletAdd = getArweavePublicAddress();
     console.log(walletAdd)
     if(!walletAdd) {
-      window.location.replace("/login")
+      navigate.push("/login")
     }
 
     if(userInfo) {
@@ -215,7 +216,7 @@ export function Wallet(props: any) {
         <Box maxW="container.lg" mx="auto" pb="8">
           {!props.match.params.id ? (
             <Stack p="4">
-              <Box onClick={() => window.location.replace("/welcome")} p="2" rounded="lg" shadow="card" align="center">
+              <Box onClick={() => navigate.push("/welcome")} p="2" rounded="lg" shadow="card" align="center">
                 <Text fontSize="sm" >You don't have any default wallet, would you like to create a new one?</Text>
                 {/* <Button width="100%" size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" onClick={() => createWalletHandler()}>Create Wallet</Button> */}
               </Box>

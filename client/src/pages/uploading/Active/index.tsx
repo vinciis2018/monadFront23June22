@@ -42,7 +42,7 @@ export function Active() {
 
   const handleSecureMyAccountClick = useCallback(() => {
     setShowKeyPhraseSaveModal(false);
-    // window.location.replace("/key-phrase-save");
+    // navigate.push("/key-phrase-save");
     navigate.push("/key-phrase-save");
   }, [
     navigate
@@ -52,7 +52,7 @@ export function Active() {
     if (camera.current) {
       const photo = camera.current.takePhoto();
       setImageUrl(photo);
-      // window.location.replace("/upload-photos");
+      // navigate.push("/upload-photos");
       navigate.push("/upload-photos");
     }
   };
@@ -77,7 +77,7 @@ export function Active() {
             <Text fontSize="xl" fontWeight="600" >
               Welcome to Finnie
             </Text>
-            <AiOutlineLock onClick={() => window.location.replace("/logout")} size="20px" color="black" />
+            <AiOutlineLock onClick={() => navigate.push("/logout")} size="20px" color="black" />
           </Flex>
           <hr />
           <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="click karo, paisa hi paisa hoga" aria-label='A tooltip'>

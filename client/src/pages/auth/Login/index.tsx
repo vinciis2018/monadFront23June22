@@ -118,8 +118,8 @@ export function Login() {
                 </Box>
               </Stack>
             <Button variant="outline" width="50%" color="violet.500" onClick={onClick}>Log In</Button>
-            <Text onClick={() => window.location.replace("/welcome")} textAlign="center" pt="4" fontSize="xs" fontWeight="600">Create a new Wallet</Text>
-            <Text onClick={() => window.location.replace("/upload")} textAlign="center" p="" fontSize="sm" fontWeight="600">Upload NFT</Text>
+            <Text onClick={() => navigate.push("/welcome")} textAlign="center" pt="4" fontSize="xs" fontWeight="600">Create a new Wallet</Text>
+            <Text onClick={() => navigate.push("/upload")} textAlign="center" p="" fontSize="sm" fontWeight="600">Upload NFT</Text>
 
           </Stack>
         )}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 
 import DateFnsUtils from '@date-io/date-fns'; // choose your lib
 import {
@@ -36,6 +36,8 @@ import { VIDEO_UPDATE_RESET } from '../../Constants/videoConstants';
 export function AdvertEdit (props: any) {
   const videoId = props.match.params.id;
   const screenId = props.match.params.screenId;
+  
+  const navigate = useHistory();
   
   const [txId, setTxId] = React.useState<any>(props.match.params.txId);
   const {data: nft, isLoading, isError} = useNft({id: txId});
@@ -614,7 +616,7 @@ const openTimeModal = () => {
                             ) : (
                               <Flex p="2"  onClick={removeGameContract} align="center" justify="flex-end">
                                 <IconButton bg="none" icon={<GiStopSign size="20px" color="red" />} aria-label="Edit Advert Details"></IconButton>
-                                <Text onClick={() => window.location.replace("/")} fontWeight="600" color="red.500" fontSize="xs">Remove Active Game Contract</Text>
+                                <Text onClick={() => navigate.push("/")} fontWeight="600" color="red.500" fontSize="xs">Remove Active Game Contract</Text>
                                 {/* <Button width="20%" color="violet.500" variant="outline" onClick={removeGameContract}>Remove Game</Button> */}
                               </Flex>
                             )}

@@ -34,7 +34,7 @@ export function Welcome() {
     hasEncryptedData().then((hasData) => {
       if(hasData) {
         setData(hasData)
-        // window.location.replace("/login");
+        // navigate.push("/login");
       }
     });
   }, [hasEncryptedData, navigate]);

@@ -33,7 +33,7 @@ export function Setting() {
     const wallet = getArweavePublicAddress();
 
     if(userInfo.defaultWallet !== wallet) {
-      window.location.replace("/login")
+      navigate.push("/login")
     }
 
   },[userInfo.defaultWallet, getArweavePublicAddress()])

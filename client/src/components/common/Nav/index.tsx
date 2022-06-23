@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
 // context
@@ -25,6 +25,7 @@ import { LoginHelper } from "components/helpers";
 
 export function Nav(props: any) {
   const { width } = useWindowSize();
+  const navigate = useHistory();
 
   const style = {
     bgColor: "gray.100",
@@ -93,13 +94,13 @@ export function Nav(props: any) {
 
   const lockWallet = () => {
     lock();
-    window.location.replace("/login")
+    navigate.push("/login")
 
   }
 
   const onClick = () => {
     if(!userInfo) {
-      window.location.replace("/signin")
+      navigate.push("/signin")
     }
   }
 
