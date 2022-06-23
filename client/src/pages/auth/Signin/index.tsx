@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Box, Heading, FormControl, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
 import { TextField } from '@material-ui/core';
@@ -11,6 +11,8 @@ import { signin } from '../../../Actions/userActions';
 
 export function Signin(props: any) {
 
+  const navigate = useHistory();
+  
   const [email, setEmail] = useState<any>('');
   const [password, setPassword] = useState<any>('');
 
@@ -31,9 +33,9 @@ export function Signin(props: any) {
   useEffect(() => {
     if (userInfo) {
       if(userInfo?.defaultWallet) {
-        window?.location?.replace(redirect);
+        navigate.push(redirect);
       } else {
-        window?.location?.replace("/welcome");
+        navigate.push("/welcome");
       }
     }
 

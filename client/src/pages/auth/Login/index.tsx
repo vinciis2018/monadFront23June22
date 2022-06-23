@@ -25,7 +25,7 @@ export function Login() {
 
   useEffect(() => {
     if (!userInfo) {
-      window?.location?.replace("/signin");
+      navigate.push("/signin");
     }
 
   }, [userInfo]);

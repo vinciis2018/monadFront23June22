@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Box, Heading, Image, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
 import {LoadingBox, MessageBox} from '../../../components/helpers';
@@ -8,6 +8,8 @@ import { signup } from '../../../Actions/userActions';
 
 
 export function Signup(props: any) {
+
+  const navigate = useHistory();
 
   const [name, setName] = useState<any>('');
   const [email, setEmail] = useState<any>('');
@@ -28,7 +30,7 @@ export function Signup(props: any) {
       alert('Password and confirm password donot match');
     } else {
       dispatch(signup(name, email, password));
-      props?.history?.push("/welcome");
+      navigate.push("/welcome");
       alert('user created, please create a wallet to proceed');
     }
   };
