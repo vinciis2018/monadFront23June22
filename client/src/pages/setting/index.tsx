@@ -1,0 +1,10 @@
+export { Setting } from "./Setting";
+export { Advanced } from "./Advanced";
+export { UpdatePin } from "./UpdatePin";
+export { WifiTesting } from "./WifiTesting";
+export { Recovery } from "./Recovery";
+export { RecoveryView } from "./RecoveryView";
+export { UpdatePinSuccess } from "./UpdatePinSuccess";
+export { SelfDestructPin } from "./SelfDestructPin";
+export { SelfDestructPinSuccess } from "./SelfDestructPinSuccess";
+export { SelfDestruct } from "./SelfDestruct";

@@ -1,0 +1,173 @@
+{
+  "name": "monad_by_vinciis",
+  "version": "0.1.0",
+  "homepage": ".",
+  "private": true,
+  "license": "",
+  "dependencies": {
+    "@_koi/port": "^0.3.10-beta",
+    "@_koi/sdk": "^2.4.11",
+    "@babel/plugin-proposal-decorators": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
+    "@chakra-ui/icons": "^1.1.5",
+    "@chakra-ui/react": "^1.7.3",
+    "@date-io/date-fns": "^1.3.13",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@fontsource/ibm-plex-sans": "^4.5.1",
+    "@fontsource/montserrat": "^4.5.5",
+    "@hookform/resolvers": "^2.8.8",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.4",
+    "@react-navigation/native": "^6.0.10",
+    "@types/lodash": "^4.14.182",
+    "@types/node": "^12.0.0",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-helmet": "^6.1.5",
+    "@types/react-map-gl": "^6.1.1",
+    "@types/react-native": "^0.67.8",
+    "@types/react-syntax-highlighter": "^13.5.2",
+    "@types/w3c-image-capture": "^1.0.5",
+    "@verto/js": "^1.0.0-beta-21",
+    "arweave": "^1.10.23",
+    "arweave-graphql": "^0.0.5",
+    "arweave-wallet-connector": "^0.0.29",
+    "axios": "^0.24.0",
+    "babel-plugin-styled-components": "^1.12.0",
+    "date-fns": "^2.28.0",
+    "deck.gl": "^8.6.8",
+    "device-detector-js": "^3.0.2",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-react-app": "^6.0.0",
+    "everpay": "^0.5.0",
+    "formik": "^2.2.9",
+    "framer-motion": "^4",
+    "ipfs-core": "^0.14.3",
+    "lint-staged": "^11.1.2",
+    "localforage": "^1.10.0",
+    "lottie-react": "^2.3.0",
+    "mapbox-gl": "^2.7.0",
+    "node-sass": "^6.0.1",
+    "prettier": "^2.3.2",
+    "query-string": "^7.0.1",
+    "react": "^17.0.2",
+    "react-calendar": "^3.7.0",
+    "react-camera-pro": "^1.1.1",
+    "react-code-input": "^3.10.1",
+    "react-datetime-picker": "^3.5.0",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^11.4.2",
+    "react-google-charts": "^4.0.0",
+    "react-helmet": "^6.1.0",
+    "react-hook-form": "^7.25.1",
+    "react-icons": "^4.3.1",
+    "react-infinite-scroll-hook": "^4.0.1",
+    "react-map-gl": "^7.0.6",
+    "react-map-gl-geocoder": "^2.2.0",
+    "react-query": "^3.22.0",
+    "react-redux": "^7.2.6",
+    "react-responsive-carousel": "^3.2.22",
+    "react-router-dom": "^5.3.0",
+    "react-scripts": "^4.0.3",
+    "react-select": "^5.3.1",
+    "react-syntax-highlighter": "^15.4.5",
+    "react-test-renderer": "^17.0.2",
+    "redstone-api": "^0.4.11",
+    "redstone-smartweave": "^0.5.6",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "styled-components": "^5.3.5",
+    "swiper": "^7.4.1",
+    "typescript": "^4.1.2",
+    "typescript-eslint": "^0.0.1-alpha.0",
+    "use-query-params": "^1.2.3",
+    "uuid": "^8.3.2",
+    "uuidv4": "^6.2.12",
+    "web-vitals": "^0.2.4",
+    "web3": "^1.7.0",
+    "workbox-background-sync": "^5.1.3",
+    "workbox-broadcast-update": "^5.1.3",
+    "workbox-cacheable-response": "^5.1.3",
+    "workbox-core": "^5.1.3",
+    "workbox-expiration": "^5.1.3",
+    "workbox-google-analytics": "^5.1.3",
+    "workbox-navigation-preload": "^5.1.3",
+    "workbox-precaching": "^5.1.3",
+    "workbox-range-requests": "^5.1.3",
+    "workbox-routing": "^5.1.3",
+    "workbox-strategies": "^5.1.3",
+    "workbox-streams": "^5.1.3",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "prettier -c --write './src' && npx eslint",
+    "production": "cross-env NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider  node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,md}": [
+      "npx prettier --write src/.",
+      "eslint src/. --ext .js,.jsx,.ts,.tsx"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "@testing-library/dom": "^8.2.0",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/mapbox-gl": "^2.6.1",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.45",
+    "@types/react-datetime-picker": "^3.4.1",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^17.0.1",
+    "@types/styled-components": "^5.1.25",
+    "json-loader": "^0.5.7",
+    "react-error-overlay": "6.0.9",
+    "transform-loader": "^0.2.4",
+    "webpack": "^5.51.1",
+    "worker-loader": "^3.0.8"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  }
+}
