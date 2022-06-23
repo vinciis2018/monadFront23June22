@@ -195,7 +195,7 @@ export function Nav(props: any) {
                       <Menu>
                         <MenuButton>
                         <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
-                          <Text p="2" lineHeight="1"  fontWeight="600" >AD Credits: {(walletBalance?.ar) + ( walletBalance?.koii) + (walletBalance?.ratData) || "wallet locked"}</Text>
+                          <Text p="2" lineHeight="1"  fontWeight="600" >AD Credits: {myWallet ? (walletBalance?.ar) + ( walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
                         </Tooltip>
                         </MenuButton>
                         <MenuList  align="center" >

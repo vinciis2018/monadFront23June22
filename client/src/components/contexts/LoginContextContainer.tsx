@@ -118,7 +118,7 @@ const ContextProvider = ({ children }: WithChildren) => {
       }
     } else {
       if (AUTH_ROUTES.includes(pathname)) {
-        // navigate.push("/");
+        navigate.push("/");
       }
     }
     /* eslint-disable-next-line */

@@ -69,63 +69,65 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       // });
 
       // Get finnie address
-      await getAddress().then(async res => {
-        console.log(res);
 
-        if (res.status === 200) {
-          /* Done, we have the address */
-          address = res?.data;
-        } else {
-          address = getArweavePublicAddress();
-        }
-      });
+      address = getArweavePublicAddress();
+      console.log(address)
 
-      await getBalances(address).then(res => {
-        balance = res;
-      });
-
-      await getPrice(address).then(res => {
-        // console.log("res", res)
-        price = res;
-      });
-
-      await getExhangeRate({
-        to: "INR",
-        from: "USD",
-        quant: "1"
-      }).then(res => {
-        exchangeRate = res
-      });
-
-      await getLastTransaction({
-        walletAddress: address
-      }).then(res => {
-        // console.log("my txn", res);
-        transaction = res
-      })
-      
-      await getHistoricalData({
-        ticker: "AR"
-      }).then(res => {
-        tokenHistory = res
-      })
+      if(address) {
+        await getBalances(address).then(res => {
+          balance = res;
+        });
   
-      dispatch({
-        type: "CHANGE_VALUE",
-        payload: { 
-          walletAddress: address, 
-          isFinnieConnected: true, 
-          isLoading: false, 
-          isError: null, 
-          walletBalance: balance, 
-          walletPrice: price, 
-          xchangeRate: exchangeRate,
-          lastTxn: transaction,
-          tokenHis: tokenHistory
-        }
-      });
-      toast({ status: "success", title: "Connected" });
-      return balance;
+        await getPrice(address).then(res => {
+          // console.log("res", res)
+          price = res;
+        });
+  
+        await getExhangeRate({
+          to: "INR",
+          from: "USD",
+          quant: "1"
+        }).then(res => {
+          exchangeRate = res
+        });
+  
+        await getLastTransaction({
+          walletAddress: address
+        }).then(res => {
+          // console.log("my txn", res);
+          transaction = res
+        })
+        
+        await getHistoricalData({
+          ticker: "AR"
+        }).then(res => {
+          tokenHistory = res
+        })
+        
+        dispatch({
+          type: "CHANGE_VALUE",
+          payload: { 
+            walletAddress: address, 
+            isFinnieConnected: true, 
+            isLoading: false, 
+            isError: null, 
+            walletBalance: balance, 
+            walletPrice: price, 
+            xchangeRate: exchangeRate,
+            lastTxn: transaction,
+            tokenHis: tokenHistory
+          }
+        });
+        toast({ status: "success", title: "Connected" });
+        return balance;
+      } else {
+        toast({ status: "error", title: "Can't find wallet address" });
+        dispatch({
+          type: "CHANGE_VALUE",
+          payload: { isLoading: false, isError: "Wallet address not found", walletAddress: null, isFinnieConnected: false }
+        });
+      }
+     
     } catch (error: any) {
       toast({ status: "error", title: "Please unlock the wallet first. Happy Advertising!!!" });
       dispatch({
