@@ -48,7 +48,7 @@ export function KeyRecovery() {
             .then((res) => {
               setErr("");
               const defWallet = getArweavePublicAddress();
-              if(userInfo.defaultWallet === undefined || null || "") {
+              if(userInfo?.defaultWallet === undefined || null || "") {
                 dispatch(createWallet(defWallet));
                 dispatch(signout());
               }

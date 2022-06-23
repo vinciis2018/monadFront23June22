@@ -52,9 +52,10 @@ export function PinSuccess() {
         console.log(defWallet)
         if(userInfo.defaultWallet === undefined || null) {
           dispatch(createWallet(defWallet));
-          dispatch(signout());
         }
         navigate.push("/upload");
+        dispatch(signout());
+
       } else {
         navigate.push("/pin-create");
       }
