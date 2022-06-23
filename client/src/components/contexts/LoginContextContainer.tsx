@@ -141,7 +141,7 @@ const ContextProvider = ({ children }: WithChildren) => {
   useEffect(() => {
     isPinSetup().then((hasData) => {
       if (!hasData) {
-        window.location.replace("/welcome");
+        // window.location.replace("/welcome");
       }
     });
 
