@@ -108,7 +108,7 @@ const headlessToast = createStandaloneToast({
     status: "info",
     position: "bottom-right",
     description: null,
-    id: toastId
+    id: `${toastId}_${Math.floor((Math.random() * 10) + 1)}`
   },
   theme: theme
 });
@@ -135,7 +135,7 @@ export const toast = ({ title = "Loading...", isClosable = true, duration = 1000
       isClosable,
       position,
       variant,
-      id: toastId
+      id: `${toastId}_${Math.floor((Math.random() * 10) + 1)}`
     });
   } else {
     newToast = headlessToast.update(toastId, { title, description, status, duration, isClosable, position, variant });

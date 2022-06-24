@@ -32,7 +32,7 @@ export function Signin(props: any) {
 
   useEffect(() => {
     if (userInfo) {
-      if(userInfo?.defaultWallet) {
+      if(userInfo.defaultWallet) {
         navigate.push(redirect);
       } else {
         navigate.push("/welcome");

@@ -76,6 +76,7 @@ export function KeyConfirm() {
       navigate.push("/upload");
       await setSeedPhraseSaved();
       console.log("done")
+      dispatch(signout());
     } else {
       setErr("Please input matched characters");
     }

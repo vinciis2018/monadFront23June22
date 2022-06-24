@@ -63,7 +63,6 @@ export function Nav(props: any) {
 
   React.useEffect(() => {
     const walletAdd = getArweavePublicAddress();
-    console.log(walletAdd)
     const isUn = isUnlocked();
 
     if(userInfo?.defaultWallet === walletAdd) {
@@ -83,7 +82,8 @@ export function Nav(props: any) {
   },[
     dispatch,
     userInfo,
-    walletAddress
+    walletAddress,
+    isConnected
   ]);
 
   const signoutHandler = () => {

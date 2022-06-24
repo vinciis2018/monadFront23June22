@@ -39,9 +39,7 @@ export function KeyRecovery() {
       setErr("You should input 12 words. Try again.");
     } else {
       setLoading(true);
-      console.log(keys)
       getTempSavedPin().then((pin) => {
-        console.log(pin)
         if (pin) {
           wipeTempSavedPin()
             .then(() => importAndSave(pin, userMnemonics))

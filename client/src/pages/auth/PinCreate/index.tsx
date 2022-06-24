@@ -29,7 +29,6 @@ export function PinCreate() {
       setErr("Access PINs don't match, please try again.");
     } else {
       const data = await tempSavePin(createPincode);
-      console.log(data)
       if(!data) {
         setErr("Something went wrong while creating pin, please try again.");
       } else {

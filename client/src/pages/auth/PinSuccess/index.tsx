@@ -26,7 +26,7 @@ export function PinSuccess() {
   const { register } = useLogin();
   const [pwaMode, setPwaMode] = useState(false);
   const [open, setOpen] = useState(false);
-  const [installable, setInstallable] = useState(false);
+  const [installable, setInstallable] = useState(true);
   const [recModal, setRecModal] = useState<Boolean>(false);
 
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -153,10 +153,11 @@ export function PinSuccess() {
                 </Box>
                 
                 {installable && (
-                  <Text p="4" align="center" fontSize="sm" fontWeight="">You can add MONAD to your Home Screen</Text>
+                  <Text color="teal.500" p="4" align="center" fontSize="sm" fontWeight="600">Click here to add MONAD to your Home Screen</Text>
                 )}
+                <hr />
                 <Box p="4" align="center">
-                  <Text fontSize="">Have the Finnie Extension?</Text>
+                  <Text fontSize="">Have the Finnie Wallet?</Text>
                   <Text  fontSize="sm" fontWeight="600">Connect your existing key with a <Link color="teal.500" onClick={openRecoveryModal}>Recovery phrase</Link></Text>
                 </Box>
             
