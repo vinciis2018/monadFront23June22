@@ -43,7 +43,6 @@ export function Nav(props: any) {
   const {
     state: { connectFinnie, disconnectFinnie, walletAddress, walletBalance },
   } = useFinnie();
-  console.log(walletAddress)
 
   const {
     isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
@@ -71,7 +70,9 @@ export function Nav(props: any) {
       setMyWallet(walletAdd);
       connectFinnie();
     } else {
-      dispatch(editWallet({ walletAdd }))
+      if(walletAdd) {
+        dispatch(editWallet({ walletAdd }))
+      }
     }
 
     if (isConnected) {
@@ -82,14 +83,13 @@ export function Nav(props: any) {
   },[
     dispatch,
     userInfo,
-    getArweavePublicAddress(),
     walletAddress
   ]);
 
   const signoutHandler = () => {
     disconnectFinnie();
-    logout();
     lock();
+    logout();
     lockMyWallet();
     dispatch(signout());
   }
@@ -241,10 +241,8 @@ export function Nav(props: any) {
                       />
                     </>
                   )}
-                  
                 </Stack>
               )}
-              
             </Flex>
           )}
           {width <= 500 && (

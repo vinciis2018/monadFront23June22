@@ -1,6 +1,5 @@
-import axios from 'axios';
 import Axios from 'axios';
-import { sendRAT } from 'ratCodes/ratTrap';
+import { sendRAT, sendAr, sendKoii } from 'ratCodes/ratTrap';
 import { 
   WALLET_DETAILS_FAIL,
   WALLET_DETAILS_REQUEST,
@@ -20,9 +19,7 @@ import {
 
 } from '../Constants/walletConstants';
 
-
 // wallet create
-
 export const createWallet = (defWallet) => async (dispatch, getState) => {
   dispatch({
     type: WALLET_CREATE_REQUEST,
@@ -162,17 +159,15 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
   });
 
   const {userSignin: {userInfo}} = getState();
-  // const {walletDetails: {wallet}} = getState();
-  
   try {
+    if (transfer?.ticker === 'AR') {
 
-    if (transfer.ticker === 'AR') {
-      const data = 
-      // const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/ar`, transfer, {
-      //   headers: {
-      //     Authorization: `Bearer ${userInfo.token}`
-      //   }
-      // });
+      const data = await sendAr({
+        walletName: transfer.walletName,
+        toWallet: transfer.toWallet,
+        amount: transfer.quantity
+      });
+
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
         payload: data
@@ -180,7 +175,11 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'KOII') {
-      const data = await sendKoiiTip({artistAddress: transfer.toWallet, amount: transfer.quantity });
+      const data = await sendKoii({
+        toWallet: transfer.toWallet, 
+        amount: transfer.quantity, 
+        walletName: transfer.walletName
+      });
 
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
@@ -189,12 +188,12 @@ export const transferTokens = (transfer) => async (dispatch, getState) => {
     }
 
     else if(transfer.ticker === 'rat') {
-      const data = await sendRAT({walletAddress: transfer.toWallet, amount: transfer.quantity})
-      // const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/transfer/rat`, transfer, {
-      //   headers: {
-      //     Authorization: `Bearer ${userInfo.token}`
-      //   }
-      // });
+      const data = await sendRAT({
+        toWallet: transfer.toWallet, 
+        amount: transfer.quantity, 
+        walletName: transfer.walletName
+      })
+
       dispatch({
         type: TOKENS_TRANSFER_SUCCESS,
         payload: data

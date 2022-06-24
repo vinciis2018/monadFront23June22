@@ -23,6 +23,7 @@ interface Context {
   mnemonics: string | undefined;
   isLoading: boolean;
   isConnected: any;
+  getCommon: any;
   hasEncryptedData(): Promise<boolean>;
   generateAndSave(pin: string): Promise<void>;
   importAndSave(pin: string, mnemonics: string): Promise<void>;
@@ -60,6 +61,8 @@ export const ContextProvider = ({ children }: WithChildren) => {
   const hasEncryptedData = (): Promise<boolean> => {
     return _hasEncryptedData();
   };
+
+
 
   const generateAndSave = (pin: string): Promise<void> => {
     setIsLoading(true);
@@ -117,7 +120,6 @@ export const ContextProvider = ({ children }: WithChildren) => {
 
   const isUnlocked = async (): Promise<boolean> => {
     const data = Boolean((await hasEncryptedData()) || $jwk);
-    // const data = Boolean(await hasEncryptedData());
     if(data) {
       setIsConnected(true);
       setIsLoading(false);
@@ -126,6 +128,10 @@ export const ContextProvider = ({ children }: WithChildren) => {
     }
     return isConnected;
   };
+
+  const getCommon = () => {
+    return $jwk?.then((jwk) => jwk)
+  }
 
   const unlock = (pin: string): Promise<void> => {
     setIsLoading(true);
@@ -173,6 +179,7 @@ export const ContextProvider = ({ children }: WithChildren) => {
     );
   };
 
+
   const checkAndTriggerSelfDestruct = (pin: string): Promise<boolean> => {
     return retrieveSelfDestructPin()
       .then((destructPin) => destructPin === pin)
@@ -190,6 +197,7 @@ export const ContextProvider = ({ children }: WithChildren) => {
         mnemonics,
         isLoading,
         isConnected,
+        getCommon,
         hasEncryptedData,
         generateAndSave,
         importAndSave,

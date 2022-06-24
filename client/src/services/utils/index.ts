@@ -104,9 +104,9 @@ const headlessToast = createStandaloneToast({
   defaultOptions: {
     title: "Loading...",
     isClosable: true,
-    duration: 2000,
+    duration: 1000,
     status: "info",
-    position: "top-right",
+    position: "bottom-right",
     description: null,
     id: toastId
   },
@@ -124,7 +124,7 @@ interface ToastProps {
   closeAll?: () => void;
 }
 
-export const toast = ({ title = "Loading...", isClosable = true, duration = 2000, status = "info", variant = "left-accent", position = "top-right", description = null }: ToastProps) => {
+export const toast = ({ title = "Loading...", isClosable = true, duration = 1000, status = "info", variant = "left-accent", position = "bottom-right", description = null }: ToastProps) => {
   let newToast: any;
   if (!headlessToast.isActive(toastId)) {
     newToast = headlessToast({

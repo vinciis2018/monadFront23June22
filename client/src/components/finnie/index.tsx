@@ -71,18 +71,13 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
       // Get finnie address
 
       address = getArweavePublicAddress();
-      console.log(address)
-
       if(address) {
         await getBalances(address).then(res => {
           balance = res;
         });
-  
         await getPrice(address).then(res => {
-          // console.log("res", res)
           price = res;
         });
-  
         await getExhangeRate({
           to: "INR",
           from: "USD",
@@ -90,11 +85,9 @@ const ContextProvider = ({ children }: { children: ReactNode }) => {
         }).then(res => {
           exchangeRate = res
         });
-  
         await getLastTransaction({
           walletAddress: address
         }).then(res => {
-          // console.log("my txn", res);
           transaction = res
         })
         

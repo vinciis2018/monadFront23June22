@@ -12,13 +12,10 @@ import styled from "styled-components";
 
 export function KeyPhraseSave() {
   const navigate = useHistory();
-  const { showBackup, setShowBackup } = useBackup();
+  const { setShowBackup } = useBackup();
   const [showKeys, setShowKeys] = useState<boolean>(false);
-  const [keys, setKeys] = useState<any>(false);
 
   const { mnemonics, isLoading } = useWallet();
-  console.log("isLoading", mnemonics);
-
 
   useEffect(() => {
   }, [navigate])
@@ -27,9 +24,6 @@ export function KeyPhraseSave() {
     navigate.push("/key-confirm");
   };
 
-  const openKeyModal = () => {
-    setKeys(!keys)
-  }
   return (
     <Box px="2" pt="20">
       <Center maxW="container.lg" minH="600" mx="auto" pb="8">

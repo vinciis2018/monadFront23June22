@@ -7,36 +7,6 @@ import {
 } from "assets/svgs";
 import { Box, Tooltip, FormControl, Grid, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
-const style = {
-  zIndex: 9,
-  width: "100%",
-  bgcolor: "#f5f5f5",
-  borderRadius: "4px",
-};
-const headerStyle = {
-  borderRadius: "4px 4px 0 0",
-  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.16)",
-  padding: "20px",
-  display: "flex",
-  alignItems: "center",
-};
-const bodyStyle = {
-  p: "25px 0",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-};
-const btnStyle = {
-  width: "230px",
-  height: "40px",
-  borderRadius: "2px",
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
 export function WifiTesting() {
   const navigate = useHistory();
 

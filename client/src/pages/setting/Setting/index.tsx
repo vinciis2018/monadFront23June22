@@ -9,7 +9,7 @@ import { isPWA } from "utils/util";
 
 import {
   setting_bomb,
-  icon_close,
+  icon_bag,
   icon_back2,
 } from "assets/svgs";
 import { signout } from "Actions/userActions";
@@ -27,8 +27,6 @@ export function Setting() {
 
   const { logout, lock } = useLogin();
   const { lock: lockMyWallet } = useWallet();
-
-  const dispatch = useDispatch();
 
   const { getArweavePublicAddress } = useWallet();
   const gotoRecovery = () => {
@@ -100,9 +98,9 @@ export function Setting() {
                 Wallet & Security
               </Text>
               <img
-                onClick={() => navigate.push("/")}
-                src={icon_close}
-                alt="close"
+                onClick={() => navigate.push(`/wallet/${getArweavePublicAddress()}`)}
+                src={icon_bag}
+                alt="wallet"
               />
             </Flex>
             <hr />
@@ -111,7 +109,7 @@ export function Setting() {
                   <CopyableAddress address={getArweavePublicAddress()} w="100%" maxW="200px" />
                 </Flex>
                 <Box align="center">
-                  <Text color="violet.500" onClick={onClick}>
+                  <Text fontWeight="600" color="violet.500" onClick={onClick}>
                     {pwaMode && "Save on HomeScreen"}
                   </Text>
                 </Box>
