@@ -36,7 +36,6 @@ export const registerGame = async ({ walletAddress, data }) => {
   try {
     // init arweave
     let arweave = await initArweave();
-    await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
 
     const input = {
       gameId: data.gameData._id,
@@ -152,7 +151,6 @@ const createContract = async (initialState) => {
 
 // deregister game
 export const deregisterGame = async ({walletAddress, data}) => {
-  let quantity;
 
   const contractId = `ERb0h5CepgnFMpxPeaxhn9qt0iCa0U2oKIiLJYHmdQU`;
   console.log(contractId)
@@ -160,7 +158,6 @@ console.log(data)
   try {
     // init arweave
     let arweave = await initArweave();
-    await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
     
     if(data.gameData.gameType === `SCREEN_GAME`) {
       quantity = data.gameData.screenWorth
@@ -284,7 +281,6 @@ export const sendRAT = async ({toWallet, amount, walletName}) => {
 
 // send Ar
 export const sendAr = async ({toWallet, amount, walletName}) => {
-  let quantity;
 
   try {
     let arweave = await initArweave();

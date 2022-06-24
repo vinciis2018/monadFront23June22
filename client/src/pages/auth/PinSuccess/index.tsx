@@ -16,7 +16,6 @@ import {BsUpload} from 'react-icons/bs';
 import { getFileData } from "services/utils";
 import { KeyRecovery } from "../KeyRecovery";
 import {createWallet, editWallet} from "../../../Actions/walletActions";
-import {signout } from "../../../Actions/userActions";
 
 let deferredPrompt: Event;
 
