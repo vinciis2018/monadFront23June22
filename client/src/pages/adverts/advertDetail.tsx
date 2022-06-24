@@ -168,6 +168,7 @@ export function AdvertDetail (props: any) {
                   <IconButton bg="none" icon={<RiDashboard2Line size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
                 )}
               </Stack>
+              <hr />
               <Stack px="2">
                 <Flex py="2" align="center">
                   <Image 

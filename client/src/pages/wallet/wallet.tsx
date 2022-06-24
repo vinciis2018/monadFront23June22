@@ -136,7 +136,6 @@ export function Wallet(props: any) {
       })
 
       window.alert('Wallet edited, please login again to activate the changes');
-      dispatch(signout());
     }
 
     if(successTokensTransfer) {
@@ -350,7 +349,13 @@ export function Wallet(props: any) {
                     </Flex>
                     {lastTxn?.lastTxn && lastTxn?.txnDetail?.transactions && !txnDetailModal && (
                         <Box p="4" my="2" shadow="card" rounded="lg" align="center">
-                          <Text fontWeight="600" fontSize="xs">{new Date(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530") || "Please wait for transaction to confirm"}</Text>
+                          <Text fontWeight="600" fontSize="xs">
+                            {
+                              lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.block?.timestamp ? 
+                              new Date(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.block?.timestamp * 1000).toString()?.split("GMT+0530")
+                               : "Please wait for transaction to be written on chain, don't worry, it is confirmed. See below..."
+                            }
+                            </Text>
                           <Box align="left">
                             <Flex align="center" justify="space-between">
                               {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.tags.length === 0 && (
@@ -375,7 +380,9 @@ export function Wallet(props: any) {
                               )}
                               <Text fontWeight="600" fontSize="sm">{(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node.tags.length > 0) ? "SmartContract Action" : "AR Transfer"}</Text>
                               <Flex align="center" justify="space-between">
-                                <Text p="2" fontWeight="600" fontSize="xs">Cost: {(Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)} AD Credits</Text>
+                                <Text p="2" fontWeight="600" fontSize="xs">
+                                  Cost: {lastTxn?.txnDetail?.transactions?.edges?.[0] ? ((Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar) + Number(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar))?.toFixed?.(3)) : ""} AD Credits
+                                </Text>
                                 {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
                                   <BsArrowDownLeft color="green" size="15px" />
                                 ) : (
@@ -383,20 +390,18 @@ export function Wallet(props: any) {
                                 )}
                               </Flex>
                             </Flex>
-                            {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) ? (
+                            {(lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === walletAddAr) && (
                               <Stack>
                                 <hr />
-
                                 <Text fontWeight="600" fontSize="xs">From: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.owner?.address}</Text>
                                 <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AD Credits</Text>
                               </Stack>
-                            ) : (
-                              <Stack>
-                                <hr />
-                                <Text fontWeight="600" fontSize="xs">{lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? null : `To: ${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient}`}</Text>
-                                <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AD Credits</Text>
-                              </Stack>
                             )}
+                            <Stack>
+                              <hr />
+                              <Text fontWeight="600" fontSize="xs">{lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient ? `To: ${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient}` : ""}</Text>
+                              <Text fontWeight="" fontSize="xs">Amount: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.recipient === "" ? lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar : lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.quantity?.ar} AD Credits</Text>
+                            </Stack>
                           <Text onClick={() => window.open(`https://viewblock.io/arweave/tx/${lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}`)} fontWeight="600" fontSize="xs">Tx: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.id}</Text>
                           <Text fontWeight="600" fontSize="xs">Fee: {lastTxn?.txnDetail?.transactions?.edges?.[0]?.node?.fee?.ar} AD Credits</Text>
                           </Box>

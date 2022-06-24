@@ -16,7 +16,7 @@ export function LoginHelper() {
   const [err, setErr] = useState("");
   const [pinFocus, setPinFocus] = useState(true);
   const [pin, setPin] = useState("");
-  const target = searchParams.get("target");
+  const [message, setMessage] = useState("");
 
 
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -46,11 +46,8 @@ export function LoginHelper() {
             .then(async (res) => {
               const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
               await login(expired);
-              if (target) {
-                // navigate.push("/" + target);
-              } else {
-                // navigate.push("/setting");
-              }
+              setMessage("Login complete")
+              return message;
             })
             .catch((error: Error) => {
               if (error.message.includes(ERROR_IDS.NO_CONTENT)) {
@@ -89,6 +86,7 @@ export function LoginHelper() {
       ) : (
         <Stack align="center" p="8" rounded="lg" shadow="card">
           {err && <MessageBox>{err}</MessageBox>}
+          {message !== "" && <MessageBox>{message}</MessageBox>}
           <Box align="center" onClick={activeFocusArea}>
             <Text color="black" textAlign="center" px="4" pt="4" fontSize="xs" fontWeight="600">
               Enter your 6 digit secret pin

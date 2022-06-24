@@ -194,13 +194,12 @@ export const gameInteraction = async ({walletAddress, data}) => {
   let ratState;
   let gameTx;
   let ratTx;
-
+  let walletName = data.walletName;
   const contractId = `ERb0h5CepgnFMpxPeaxhn9qt0iCa0U2oKIiLJYHmdQU`;
   console.log(contractId)
 
   try {
     let arweave = await initArweave();
-    await window.arweaveWallet.connect(['ACCESS_ADDRESS', 'ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION'])
     const smartweave = SmartWeaveSDK.SmartWeaveWebFactory.memCachedBased(arweave).setInteractionsLoader(new SmartWeaveSDK.RedstoneGatewayInteractionsLoader("https://gateway.redstone.finance", {confirmed: true})).build();
   
     if(data.screen) {
@@ -208,7 +207,7 @@ export const gameInteraction = async ({walletAddress, data}) => {
       console.log(data)
       if(data.interaction === "like") {
         const contract = smartweave.contract(gameId).setEvaluationOptions({ ignoreExceptions: false});
-        const gameResultTx = await contract.connect('use_wallet').bundleInteraction({
+        const gameResultTx = await contract.connect('use_wallet' || walletName).bundleInteraction({
           function : `stake`,
           interaction : data.interaction,
           pool: "likeEP",

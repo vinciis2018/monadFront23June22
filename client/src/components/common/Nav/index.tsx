@@ -65,13 +65,11 @@ export function Nav(props: any) {
     const walletAdd = getArweavePublicAddress();
     const isUn = isUnlocked();
 
-    if(userInfo?.defaultWallet === walletAdd) {
+    if(userInfo?.defaultWallet !== walletAdd) {
+      dispatch(editWallet({ walletAdd }))
+    } else {
       setMyWallet(walletAdd);
       connectFinnie();
-    } else {
-      if(walletAdd) {
-        dispatch(editWallet({ walletAdd }))
-      }
     }
 
     if (isConnected) {
@@ -121,7 +119,7 @@ export function Nav(props: any) {
       {loadingUserInfo ? (
         <LoadingBox></LoadingBox>
       ) : errorUserInfo ? (
-        <MessageBox>{errorUserInfo}</MessageBox>
+        <MessageBox variant="danger">{errorUserInfo}</MessageBox>
       ) : (
         <Box>
           {width > 500 && (
