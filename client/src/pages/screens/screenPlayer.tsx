@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Center, SimpleGrid } from "@chakra-ui/react";
+import { Center, Box } from "@chakra-ui/react";
 import { getMediaType, triggerPort } from "services/utils";
 
 import { screenVideosList } from '../../Actions/screenActions';
@@ -60,7 +60,7 @@ export function ScreenPlayer (props: any) {
       ) : errorScreenVideos ? (
         <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
       ) : (
-        <video 
+        <video
           autoPlay
           controls
           src={"https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"}
@@ -68,6 +68,7 @@ export function ScreenPlayer (props: any) {
           poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
           width="100%"
           />
+       
       )}
     </Center>
   )
