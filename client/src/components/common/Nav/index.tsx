@@ -65,12 +65,11 @@ export function Nav(props: any) {
     const walletAdd = getArweavePublicAddress();
     const isUn = isUnlocked();
 
-    if(userInfo.defaultWallet !== walletAdd) {
+    if(walletAdd !== userInfo?.defaultWallet) {
       dispatch(editWallet({ walletAdd }))
       lock();
       logout();
       lockMyWallet();
-
     } else {
       setMyWallet(walletAdd);
       connectFinnie();
