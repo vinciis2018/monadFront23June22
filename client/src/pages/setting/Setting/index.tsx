@@ -12,7 +12,6 @@ import {
   icon_bag,
   icon_back2,
 } from "assets/svgs";
-import { signout } from "Actions/userActions";
 
 let deferredPrompt: Event;
 

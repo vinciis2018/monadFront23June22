@@ -65,8 +65,12 @@ export function Nav(props: any) {
     const walletAdd = getArweavePublicAddress();
     const isUn = isUnlocked();
 
-    if(userInfo?.defaultWallet !== walletAdd) {
+    if(userInfo.defaultWallet !== walletAdd) {
       dispatch(editWallet({ walletAdd }))
+      lock();
+      logout();
+      lockMyWallet();
+
     } else {
       setMyWallet(walletAdd);
       connectFinnie();
@@ -121,7 +125,7 @@ export function Nav(props: any) {
       ) : errorUserInfo ? (
         <MessageBox variant="danger">{errorUserInfo}</MessageBox>
       ) : (
-        <Box>
+        <Box >
           {width > 500 && (
             <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
               <Stack as={Link} to="/" direction="row" align="center">

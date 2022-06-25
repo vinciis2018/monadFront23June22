@@ -23,9 +23,6 @@ import { useFinnie } from 'components/finnie';
 export function ScreenDetail (props: any) {
   const screenId = props.match.params.id;
   const txId = props.match.params.txId;
-  const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
-  } = useFinnie();
 
   const [dateHere, setDateHere] = React.useState<any>(new Date());
 
@@ -103,10 +100,6 @@ export function ScreenDetail (props: any) {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-
-    if(!isFinnieConnected) {
-      connectFinnie();
-    }
 
     if(!userInfo) {
       props.history.push(redirect);

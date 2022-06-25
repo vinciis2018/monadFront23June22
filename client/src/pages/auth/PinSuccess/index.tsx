@@ -11,9 +11,6 @@ import mona_large from "assets/logo.png";
 import styled from "styled-components";
 
 import { isPWA } from "utils/util";
-import { useDropzone } from "react-dropzone";
-import {BsUpload} from 'react-icons/bs';
-import { getFileData } from "services/utils";
 import { KeyRecovery } from "../KeyRecovery";
 import {createWallet, editWallet} from "../../../Actions/walletActions";
 

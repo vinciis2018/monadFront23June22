@@ -16,7 +16,7 @@ export {
   Welcome
 } from "./auth";
 export { Wallet, Payment } from "./wallet";
-export { Screens, ScreenDetail, ScreenEdit } from "./screens";
+export { Screens, ScreenDetail, ScreenEdit, ScreenPlayer } from "./screens";
 export { Adverts, AdvertDetail, AdvertCreate, AdvertEdit } from "./adverts";
 export { UserProfile } from "./artist/userProfile";
 export { ScreenDashboard, UserDashboard, CampaignDashboard } from "./dashboard";
