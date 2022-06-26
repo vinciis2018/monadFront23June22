@@ -41,8 +41,9 @@ export function ScreenPlayer (props: any) {
         setIndex(index + 1)
       }
       e.target.src = videos.map((video: any) => video.video)[index-1]
-      triggerPort(e.target.src.split('/').slice(-1))
+      
       e.target.play();
+      triggerPort(e.target.src.split('/').slice(-1))
     }
   }
 
@@ -62,9 +63,9 @@ export function ScreenPlayer (props: any) {
               poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
               width="100%"
             >
-              <source src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"/>
+              {/* <source src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"/> */}
               {videos.map((video: any) => (
-              <source key={video._id} src={video.video}/>
+                <source key={video._id} src={video.video}/>
               ))}
 
             </video>
