@@ -419,7 +419,7 @@ export function ScreenDetail (props: any) {
               {loadingScreenVideos ? (
                 <LoadingBox></LoadingBox>
               ) : errorScreenVideos ? (
-                <MessageBox message={errorScreenVideos}></MessageBox>
+                <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
               ) : (
                 <Stack p="1">
                   <Text fontSize="md" fontWeight="600">Currently playing on the screen</Text>

@@ -11,79 +11,63 @@ import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
 export function ScreenPlayer (props: any) {
   const screenId = props.match.params.id;
-  const [index, setIndex] = useState(1);
-  const [nfts, setNfts] = useState<any>([])
-  const [media, setMedia] = useState<any>(props.match.params.mediaId);
+
   const screenVideos = useSelector((state: any) => state.screenVideos);
   const { 
-    videos, 
-    loading: loadingScreenVideos, 
-    error: errorScreenVideos 
+    loading, 
+    error,
+    videos
   } = screenVideos;
 
+  const [index, setIndex] = useState(1);
+  
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(videos) {
-      
-      setNfts(videos.map((video : any) => {
-        // return video.video.split('/').slice(-1)
-        setMedia(video.video)
-        props.match.params.mediaId = video.video.split('/').slice(-1)
-        return video.video
-
-      }))
-      console.log(nfts)
-    }
+   
     dispatch(screenVideosList(screenId));
 
   }, [
+    dispatch,
     screenId,
-    nfts,
   ])
 
   const looping = (e : any) => {
-    if(index === nfts.length) {
-      setIndex(1)
-    } else {
-      setIndex(index + 1)
+    if(videos.length > 0) {
+      if(index === videos.length) {
+        setIndex(1)
+      } else {
+        setIndex(index + 1)
+      }
+      e.target.src = videos.map((video: any) => video.video)[index-1]
+      triggerPort(e.target.src.split('/').slice(-1))
+      e.target.play();
     }
-    e.target.src = nfts.map((nft: any) => nft)[index-1]
-    triggerPort(e.target.src.split('/').slice(-1));
-    setMedia(e.target.src);
-    e.target.play();
-
   }
 
   return (
     <Center align="center" justify="center" width="100%" height="1080px">
-      {loadingScreenVideos ? (
+      {loading ? (
         <LoadingBox></LoadingBox>
-      ) : errorScreenVideos ? (
-        <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
+      ) : error ? (
+        <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <Box>
-          {nfts !== [] ? (
             <video
               autoPlay
               muted
-              src={media}
-              
+              // src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
               onEnded={(e) => looping(e)}
-              // poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
+              poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
               width="100%"
-            />
-          ) : (
-            <video 
-              src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
-              autoPlay
-              muted
-              onEnded={(e) => looping(e)}
-              width="100%"
-            
-            />
-          )}
+            >
+              <source src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"/>
+              {videos.map((video: any) => (
+              <source key={video._id} src={video.video}/>
+              ))}
+
+            </video>
             
         </Box>
       )}
