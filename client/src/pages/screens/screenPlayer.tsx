@@ -2,7 +2,7 @@
 import {useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Center, Box } from "@chakra-ui/react";
 import { getMediaType, triggerPort } from "services/utils";
 
@@ -12,7 +12,7 @@ import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
 export function ScreenPlayer (props: any) {
   const screenId = props.match.params.id;
-
+  const handle = useFullScreenHandle();
   const [index, setIndex] = useState(1);
   const [nfts, setNfts] = useState<any>([])
   const screenVideos = useSelector((state: any) => state.screenVideos);
@@ -54,15 +54,15 @@ export function ScreenPlayer (props: any) {
   }
 
   return (
-    <Center align="center" justify="center">
+    <Center align="center" justify="center" width="100%" height="1080px">
       {loadingScreenVideos ? (
         <LoadingBox></LoadingBox>
       ) : errorScreenVideos ? (
         <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
       ) : (
         <video
-          autoPlay={true}
-          controls
+          autoPlay
+          muted
           src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
           onEnded={(e) => looping(e)}
           poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
