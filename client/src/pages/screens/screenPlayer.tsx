@@ -61,14 +61,13 @@ export function ScreenPlayer (props: any) {
         <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
       ) : (
         <video
-          autoPlay
+          autoPlay={true}
           controls
-          src={"https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"}
+          src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
           onEnded={(e) => looping(e)}
-          // poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
+          poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
           width="100%"
-          />
-       
+        />
       )}
     </Center>
   )
