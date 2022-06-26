@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import { Center, Box } from "@chakra-ui/react";
-import { getMediaType, triggerPort } from "services/utils";
+import { triggerPort } from "services/utils";
 
 import { screenVideosList } from '../../Actions/screenActions';
 
@@ -13,6 +13,7 @@ export function ScreenPlayer (props: any) {
   const screenId = props.match.params.id;
   const [index, setIndex] = useState(1);
   const [nfts, setNfts] = useState<any>([])
+  const [media, setMedia] = useState<any>();
   const screenVideos = useSelector((state: any) => state.screenVideos);
   const { 
     videos, 
@@ -25,8 +26,10 @@ export function ScreenPlayer (props: any) {
 
   useEffect(() => {
     if(videos) {
+      
       setNfts(videos.map((video : any) => {
         // return video.video.split('/').slice(-1)
+        setMedia(video.video)
         return video.video
 
       }))
@@ -46,7 +49,8 @@ export function ScreenPlayer (props: any) {
       setIndex(index + 1)
     }
     e.target.src = nfts.map((nft: any) => nft)[index-1]
-    triggerPort(e.target.src.split('/').slice(-1))
+    triggerPort(e.target.src.split('/').slice(-1));
+    setMedia(e.target.src);
     e.target.play();
 
   }
@@ -61,7 +65,9 @@ export function ScreenPlayer (props: any) {
         <video
           autoPlay
           muted
-          src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
+          // src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
+          src={media}
+          
           onEnded={(e) => looping(e)}
           poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
           width="100%"
