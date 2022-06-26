@@ -309,18 +309,11 @@ export const createReview = (screenId, review) => async (dispatch, getState) => 
 
 // screen video list
 
-export const screenVideosList = (screenId) => async (dispatch, getState) => {
+export const screenVideosList = (screenId) => async (dispatch) => {
   dispatch({ type: SCREEN_VIDEOS_REQUEST, payload: screenId });
-  const { userSignin: { userInfo } } = getState();
-  console.log("screen video list found");
-
   try {
     // const {data} = await Axios.get(`http://localhost:3333/api/screens/${screenId}/screenVideos`, {
-
-    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenVideos`, {
-      headers:
-        { Authorization: 'Bearer ' + userInfo.token }
-    });
+    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenVideos`);
     dispatch({ type: SCREEN_VIDEOS_SUCCESS, payload: data })
   } catch (error) {
     console.log(error);
