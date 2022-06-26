@@ -69,7 +69,7 @@ export function ScreenPlayer (props: any) {
           src={media}
           
           onEnded={(e) => looping(e)}
-          poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
+          // poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
           width="100%"
         />
       )}
