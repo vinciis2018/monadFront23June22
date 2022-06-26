@@ -2,7 +2,6 @@
 import {useEffect, useState} from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { Center, Box } from "@chakra-ui/react";
 import { getMediaType, triggerPort } from "services/utils";
 
@@ -12,7 +11,6 @@ import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
 export function ScreenPlayer (props: any) {
   const screenId = props.match.params.id;
-  const handle = useFullScreenHandle();
   const [index, setIndex] = useState(1);
   const [nfts, setNfts] = useState<any>([])
   const screenVideos = useSelector((state: any) => state.screenVideos);
