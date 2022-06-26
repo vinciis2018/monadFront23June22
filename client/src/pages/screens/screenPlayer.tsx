@@ -13,7 +13,7 @@ export function ScreenPlayer (props: any) {
   const screenId = props.match.params.id;
   const [index, setIndex] = useState(1);
   const [nfts, setNfts] = useState<any>([])
-  const [media, setMedia] = useState<any>();
+  const [media, setMedia] = useState<any>(props.match.params.mediaId);
   const screenVideos = useSelector((state: any) => state.screenVideos);
   const { 
     videos, 
@@ -30,6 +30,7 @@ export function ScreenPlayer (props: any) {
       setNfts(videos.map((video : any) => {
         // return video.video.split('/').slice(-1)
         setMedia(video.video)
+        props.match.params.mediaId = video.video.split('/').slice(-1)
         return video.video
 
       }))
@@ -62,16 +63,29 @@ export function ScreenPlayer (props: any) {
       ) : errorScreenVideos ? (
         <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
       ) : (
-        <video
-          autoPlay
-          muted
-          // src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
-          src={media}
-          
-          onEnded={(e) => looping(e)}
-          // poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
-          width="100%"
-        />
+        <Box>
+          {nfts !== [] ? (
+            <video
+              autoPlay
+              muted
+              src={media}
+              
+              onEnded={(e) => looping(e)}
+              // poster="https://arweave.net/pziELbF_OhcQUgJbn_d1j_o_3ASHHHXA3_GoTdJSnlg"
+              width="100%"
+            />
+          ) : (
+            <video 
+              src="https://arweave.net/DGcP1bUjPZ5BKRegD5PFb94C_wO4HPZ2mq236p6Il70"
+              autoPlay
+              muted
+              onEnded={(e) => looping(e)}
+              width="100%"
+            
+            />
+          )}
+            
+        </Box>
       )}
     </Center>
   )
