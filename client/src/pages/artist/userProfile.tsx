@@ -289,7 +289,7 @@ export function UserProfile(props: any) {
                 </Flex>
                 <Flex onClick={() => props.history.push(`/dashboard/user/${userInfo.defaultWallet}`)} bgColor={userInfo.isBrand ? "violet.600" : "gray.200"} rounded="lg" height="30px" p="2" align="center" justify="space-between">
                   <BsTags />
-                  <Text p="2" fontSize="xs" fontWeight={userInfo.isBrand ? "600" : ""}>Brands</Text>
+                  <Text p="2" fontSize="xs" fontWeight={userInfo.isBrand ? "600" : ""}>Brand</Text>
                 </Flex>
               </Flex>
               {addressModal ? (

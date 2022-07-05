@@ -88,7 +88,6 @@ export function retrieveAndDecryptContent(
     ]).then(([retrievedContent, retrievedIv]) => {
       if (retrievedContent && retrievedIv) {
         const data = decrypt(retrievedContent, retrievedIv, key);
-        console.log(key);
         return decrypt(retrievedContent, retrievedIv, key)
           .then((decryptedContent) =>
             decode<EncryptedDataModel>(decryptedContent)

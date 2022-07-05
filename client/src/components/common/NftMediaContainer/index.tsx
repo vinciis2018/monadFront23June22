@@ -15,7 +15,7 @@ export const NftMediaContainer = ({ nft }: Props) => {
   const ImageContainer = () => <Image 
     src={arweaveUrl} onLoad={() => triggerPort(nft?.id)} boxSize="100%" objectFit="cover" />;
   const VideoContainer = () => (
-    <Box as="video" controls muted onLoadedData={() => triggerPort(nft?.id)} boxSize="100%">
+    <Box as="video" autoPlay loop controls muted onLoadedData={() => triggerPort(nft?.id)} boxSize="100%">
       <source src={arweaveUrl} />
     </Box>
   );

@@ -40,7 +40,6 @@ export function Wallet(props: any) {
   const [quantity, setQuantity] = useState<any>("");
   const [ticker, setTicker] = useState<any>("AR");
 
-  const [tokenHistory, setTokenHistory] = useState<any>([]);
 
   const [walletId, setWalletId] = useState<any>("");
   const [walletName, setWalletName] = useState<any>("");
@@ -54,15 +53,6 @@ export function Wallet(props: any) {
 
   const [txnDetailModal, setTxnDetailModal] = useState<any>(false);
 
-  const onDropAccepted = useCallback(async acceptedFiles => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useState({ data: { file: acceptedFiles[0], fileThumbnail: URL.createObjectURL(acceptedFiles[0]) } });
-  }, []);
-
-  const { getRootProps, getInputProps } = useDropzone({ onDropAccepted, accept: "json/*", multiple: false, maxSize: 15728640 });
-  
-  const [jwk, setJwk] = useState<any>(null)
-  const [lastTrxn, setLastTrxn] = useState<any>(null);
   const [allTrxn, setAllTrxn] = useState<any>([]);
 
 
@@ -96,7 +86,6 @@ export function Wallet(props: any) {
   const {
     state: { connectFinnie, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
   } = useFinnie();
-
   const { getArweavePublicAddress, hasEncryptedData, isUnlocked, getCommon } = useWallet();
 
   const redirect = props?.location?.search
@@ -128,6 +117,7 @@ export function Wallet(props: any) {
 
     if(lastTxn) {
       setAllTrxn(lastTxn.debDetail.concat(lastTxn.credDetail));
+      setExchangeValue(xchangeRate);
     }
 
     if(successWalletEdit) {
@@ -230,8 +220,9 @@ export function Wallet(props: any) {
                     {openADUModal && (
                       <Box p="4">
                         <hr />
-                        <Text p="1" align="center" fontSize="xs" fontWeight="600">AD Credits are our in-app credits needed for interaction with our platform.</Text>
-                        <Text p="1" align="center" fontSize="xs" fontWeight="600">For more information, please refer our white paper or contact us...</Text>
+                        <Text p="2" align="center" fontSize="sm" fontWeight="600">AD Credits are our in-app credits needed for interaction with our platform.</Text>
+                        <Text px="1" align="center" fontSize="xs" fontWeight="600">Each Ad Credit is the sum of your AR tokens, KOII tokens, MONA tokens.</Text>
+                        <Text px="1" align="center" fontSize="xs" fontWeight="600">For more information, please refer our white paper or contact us...</Text>
                       </Box>
                     )}
                   </Box>

@@ -37,8 +37,6 @@ export function AdvertCreate (props: any) {
     isError: isErrorNft
   } = useNft({id: txId});
 
-  // const {data: nftData } = useNftData({id: txId});
-  console.log("nft", {nft})
 
   const [advert, setAdvert] = React.useState<any>(null);
   const [thumbnail, setThumbnail] = React.useState<any>(null);
@@ -178,7 +176,7 @@ export function AdvertCreate (props: any) {
                     <Select
                       id="advert"
                       placeholder={advert}
-                      value={advert}
+                      value={advert || ""}
                       onChange={chooseAdvert}
                     >
                       {artist?.nfts.map((nft: Record<string, any>) => (
@@ -223,7 +221,7 @@ export function AdvertCreate (props: any) {
                     <Select
                       id="thumbnail"
                       placeholder={thumbnail}
-                      value={thumbnail}
+                      value={thumbnail || ""}
                       onChange={chooseThumbnail}
                     >
                       {artist?.nfts.map((nft: Record<string, any>) => (

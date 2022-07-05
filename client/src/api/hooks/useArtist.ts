@@ -13,11 +13,11 @@ interface Props {
 
 const fetchArtist = async (id: string) => {
   let nfts: any;
-  console.log(id)
   try {
     if (!id) return undefined;
     const nftTxs = await getMyNfts(id);
-    const nftKoii = await koiSDK.getNftsByOwner(id);
+    const koiiUserData = await koiSDK.getNftsByOwner(id);
+    const nftKoii = koiiUserData.filter((nft: any) => nft.contentType !== "text/html")
 
     if(nftKoii.length === 0 ) {
       nfts = nftTxs
@@ -28,6 +28,7 @@ const fetchArtist = async (id: string) => {
     }
     const [totalAttention, totalReward] = getNftsStats(nftKoii);
     const data: { nfts: any[]; totalAttention: string; totalReward: string | number } = { nfts, totalAttention, totalReward: formatDigitNumber(totalReward) };
+    console.log(data)
     return data;
   } catch (error) {
     return undefined;
@@ -42,7 +43,6 @@ export function useArtist({ id }: Props) {
 }
 
 export async function getMyNfts(walletAddress : any) {
-  console.log("here")
   try {
     const result = await arweaveGraphql('arweave.net/graphql').getTransactions({
       owners: [walletAddress],
@@ -60,6 +60,7 @@ export async function getMyNfts(walletAddress : any) {
     );
       // console.log(txs)
     const data = txs.map((tx: any) => tx.node)
+    console.log(data)
     return data;
   } catch (error) {
     console.log(error)
