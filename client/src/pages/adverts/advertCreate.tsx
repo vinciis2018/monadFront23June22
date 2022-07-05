@@ -11,6 +11,7 @@ import { detailsScreen } from '../../Actions/screenActions';
 import {uploadVideo} from '../../Actions/videoActions';
 
 import { LoadingBox, MessageBox } from "components/helpers";
+import { useLogin, useWallet } from "components/contexts";
 
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
@@ -19,9 +20,11 @@ import { useFinnie } from 'components/finnie';
 
 export function AdvertCreate (props: any) {
   const screenId = props.match.params.screenId;
+  const walletAddress = props.match.params.walletAddress;
+
   const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
-  } = useFinnie();
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
+  } = useWallet();
 
   const { data: artist, 
     isLoading: isLoadingArtist, 
@@ -69,8 +72,8 @@ export function AdvertCreate (props: any) {
   const dispatch = useDispatch();
   React.useEffect(() => {
 
-    if(!isFinnieConnected) {
-      connectFinnie()
+    if(!isConnected) {
+      window.alert("Please login with your wallet to continue")
     }
 
     if(successVideoSave) {
@@ -86,13 +89,12 @@ export function AdvertCreate (props: any) {
     dispatch,
     txId,
     successVideoSave,
-    isFinnieConnected
+    isConnected
   ])
 
   const uploadAdvertMedia = () => {
     setSelectMediaPopup(!selectMediaPopup);
     setSelectThumbnailPopup(false);
-
     setSelectAdvertPopup(!selectAdvertPopup);
   }
 
@@ -140,7 +142,7 @@ export function AdvertCreate (props: any) {
         </Stack>
 
         <Stack p="2" >
-          {isFinnieConnected && (
+          {isConnected && (
             <Stack>
               {advert !== null && (
                 <Stack>
@@ -164,9 +166,9 @@ export function AdvertCreate (props: any) {
               {!selectAdvertPopup && (advert === null) && !selectMediaPopup && (
                 <Center flexDir="column" w="100%" bg="" border="1px dashed" p="2" borderColor="gray.200" rounded="md" cursor="pointer" >
                   <Text fontWeight="600" fontSize="md">Select your campaign media...</Text>
-                  <Box py="10" align="center" direction="column" maxW="500px" height="100px" mx="auto">
-                    <BsUpload onClick={uploadAdvertMedia} fontSize="30px" color="gray"/>
-                    <Text onClick={uploadAdvertMedia} fontSize="sm">Click here to choose</Text>
+                  <Box onClick={uploadAdvertMedia} py="10" align="center" direction="column" maxW="500px" height="100px" mx="auto">
+                    <BsUpload  fontSize="30px" color="gray"/>
+                    <Text fontSize="sm">Click here to choose</Text>
                   </Box>
                 </Center>
               )}

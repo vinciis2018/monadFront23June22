@@ -111,12 +111,12 @@ export const Routes = () => {
 
         <PublicRoute exact path="/screens" component={Screens} layout={AppLayout} />
         <PrivateRoute exact path="/screen/:id/:txId?" component={ScreenDetail} layout={AppLayout} />
-        <PrivateRoute exact path="/screen/:id/edit" component={ScreenEdit} layout={AppLayout} />
+        <PrivateRoute exact path="/edit/screen/:id" component={ScreenEdit} layout={AppLayout} />
         <PublicRoute exact path="/myscreen/play/:id" component={ScreenPlayer} />
 
         <PublicRoute exact path="/adverts" component={Adverts} layout={AppLayout} />
         <PrivateRoute exact path="/advert/:id/:txId/:screenId?" component={AdvertDetail} layout={AppLayout} />
-        <PrivateRoute exact path="/createCampaign/:screenId" component={AdvertCreate} layout={AppLayout} />
+        <PrivateRoute exact path="/createCampaign/:screenId/:walletAddress" component={AdvertCreate} layout={AppLayout} />
         <PrivateRoute exact path="/advert/:id/:txId?/edit/:screenId/" component={AdvertEdit} layout={AppLayout} />
 
         <PrivateRoute exact path="/campaign/payment/:walletAddress" component={Payment} layout={AppLayout} />

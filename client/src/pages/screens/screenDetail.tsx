@@ -6,11 +6,11 @@ import { Box, Link, Image, Center, Text, Stack, IconButton, Flex, Button, FormCo
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiPieChart, BiBookmark, BiWalk, BiFlag} from 'react-icons/bi';
 
-import {AiOutlineArrowUp, AiOutlineVideoCameraAdd, AiOutlineEye, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {AiOutlineArrowUp, AiOutlineDelete, AiOutlineVideoCameraAdd, AiOutlineEye, AiOutlineArrowDown, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
 import {VscRequestChanges} from 'react-icons/vsc';
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
 
-import { likeScreen, unlikeScreen, flagScreen, subscribeScreen, unsubscribeScreen, detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
+import { deleteScreenVideo, likeScreen, unlikeScreen, flagScreen, subscribeScreen, unsubscribeScreen, detailsScreen, createReview, getScreenParams, screenVideosList, applyScreenAllyPlea } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
 import { listAllPleas } from '../../Actions/pleaActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
@@ -28,6 +28,8 @@ export function ScreenDetail (props: any) {
 
   const [rating, setRating] = React.useState(0);
   const [comment, setComment] = React.useState('');
+
+  const [deleteModal, setDeleteModal] = React.useState(false);
 
   const userSignin = useSelector((state: any) => state.userSignin);
   const { loading: loadingUser, error: errorUser, userInfo } = userSignin;
@@ -148,6 +150,13 @@ export function ScreenDetail (props: any) {
     }
   };
 
+  const deletePlaylistHandler = (video: any) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteScreenVideo(video._id));
+    }
+    props.history.push(`/screen/${screenId}`)
+  };
+
   const screenLikeHandler = async (screenId: any) => {
     if (userInfo) {
       window.alert('On liking this screen, you will be tipping the screen master from your default wallet. This will return as an incentive reward later...');
@@ -224,7 +233,7 @@ export function ScreenDetail (props: any) {
                 <Flex>
                   {/* {walletAddress === screen.master.master._id} */}
                   {screen?.master === userInfo?.defaultWallet ? (
-                    <IconButton as={RouterLink} to={`/screen/${screenId}/edit`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                    <IconButton as={RouterLink} to={`/edit/screen/${screenId}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                   ) : (
                     <>
                       {screen?.allies.filter((ally: any) => ally === userInfo?.defaultWallet).length !== 0 ? (
@@ -422,24 +431,36 @@ export function ScreenDetail (props: any) {
                 <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
               ) : (
                 <Stack p="1">
-                  <Text fontSize="md" fontWeight="600">Currently playing on the screen</Text>
+                  <Flex align="center" justify="space-between">
+                    <Text fontSize="md" fontWeight="600">Currently playing on the screen</Text>
+                    {userInfo?.defaultWallet === screen.master ? (
+                      <IconButton onClick={() => setDeleteModal(!deleteModal)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                    ) : screen.allies.filter((ally: any) => ally === userInfo.defaultWallet) && (
+                      <IconButton onClick={() => setDeleteModal(!deleteModal)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                    )}
+                  </Flex>
                   {videos.map((video: any) => (
                     <Box as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
-                      <Flex>
-                        <Image 
-                          px="1px"
-                          src={video?.thumbnail}
-                          width="150px"
-                          height="100px"
-                          rounded="md"
-                        />
-                        <Box color="black" p="2">
-                          <Text px="1" fontSize="md" fontWeight="600">{video?.title}</Text>
-                          <Text px="1" fontSize="xs" fontWeight="600"color="gray.500">{video?.category}</Text>
-                          <Text px="1" fontSize="xs" fontWeight=""color="gray.500">{video?.description}</Text>
-                          <Text p="1" fontSize="sm" fontWeight=""color="gray.500">Uploaded by: {video?.uploaderName}</Text>
+                      <Flex justify="space-between" align="center">
+                        <Flex>
+                          <Image 
+                            px="1px"
+                            src={video?.thumbnail}
+                            width="150px"
+                            height="100px"
+                            rounded="md"
+                          />
+                          <Box color="black" p="2">
+                            <Text px="1" fontSize="md" fontWeight="600">{video?.title}</Text>
+                            <Text px="1" fontSize="xs" fontWeight="600"color="gray.500">{video?.category}</Text>
+                            <Text px="1" fontSize="xs" fontWeight=""color="gray.500">{video?.description}</Text>
+                            <Text p="1" fontSize="sm" fontWeight=""color="gray.500">Uploaded by: {video?.uploaderName}</Text>
 
-                        </Box>
+                          </Box>
+                        </Flex>
+                          {deleteModal && video.uploader === userInfo?.defaultWallet && (
+                            <IconButton onClick={() => deletePlaylistHandler(video)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                          )}
                       </Flex>
                     </Box>
                   ))}
@@ -447,7 +468,7 @@ export function ScreenDetail (props: any) {
               )}
               {screen.master === userInfo?.defaultWallet && (
                 <SimpleGrid gap="2" columns={[2]} p="10px" align="center" justify="space-between">
-                  <Button size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={RouterLink} to={`/createCampaign/${screen._id}`} p="2" >Create Campaign</Button>
+                  <Button size="sm" fontSize="xs" bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={RouterLink} to={`/createCampaign/${screen._id}/${userInfo?.defaultWallet}`} p="2" >Create Campaign</Button>
                   <Button size="sm" fontSize="xs" color="violet.500" variant="outline" as={RouterLink} to={`/dashboard/screen/${screen._id}`} p="2" >View Dashboard</Button>
                 </SimpleGrid>
               )}
