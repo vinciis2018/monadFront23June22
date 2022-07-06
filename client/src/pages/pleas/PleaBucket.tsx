@@ -136,8 +136,8 @@ export function PleaBucket (props: any) {
                     {users.filter((user: any) => user.defaultWallet === plea.from).map((user: any) => (
                       <Text fontWeight="600" onClick={() => props.history.push(`/artist/${user.defaultWallet}`)} fontSize="">From: {user.name}</Text>
                     ))}
-                    {!plea.status && <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="20%" fontSize="xs" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
-                    {plea.status && <Button variant="outline" color="violet.500" width="20%" fontSize="xs" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
+                    {!plea.status && <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" width="30%" fontSize="xs" onClick={() => allyAccessHandler(plea._id)}>Give Access</Button>}
+                    {plea.status && <Button variant="outline" color="violet.500" width="30%" fontSize="xs" onClick={() => allyRemoveHandler(plea._id)}>Revoke Access</Button>}
                   </Flex>
                 )}
                 < hr />
