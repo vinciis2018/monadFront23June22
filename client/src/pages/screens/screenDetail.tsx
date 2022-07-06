@@ -315,8 +315,9 @@ export function ScreenDetail (props: any) {
               ) : (
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card">
+                    <Text px="" fontSize="xs"><strong>ScreenId :</strong> {screen._id}</Text>
                     <Flex onClick={() => props.history.push(`/userProfile/${screen.master}`)}>
-                      <Text fontSize="xs" fontWeight="600">Owned by : </Text>
+                      <Text fontSize="xs" fontWeight="600">Owner Wallet : </Text>
                       <Text px="5px" color="gray.500" fontSize="xs" fontWeight="600">{screen.master}</Text>
                     </Flex>
                     <Flex>
@@ -334,13 +335,13 @@ export function ScreenDetail (props: any) {
                         isExternal
                         rel="noopener noreferrer"
                         align="center"
-                        justify="space-between"
                       >
-                        <Text fontSize="sm" fontWeight="600">{screenGameData?.gameType}</Text>
                         <AiTwotoneInfoCircle
                           color="green"
                           fontSize="10px"
                         />
+                        <Text px="2" fontSize="sm" color="green.500" fontWeight="600">{screenGameData?.gameType}</Text>
+                   
                       </Flex>
                     )}
                   </Box>
@@ -400,10 +401,11 @@ export function ScreenDetail (props: any) {
               )}
 
               <Box p="2" rounder="lg" shadow="card">
-                <Text fontSize="sm" fontWeight="600">Details </Text>
-                <Text fontSize="sm">{screen.description}</Text>
-                <Text fontSize="sm">Time period of 1 slot : {screen.slotsTimePeriod} seconds</Text>
-                <Text fontSize="sm">Screen Type : {screen.screenType}</Text>
+                <Text p="1" fontSize="" fontWeight="600">Details </Text>
+
+                <Text px="1" fontSize="sm"><strong>Description :</strong> {screen.description}</Text>
+                <Text px="1" fontSize="sm"><strong>Time period of 1 slot :</strong> {screen.slotsTimePeriod} seconds</Text>
+                <Text px="1" fontSize="sm"><strong>Screen Type :</strong> {screen.screenType}</Text>
               </Box>
               <hr />
               {loadingAllPleas ? (
