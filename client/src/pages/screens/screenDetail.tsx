@@ -266,7 +266,9 @@ export function ScreenDetail (props: any) {
               {isError && <MessageBox varian="danger">{isError}</MessageBox>}
               {nft && (
                 <Box rounded="lg" color="gray.200" border="1px" shadow="card">
-                  <NftMediaContainer nft={nft} />
+                  <Box onClick={() => props.history.push(`/myscreen/play/${screenId}`)}>
+                    <NftMediaContainer nft={nft} />
+                  </Box>
                   <Flex color="black" p="4" align="center" justify="space-between">
                     <Box onClick={screenLikeHandler} align="center">
                       <Text fontSize="xs">{screen?.likedBy?.length}</Text>
@@ -317,7 +319,7 @@ export function ScreenDetail (props: any) {
                   <Box p="4" rounded="lg" shadow="card">
                     <Text px="" fontSize="xs"><strong>ScreenId :</strong> {screen._id}</Text>
                     <Flex onClick={() => props.history.push(`/userProfile/${screen.master}`)}>
-                      <Text fontSize="xs" fontWeight="600">Owner Wallet : </Text>
+                      <Text fontSize="xs" fontWeight="600">Wallet : </Text>
                       <Text px="5px" color="gray.500" fontSize="xs" fontWeight="600">{screen.master}</Text>
                     </Flex>
                     <Flex>
@@ -416,11 +418,11 @@ export function ScreenDetail (props: any) {
                 <Box p="2" rounder="lg" shadow="card">
                   <SimpleGrid gap="4" columns={[2]}>
                     <Stack align="center">
-                      <Text fontSize="xs" fontWeight="600">Number of Allies on this screen:</Text> 
+                      <Text fontSize="xs" fontWeight="600">Number of Allies:</Text> 
                       <Text fontSize="sm" fontWeight="600">{screen.allies.length}</Text>
                     </Stack>
                     <Stack align="center">
-                      <Text fontSize="xs" fontWeight="600">Ally pleas pending on this screen: </Text>
+                      <Text fontSize="xs" fontWeight="600">Pending ally pleas: </Text>
                       <Text fontSize="sm" fontWeight="600">{allPleas.filter((plea: any) => (plea.status === false && plea.screen === screen._id)).length}</Text>
                     </Stack>
                   </SimpleGrid>
