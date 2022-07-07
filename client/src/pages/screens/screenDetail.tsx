@@ -443,6 +443,7 @@ export function ScreenDetail (props: any) {
                       <IconButton onClick={() => setDeleteModal(!deleteModal)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                     )}
                   </Flex>
+                  {videos.length === 0 && <MessageBox>Please upload your first campaign</MessageBox>}
                   {videos.map((video: any) => (
                     <Box as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
                       <Flex justify="space-between" align="center">

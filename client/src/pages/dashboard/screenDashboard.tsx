@@ -5,12 +5,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Link, Image, Text, Stack, IconButton, Flex, Button, SimpleGrid, Center } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiBookmark, BiWalk, BiFlag} from 'react-icons/bi';
-import {AiOutlineArrowUp,AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {AiOutlineArrowUp,AiOutlineStar, AiOutlineDelete, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
 
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
+import { SCREEN_DELETE_RESET } from '../../Constants/screenConstants';
 
-
-import { detailsScreen, getScreenParams, screenVideosList } from '../../Actions/screenActions';
+import { detailsScreen, getScreenParams, screenVideosList, deleteScreen } from '../../Actions/screenActions';
 import { getScreenCalender } from '../../Actions/calenderActions';
 import {listAllPleas} from '../../Actions/pleaActions';
 import { getScreenGameDetails } from '../../Actions/gameActions';
@@ -47,13 +47,6 @@ export function ScreenDashboard(props: any) {
     error: errorScreenVideos 
   } = screenVideos;
 
-  const screenCalender = useSelector((state: any) => state.screenCalender);
-  const {
-    loading: loadingScreenCalender,
-    error: errorScreenCalender,
-    calender
-  } = screenCalender;
-
   const screenGameDetails = useSelector((state: any) => state.screenGameDetails);
   const {
     loading: loadingScreenGameDetails,
@@ -75,6 +68,13 @@ export function ScreenDashboard(props: any) {
     error: errorAllPleas 
   } = allPleasList;
 
+  const screenDelete = useSelector((state: any) => state.screenDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = screenDelete;
+
 
   const [txId, setTxId] = React.useState<any>("")
   const {data: nft, isLoading, isError} = useNft({id: txId});
@@ -95,6 +95,10 @@ export function ScreenDashboard(props: any) {
       setTxId(screen?.image?.split("/").slice(-1)[0]);
     }
 
+    if (successDelete) {
+      dispatch({ type: SCREEN_DELETE_RESET });
+      props.history.push(`/screens`)
+    }
 
     dispatch(screenVideosList(screenId));
     dispatch(getScreenCalender(screenId));
@@ -106,8 +110,15 @@ export function ScreenDashboard(props: any) {
     dispatch,
     screen,
     txId,
+    successDelete,
     nft
   ])
+
+  const deleteScreenHandler = (screen: any) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteScreen(screen._id));
+    }
+  };
 
   return (
     <Box px="2" pt="20">
@@ -129,10 +140,14 @@ export function ScreenDashboard(props: any) {
                 <IconButton bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
               </Stack>
               <Box p="2" shadow="card" rounded="lg">
-                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} p="2"fontWeight="600" fontSize="md">{screen?.master?.master?.name}</Text>
-                <Text px="2" fontWeight="600" fontSize="sm" color="gray.500">{screen?.name}</Text>
-                <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Screen ID: {screen._id}</Text>
-                {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
+                <Flex p="2" justify="space-between" align="center">
+                  <Box>
+                    <Text px="2" fontWeight="600" fontSize="sm" color="gray.500">{screen?.name}</Text>
+                    <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Screen ID: {screen._id}</Text>
+                    {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
+                  </Box>
+                  <AiOutlineDelete aria-label="hidden" onClick={() => deleteScreenHandler(screen)} />
+                </Flex>
                 <SimpleGrid gap="4" columns={[3]} p="2">
                   <Box onClick={() => props.history.push(`/screen/${screen._id}`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Playlist</Text>

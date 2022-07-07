@@ -5,15 +5,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Box, Link, Image, Text, Stack, IconButton, Flex, Button, SimpleGrid, Center } from "@chakra-ui/react";
 import {ArrowBackIcon, EditIcon } from "@chakra-ui/icons"
 import {BiLike, BiBookmark, BiWalk, BiFlag} from 'react-icons/bi';
-import {AiOutlineArrowUp,AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
+import {AiOutlineArrowUp, AiOutlineDelete , AiOutlineStar, AiOutlineFieldTime, AiOutlineEye, AiFillMobile, AiFillEye, AiTwotoneInfoCircle, AiTwotoneExclamationCircle} from "react-icons/ai";
 
 import { LoadingBox, MessageBox, Rating } from "components/helpers";
-
-
+import { VIDEO_DELETE_RESET } from '../../Constants/videoConstants';
 
 import { signout } from '../../Actions/userActions';
 import { detailsScreen } from '../../Actions/screenActions';
-import { getVideoDetails, likeVideo, unlikeVideo } from '../../Actions/videoActions';
+import { getVideoDetails, likeVideo, unlikeVideo, deleteVideo } from '../../Actions/videoActions';
 
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
@@ -49,6 +48,14 @@ export function CampaignDashboard(props: any) {
     screen
   } = screenDetails;
 
+  const videoDelete = useSelector((state: any) => state.videoDelete);
+  const {
+    loading: loadingDeleteVideo,
+    error: errorDeleteVideo,
+    success: successDeleteVideo
+  } = videoDelete;
+
+
   const userSignin = useSelector((state: any) => state.userSignin);
   const { loading: loadingUser, error: errorUser, userInfo } = userSignin;
 
@@ -57,15 +64,24 @@ export function CampaignDashboard(props: any) {
     // if(video) {
     //   dispatch(detailsScreen(video.screen));
     // }
+    if (successDeleteVideo) {
+      dispatch({ type: VIDEO_DELETE_RESET });
+      props.history.push(`/adverts`)
+    }
     dispatch(getVideoDetails(videoId));
 
   }, [
     dispatch,
     videoId,
+    successDeleteVideo,
     txId
   ])
 
-
+  const deleteVideoHandler = (video: any) => {
+    if (window.confirm('Are you sure to delete?')) {
+      dispatch(deleteVideo(video._id));
+    }
+  }
   return (
     <Box px="2" pt="20">
       {loadingUser ? (
@@ -86,10 +102,16 @@ export function CampaignDashboard(props: any) {
                 <IconButton bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
               </Stack>
               <Box p="2" shadow="card" rounded="lg">
-                <Text p="2"fontWeight="600" fontSize="md">{video?.title}</Text>
-                <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} px="2" fontWeight="600" fontSize="sm" color="gray.500">{userInfo?.name}</Text>
-                <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Video ID: {video._id}</Text>
-                {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
+                <Flex p="2" justify="space-between" align="center">
+                  <Box>
+                    <Text p="2"fontWeight="600" fontSize="md">{video?.title}</Text>
+                    <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} px="2" fontWeight="600" fontSize="sm" color="gray.500">{userInfo?.name}</Text>
+                    <Text px="2" pb="4" fontWeight="" fontSize="xs" color="gray.500">Video ID: {video._id}</Text>
+                    {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
+                  </Box>
+                  <AiOutlineDelete aria-label="hidden" onClick={() => deleteVideoHandler(video)} />
+                </Flex>
+
                 <SimpleGrid gap="4" columns={[3]} p="2">
                   <Box bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Frequency</Text>

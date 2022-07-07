@@ -220,7 +220,7 @@ export function AdvertDetail (props: any) {
                       <Box p="4" shadow="card" rounded="lg">
                         <Stack p="2" justify="space-between">
                           <Text  fontSize="xs" >Running on screen</Text>
-                          <Text fontSize="md" fontWeight="600">{screen.name}</Text>
+                          <Text fontSize="md" fontWeight="600">{screen?.name}</Text>
                         </Stack>
                         <hr />
                         <Stack p="2" justify="space-between">
