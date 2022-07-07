@@ -68,7 +68,6 @@ export function Map (mapProps: any) {
               .setHTML(`<div>
                 <h3>Cateory: ${marker?.properties?.category}</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
                 <a href="${process.env.REACT_APP_BLINDS_URL}/screen/${marker?.properties?.screen}/${marker?.properties?.image?.split('/').slice(-1)[0]}" fontweight="600">Click her for screen details</a>
-                <text>${marker?.properties?.image?.split('/').slice(-1)[0]}</text>
               </div>`)
           ).addTo(map);
         })
