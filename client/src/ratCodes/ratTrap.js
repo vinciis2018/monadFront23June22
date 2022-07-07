@@ -1,6 +1,7 @@
 import Arweave from "arweave";
 // import smartweave from "smartweave"
 import * as SmartWeaveSDK from 'redstone-smartweave';
+import * as WarpSdk from 'warp-contracts';
 // utils
 
 const arweaveOptions = {
@@ -24,7 +25,19 @@ async function initArweave() {
   return arweave;
 }
 
-
+// read contract 
+export const readContract = async (myContractId) => {
+  try {
+    let arweave = await initArweave();
+    const warp = WarpSdk.WarpNodeFactory.memCached(arweave);
+    const contract = warp.contract(myContractId);
+    const { state } = await contract.readState();
+    return {state}
+  } catch (error) {
+    console.log("error", error)
+    throw new Error(error);
+  }
+}
 
 
 // register game
@@ -185,8 +198,6 @@ console.log(data)
   }
   
 }
-
-
 
 
 export const gameInteraction = async ({walletAddress, data}) => {

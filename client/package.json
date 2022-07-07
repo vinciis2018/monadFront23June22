@@ -85,6 +85,7 @@
     "use-query-params": "^1.2.3",
     "uuid": "^8.3.2",
     "uuidv4": "^6.2.12",
+    "warp-contracts": "^1.1.8",
     "web-vitals": "^0.2.4",
     "web3": "^1.7.0",
     "workbox-background-sync": "^5.1.3",

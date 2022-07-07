@@ -85,7 +85,7 @@ export function Home(props: any) {
               {screens?.length === 0 && <MessageBox>No Screen Found</MessageBox>}
               <Carousel showArrows autoPlay showThumbs={false}>
                 {screens?.map((screen: any) => (
-                  <Box key={screen?._id} as={RouterLink} to={`/screen/${screen?._id}/${screen?.image.split("/").slice(-1)[0]}`} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
+                  <Box key={screen?._id} as={RouterLink} to={`/screen/${screen?._id}/${screen?.image.split("/").slice(-1)[0]}/${screen?.activeGameContract}`} d="flex" flexDir="column" rounded="lg" bg="" shadow="card" flexBasis="100%">
                     <Image 
                       height="300px"
                       width="100%"
@@ -144,6 +144,7 @@ export function Home(props: any) {
                   <SimpleGrid gap="4" columns={[1, 2]} px="1">
                     {screens?.map((screen: any) => (
                       <MotionFlex
+                        key={screen._id}
                         flexDir="column"
                         w="100%"
                         role="group"
@@ -155,7 +156,7 @@ export function Home(props: any) {
                         pos="relative"
                         zIndex="1"
                       >
-                        <Screen key={screen._id} screen={screen} />
+                        <Screen  screen={screen} />
                       </MotionFlex>
                     ))}
                   </SimpleGrid>

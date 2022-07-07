@@ -22,7 +22,8 @@ import { useFinnie } from 'components/finnie';
 
 export function ScreenDetail (props: any) {
   const screenId = props.match.params.id;
-  const txId = props.match.params.txId;
+  const txId = props?.match?.params?.txId;
+  const activeGame = props?.match?.params?.gameId;
 
   const [dateHere, setDateHere] = React.useState<any>(new Date());
 
@@ -102,7 +103,6 @@ export function ScreenDetail (props: any) {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-
     if(!userInfo) {
       props.history.push(redirect);
     }
@@ -116,19 +116,21 @@ export function ScreenDetail (props: any) {
       })
     }
 
- 
+
+    
     dispatch(detailsScreen(screenId));
     dispatch(screenVideosList(screenId));
     dispatch(getScreenCalender(screenId));
-    dispatch(getScreenGameDetails(screenId));
-    dispatch(getScreenParams(screenId));
     dispatch(listAllPleas())
+    dispatch(getScreenParams({screenId, activeGame}));
+    dispatch(getScreenGameDetails({activeGame}));
+
     
   }, [
     dispatch,
     // screen,
     // txId,
-    // nft
+    // nft,
   ])
 
   const allyPleaHandler = () => {
@@ -236,7 +238,7 @@ export function ScreenDetail (props: any) {
                     <IconButton as={RouterLink} to={`/edit/screen/${screenId}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                   ) : (
                     <>
-                      {screen?.allies.filter((ally: any) => ally === userInfo?.defaultWallet).length !== 0 ? (
+                      {screen?.allies?.filter((ally: any) => ally === userInfo?.defaultWallet).length !== 0 ? (
                         <IconButton  as={RouterLink} to={`/createCampaign/${screen._id}`} bg="none" icon={<AiOutlineVideoCameraAdd size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                       ) : (
                         <Flex align="center">
@@ -246,9 +248,9 @@ export function ScreenDetail (props: any) {
                             <MessageBox variant="danger">{errorAllPleas}</MessageBox>
                           ) : (
                             <>
-                              {allPleas.filter((plea: any) => plea.from === userInfo?.defaultWallet && plea.screen === screen._id).length !== 0 ? (
+                              {allPleas?.filter((plea: any) => plea?.from === userInfo?.defaultWallet && plea.screen === screen._id).length !== 0 ? (
                                 <Text fontWeight="600" fontSize="xs">
-                                  {screen.allies.length}
+                                  {screen?.allies?.length}
                                 </Text>
                               ) : (
                                 <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
@@ -272,7 +274,7 @@ export function ScreenDetail (props: any) {
                   <Flex color="black" p="4" align="center" justify="space-between">
                     <Box onClick={screenLikeHandler} align="center">
                       <Text fontSize="xs">{screen?.likedBy?.length}</Text>
-                      <BiLike color={screen.likedBy.filter((liker: any) => liker === userInfo?.defaultWallet).length !== 0 ? "green" : "" }/>
+                      <BiLike color={screen?.likedBy?.filter((liker: any) => liker === userInfo?.defaultWallet).length !== 0 ? "green" : "" }/>
                       <Text fontSize="xs">Likes</Text>
                     </Box>
                     <Box align="center">
@@ -298,15 +300,15 @@ export function ScreenDetail (props: any) {
               <Flex p="2" align="center" justify="space-between"  rounded="lg" shadow="card">
                 <Box p="2">
                   <Text fontWeight="600">{screen?.name}</Text>
-                  <Text fontSize="xs" color="gray.500">{screen.category}</Text>
+                  <Text fontSize="xs" color="gray.500">{screen?.category}</Text>
                 </Box>
                 <Stack>
-                  <Rating rating={screen.rating} numReviews={screen.numReviews}></Rating>
+                  <Rating rating={screen?.rating} numReviews={screen?.numReviews}></Rating>
                 </Stack>
               </Flex>
               <Flex p="2" align="center" justify="space-between" rounded="lg" shadow='card'>
-                <Text onClick={() => props.history.push(`/artist/${screen.master}`)} fontSize="xs" fontWeight="600" color="gray.500">Owner: {screen.masterName}</Text>
-                <Text fontSize="xs" fontWeight="600" color="gray.500">Allies: {screen.allies.length}</Text>
+                <Text onClick={() => props.history.push(`/artist/${screen?.master}`)} fontSize="xs" fontWeight="600" color="gray.500">Owner: {screen?.masterName}</Text>
+                <Text fontSize="xs" fontWeight="600" color="gray.500">Allies: {screen?.allies?.length}</Text>
               </Flex>
               {/* Ally modal here */}
 
@@ -419,11 +421,11 @@ export function ScreenDetail (props: any) {
                   <SimpleGrid gap="4" columns={[2]}>
                     <Stack align="center">
                       <Text fontSize="xs" fontWeight="600">Number of Allies:</Text> 
-                      <Text fontSize="sm" fontWeight="600">{screen.allies.length}</Text>
+                      <Text fontSize="sm" fontWeight="600">{screen?.allies?.length}</Text>
                     </Stack>
                     <Stack align="center">
                       <Text fontSize="xs" fontWeight="600">Pending ally pleas: </Text>
-                      <Text fontSize="sm" fontWeight="600">{allPleas.filter((plea: any) => (plea.status === false && plea.screen === screen._id)).length}</Text>
+                      <Text fontSize="sm" fontWeight="600">{allPleas?.filter((plea: any) => (plea.status === false && plea.screen === screen._id)).length}</Text>
                     </Stack>
                   </SimpleGrid>
                 </Box>
@@ -439,13 +441,13 @@ export function ScreenDetail (props: any) {
                     <Text fontSize="md" fontWeight="600">Currently playing on the screen</Text>
                     {userInfo?.defaultWallet === screen.master ? (
                       <IconButton onClick={() => setDeleteModal(!deleteModal)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
-                    ) : screen.allies.filter((ally: any) => ally === userInfo.defaultWallet) && (
+                    ) : screen?.allies?.filter((ally: any) => ally === userInfo.defaultWallet) && (
                       <IconButton onClick={() => setDeleteModal(!deleteModal)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                     )}
                   </Flex>
                   {videos.length === 0 && <MessageBox>Please upload your first campaign</MessageBox>}
                   {videos.map((video: any) => (
-                    <Box as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
+                    <Box key={video._id} as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
                       <Flex justify="space-between" align="center">
                         <Flex>
                           <Image 

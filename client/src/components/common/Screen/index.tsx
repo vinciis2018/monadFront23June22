@@ -8,7 +8,7 @@ export function Screen(props: any) {
   const { screen } = props;
 
   return (
-    <Box as={RouterLink} to={`/screen/${screen._id}/${screen?.image.split("/").slice(-1)[0]}`} shadow="card" rounded="lg" p="2" key={screen._id} >
+    <Box as={RouterLink} to={`/screen/${screen._id}/${screen.image.split("/").slice(-1)[0]}/${screen.activeGameContract}`} shadow="card" rounded="lg" p="2" key={screen._id} >
       <Box p="" height={{ height: 50, lg: "200px" }}>
         <Image 
           width="100%"

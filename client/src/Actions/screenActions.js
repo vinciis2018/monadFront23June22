@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { gameInteraction } from 'ratCodes/ratTrap';
+import { gameInteraction, readContract } from 'ratCodes/ratTrap';
 
 import {
   SCREEN_ALLY_PLEA_FAIL,
@@ -637,13 +637,14 @@ export const rejectScreenAllyPlea = (pleaId) => async (dispatch, getState) => {
 }
 
 // screen params
-export const getScreenParams = (screenId) => async (dispatch) => {
+export const getScreenParams = ({screenId, activeGame}) => async (dispatch, getState) => {
   dispatch({
     type: SCREEN_PARAMS_REQUEST,
     payload: screenId
   });
-  // console.log(time)
+
   try {
+    const gameState = await readContract(activeGame);
     const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenParams`);
     dispatch({
       type: SCREEN_PARAMS_SUCCESS,
