@@ -23,20 +23,20 @@ import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
 import { arweaveWalletConnect } from 'api/arweaveWallet';
 import { getMyNfts } from 'api/hooks/useArtist';
+import { useWallet } from 'components/contexts';
 
 
 export function ScreenEdit (props: any) {
   const screenId = props.match.params.id;
   
   const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
-  } = useFinnie();
-
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
+  } = useWallet();
 
   const { data: artist, 
     isLoading: isLoadingArtist, 
     isError: isErrorArtist 
-  } = useArtist({ id: walletAddress });
+  } = useArtist({ id: getArweavePublicAddress() });
 
   const [name, setName] = React.useState<any>('');
   const [rentPerSlot, setRentPerSlot] = React.useState<any>('');
@@ -58,7 +58,6 @@ export function ScreenEdit (props: any) {
   const [lng, setLng] = React.useState<number | undefined>(25.52);
   const [lat, setLat] = React.useState<number | undefined>(82.33);
   const [mapProps, setMapProps] = React.useState<any>({lng: lng , lat: lat, zoom: 18, height: "360px"})
-  const [uploadMediaModal, setUploadMediaModal] = React.useState<any>();
 
   const userSignin = useSelector((state: any) => state.userSignin);
   const { loading: loadingUser, error: errorUser, userInfo } = userSignin;
@@ -94,13 +93,6 @@ export function ScreenEdit (props: any) {
     success: successPinUpdate,
   } = pinUpdate;
 
-  const walletDetails = useSelector((state: any) => state.walletDetails);
-  const {
-    loading: loadingWallet,
-    error: errorWallet,
-    wallet
-  } = walletDetails;
-
   const screenCalender = useSelector((state: any) => state.screenCalender);
   const {
     loading: loadingScreenCalender,
@@ -113,7 +105,6 @@ export function ScreenEdit (props: any) {
     loading: loadingScreenGameCreate,
     error: errorScreenGameCreate,
     success: successScreenGameCreate,
-    createdScreenGame
   } = screenGameCreate
 
 
@@ -131,10 +122,8 @@ export function ScreenEdit (props: any) {
   const dispatch = useDispatch();
   React.useEffect(() => {
 
-    if(!isFinnieConnected) {
-      connectFinnie();
-      getMyNfts(userInfo.defaultWallet);
-
+    if(isConnected) {
+      getArweavePublicAddress()
     } 
 
     if (!screen || screen._id !== screenId || successUpdate) {
@@ -200,6 +189,8 @@ export function ScreenEdit (props: any) {
     // dispatch(getWalletDetails(userInfo.defaultWallet))
     dispatch(getScreenCalender(screenId))
     dispatch(getScreenGameDetails(screenId))
+    getMyNfts(userInfo.defaultWallet);
+
   }, [
     dispatch, 
     screen, 
@@ -236,7 +227,7 @@ export function ScreenEdit (props: any) {
       confirm,
       gamePage: `${window.location.href.split('/edit')[0]}`,
       gameType: `SCREEN_GAME`,
-      walletAddress
+      walletAddress: userInfo?.defaultWallet
     }))
   }
 
@@ -326,11 +317,11 @@ export function ScreenEdit (props: any) {
                 onLoad={() =>  triggerPort(screen?.image.split("/").slice(-1)[0])}
               />
             </Box>
-            {finnieLoading ? (
+            {isLoading ? (
               <LoadingBox></LoadingBox>
             ) : (
               <Stack align="center">
-                {isFinnieConnected && artist?.nfts?.length !== 0 && (
+                {isConnected && artist?.nfts?.length !== 0 && (
                   <FormControl p="2" id="image"> 
                     <Select
                       placeholder="screen image"

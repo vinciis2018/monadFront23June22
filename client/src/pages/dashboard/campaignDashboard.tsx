@@ -224,13 +224,11 @@ export function CampaignDashboard(props: any) {
                         <Button color="violet.500" variant="outline" fontSize="xs" size="sm">
                           Change Status
                         </Button>
-                        <Button onClick={() => props.history.push(`/dashboard/campaign/${video._id}/${video?.video.split('/').slice(-1)[0]}`)} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" fontSize="xs" size="sm">
+                        <Button onClick={() => setCampaignModalOpen(!campaignModalOpen)} bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" fontSize="xs" size="sm">
                           View 
                         </Button>
-                        
                       </SimpleGrid>
                     </Box>
-                  
                   </>
                 )}
               </Box>
