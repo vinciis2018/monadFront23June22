@@ -586,6 +586,7 @@ export const grantScreenAllyPlea = (pleaId) => async (dispatch, getState) => {
     type: SCREEN_ALLY_GRANT_REQUEST,
     payload: pleaId
   });
+  console.log(pleaId)
   const { userSignin: { userInfo } } = getState();
   try {
     const { data } = await Axios.put(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${pleaId}/allyPlea/master`, {pleaId}, {
