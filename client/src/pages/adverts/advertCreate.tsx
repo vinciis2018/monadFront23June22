@@ -76,7 +76,7 @@ export function AdvertCreate (props: any) {
 
     if(successVideoSave) {
       window.alert('Hey, you just uploaded you campaign media, please proceed to fill the campaig details...');
-      props.history.push(`/editCampaign/${uploadedVideo._id}/${screenId}/${uploadedVideo?.video.split('/').slice(-1)[0]}`)
+      props.history.push(`/editAdvert/${uploadedVideo._id}/${uploadedVideo?.video.split('/').slice(-1)[0]}/${screenId}`)
     }
 
     if(!userInfo) {
@@ -87,7 +87,8 @@ export function AdvertCreate (props: any) {
     dispatch,
     txId,
     successVideoSave,
-    isConnected
+    isConnected,
+    artist
   ])
 
   const uploadAdvertMedia = () => {
@@ -123,7 +124,8 @@ export function AdvertCreate (props: any) {
     dispatch(
       uploadVideo(screenId, {
         advert, 
-        thumbnail
+        thumbnail,
+        defaultWallet: userInfo.defaultWallet
       })
     );
   };

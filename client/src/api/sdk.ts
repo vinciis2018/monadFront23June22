@@ -3,6 +3,7 @@ import * as kweb from "@_koi/sdk/web";
 import axios from "axios";
 import redstone from 'redstone-api';
 import arweaveGraphql,{ SortOrder, TagOperator } from 'arweave-graphql'
+import { readContract } from "ratCodes/ratTrap";
 
 let koiSDK = new kweb.Web();
 
@@ -43,14 +44,11 @@ export const getBalances = async (walletAddress: any) => {
   let ar: any;
   let ratData: any;
   try {
-
-
     await koiSDK.setWallet(walletAddress);
     koii = await koiSDK.getKoiBalance();
     ar = await koiSDK.getWalletBalance();
-    const {data} = await axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/rat`);
-    ratData = data?.balances[walletAddress] || 0;
-    // console.log("ratdata", ratData)
+    const data = await readContract(`${process.env.REACT_APP_CRYPTEX_TEST}`)
+    ratData = data.state?.balances[walletAddress] || 0;
     return { koii, ar, ratData };
   } catch (error) {
     console.log(error);

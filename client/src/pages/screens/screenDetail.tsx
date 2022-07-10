@@ -156,7 +156,7 @@ export function ScreenDetail (props: any) {
     if (window.confirm('Are you sure to delete?')) {
       dispatch(deleteScreenVideo(video._id));
     }
-    props.history.push(`/screen/${screenId}`)
+    props.history.push(`/screen/${screenId}/${screen.image.split('/').slice(-1)[0]}`)
   };
 
   const screenLikeHandler = async (screenId: any) => {
@@ -239,7 +239,7 @@ export function ScreenDetail (props: any) {
                   ) : (
                     <>
                       {screen?.allies?.filter((ally: any) => ally === userInfo?.defaultWallet).length !== 0 ? (
-                        <IconButton  as={RouterLink} to={`/createCampaign/${screen._id}`} bg="none" icon={<AiOutlineVideoCameraAdd size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                        <IconButton  as={RouterLink} to={`/createCampaign/${screen._id}/${userInfo.defaultWallet}`} bg="none" icon={<AiOutlineVideoCameraAdd size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
                       ) : (
                         <Flex align="center">
                           {loadingAllPleas ? (
@@ -358,7 +358,6 @@ export function ScreenDetail (props: any) {
                       <BiPieChart fontSize="20px" color="green" />
                     </Flex>
                   </Stack>
-                  
                   {loadingScreenParams ? (
                     <LoadingBox></LoadingBox>
                   ) : errorScreenParams ? (
@@ -403,10 +402,8 @@ export function ScreenDetail (props: any) {
                   )}
                 </Stack>
               )}
-
               <Box p="2" rounder="lg" shadow="card">
                 <Text p="1" fontSize="" fontWeight="600">Details </Text>
-
                 <Text px="1" fontSize="sm"><strong>Description :</strong> {screen.description}</Text>
                 <Text px="1" fontSize="sm"><strong>Time period of 1 slot :</strong> {screen.slotsTimePeriod} seconds</Text>
                 <Text px="1" fontSize="sm"><strong>Screen Type :</strong> {screen.screenType}</Text>
@@ -430,7 +427,6 @@ export function ScreenDetail (props: any) {
                   </SimpleGrid>
                 </Box>
               )}
-                
               {loadingScreenVideos ? (
                 <LoadingBox></LoadingBox>
               ) : errorScreenVideos ? (
@@ -447,9 +443,9 @@ export function ScreenDetail (props: any) {
                   </Flex>
                   {videos.length === 0 && <MessageBox>Please upload your first campaign</MessageBox>}
                   {videos.map((video: any) => (
-                    <Box key={video._id} as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
+                    <Box key={video._id} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
                       <Flex justify="space-between" align="center">
-                        <Flex>
+                        <Flex as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} >
                           <Image 
                             px="1px"
                             src={video?.thumbnail}
@@ -479,7 +475,6 @@ export function ScreenDetail (props: any) {
                   <Button size="sm" fontSize="xs" color="violet.500" variant="outline" as={RouterLink} to={`/dashboard/screen/${screen._id}`} p="2" >View Dashboard</Button>
                 </SimpleGrid>
               )}
-              
               <Stack>
                 <SimpleGrid p="2" gap="4" columns={[1, 2]}>
                   {userInfo ? (
@@ -549,8 +544,6 @@ export function ScreenDetail (props: any) {
           )}
       </Center>
       )}
-      
-
     </Box>
   )
 }

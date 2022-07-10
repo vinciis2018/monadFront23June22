@@ -163,7 +163,7 @@ export function AdvertDetail (props: any) {
                 <ArrowBackIcon onClick={() => props.history.goBack()}/>
                 <Text fontWeight="600">Campaign Details</Text>
                 {video.uploader === userInfo.defaultWallet ? (
-                  <IconButton as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/edit/${video?.screen}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
+                  <IconButton as={RouterLink} to={`/editAdvert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video?.screen}`} bg="none" icon={<EditIcon size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
                 ) : (
                   <IconButton bg="none" icon={<RiDashboard2Line size="20px" color="black" />} aria-label="Edit Advert Details"></IconButton>
                 )}

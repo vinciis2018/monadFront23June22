@@ -316,7 +316,9 @@ const openTimeModal = () => {
       hrsToComplete,
       advertTags,
       category,
-      brandName
+      brandName,
+      defaultWallet: userInfo.defaultWallet
+
     }))
   }
 
