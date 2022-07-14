@@ -59,13 +59,6 @@ export function Wallet(props: any) {
   const userSignin = useSelector((state: any) => state.userSignin);
   const {loading: loadingUser, error: errorUser, userInfo} = userSignin;
 
-  const walletDetails = useSelector((state: any) => state.walletDetails);
-  const {
-    loading: loadingWallet,
-    error: errorWallet,
-    wallet
-  } = walletDetails;
-
   const walletEdit = useSelector((state: any) => state.walletEdit);
   const { 
     loading: loadingWalletEdit, 
@@ -102,17 +95,12 @@ export function Wallet(props: any) {
     if(userInfo) {
       setWalletId(walletAdd)
       dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAdd}));
-      dispatch(getWalletDetails(walletAdd));
     } else {
       navigate.push(redirect);
     }
 
     if(walletAdd === walletAddAr) {
       navigate.push(`/wallet/${walletAdd}`);
-    }
-
-    if(wallet === null || undefined) {
-      setWalletId(walletAdd);
     }
 
     if(lastTxn) {

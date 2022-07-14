@@ -77,40 +77,39 @@ export const listWallets = () => async (dispatch, getState) => {
   }
 }
 
-// get wallet details
+// // get wallet details
 
-export const getWalletDetails = (walletId) => async (dispatch, getState) => {
-  dispatch ({
-    type: WALLET_DETAILS_REQUEST,
-    payload: walletId
-  });
-  const {userSignin: {userInfo}} = getState();
-  try {
+// export const getWalletDetails = (walletId) => async (dispatch, getState) => {
+//   dispatch ({
+//     type: WALLET_DETAILS_REQUEST,
+//     payload: walletId
+//   });
+//   const {userSignin: {userInfo}} = getState();
+//   try {
 
-    const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/${walletId}`, {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`
-      },
-    });
+//     // const { data } = await Axios.get(`${process.env.REACT_APP_BLINDS_SERVER}/api/wallet/${walletId}`, {
+//     //   headers: {
+//     //     Authorization: `Bearer ${userInfo.token}`
+//     //   },
+//     // });
 
-    localStorage.setItem("wallet", JSON.stringify(data));
 
-    dispatch({
-      type: WALLET_DETAILS_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
+//     dispatch({
+//       type: WALLET_DETAILS_SUCCESS,
+//       // payload: data,
+//     })
+//   } catch (error) {
 
-    const message = error.response && error.response.data.message
-      ? error.response.data.message
-      : error.message;
+//     const message = error.response && error.response.data.message
+//       ? error.response.data.message
+//       : error.message;
 
-    dispatch({
-      type: WALLET_DETAILS_FAIL,
-      payload: message
-    })
-  }
-}
+//     dispatch({
+//       type: WALLET_DETAILS_FAIL,
+//       payload: message
+//     })
+//   }
+// }
 
 
 // edit wallet

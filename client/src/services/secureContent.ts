@@ -81,7 +81,7 @@ export async function encryptContentAndSave(
 export function retrieveAndDecryptContent(
   textPassword: string
 ): Promise<EncryptedDataModel> {
-  return getKey(textPassword).then((key) =>
+  return getKey(textPassword).then((key: any) =>
     Promise.all([
       localforage.getItem<ArrayBuffer | null>(SECURED_CONTENT_KEY),
       localforage.getItem<ArrayBuffer | null>(IV_KEY),
@@ -89,10 +89,11 @@ export function retrieveAndDecryptContent(
       if (retrievedContent && retrievedIv) {
         const data = decrypt(retrievedContent, retrievedIv, key);
         return decrypt(retrievedContent, retrievedIv, key)
-          .then((decryptedContent) =>
+          .then((decryptedContent: any) =>
             decode<EncryptedDataModel>(decryptedContent)
           )
-          .catch((e) => {
+          .catch((e: any) => {
+            console.log(e)
             throw new Error(`${ERROR_IDS.INCORRECT_PIN}, ${e}`);
           });
       } else {

@@ -37,32 +37,35 @@ export function LoginHelper() {
 
   const checkPin = (pincode: string) => {
     if (pincode !== "") {
-      // checkAndTriggerSelfDestruct(pincode).then((cleared) => {
-      //   if (cleared) {
-      //     // TODO: On Self Destruct App should be populated with safe content
-      //     navigate.push("/");
-      //   } else {
+      checkAndTriggerSelfDestruct(pincode).then((cleared) => {
+        if (cleared) {
+          // TODO: On Self Destruct App should be populated with safe content
+          navigate.push("/");
+        } else {
           unlock(pincode)
             .then(async (res) => {
               const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
-              await login(expired);
-              setMessage("Login complete")
-              return message;
+              const status = await login(expired);
+              console.log(status)
             })
             .catch((error: Error) => {
+              console.log(error)
               if (error.message.includes(ERROR_IDS.NO_CONTENT)) {
                 wipeTempSavedPin().then(() => generateAndSave(pin));
-                navigate.push("/upload");
+                setErr("Please enter your pin")
               }
 
               if (error.message.includes(ERROR_IDS.INCORRECT_PIN)) {
-                setErr("PIN code is not match. Please try again.");
                 setPin("");
+                setErr("PIN code is not match. Please try again.");
+                console.log(err)
                 return err;
               }
             });
-        // }
-      // });
+            setMessage("Please wait for the confirmation")
+            return message;
+        }
+      });
     } else {
       setErr("Please input PIN.");
       return err;

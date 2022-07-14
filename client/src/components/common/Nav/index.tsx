@@ -315,9 +315,9 @@ export function Nav(props: any) {
               <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
             </Flex>
           )}
-          {modalOpen && (
+          {/* {modalOpen && (
             <LoginHelper />
-          )}
+          )} */}
         </Box>
       )}
     </Box>

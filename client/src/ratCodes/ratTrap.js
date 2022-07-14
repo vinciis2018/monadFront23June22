@@ -271,10 +271,8 @@ export const sendRAT = async ({toWallet, amount, walletName}) => {
     console.log(contract)
 
     quantity = Number(amount);
-    console.log(quantity)
-    console.log(toWallet)
 
-    const result = await contract.connect('use_wallet' || walletName).bundleInteraction({
+    const result = await contract.connect(walletName).bundleInteraction({
       function : `transfer`,
       target : toWallet,
       qty : Number(quantity),
@@ -327,7 +325,7 @@ export const sendKoii = async ({toWallet, amount, walletName}) => {
 
     quantity = Number(amount);
 
-    const result = await contract.connect('use_wallet' || walletName).bundleInteraction({
+    const result = await contract.connect(walletName).bundleInteraction({
       function : `transfer`,
       target : toWallet,
       qty : Number(quantity),

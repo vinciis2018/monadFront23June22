@@ -67,7 +67,7 @@ export function Map (mapProps: any) {
               new mapboxgl.Popup({ offset: -100 }) // add popups
               .setHTML(`<div>
                 <h3>Cateory: ${marker?.properties?.category}</h3><p>Coordinates: [${marker?.geometry?.coordinates}]</p>
-                <a href="${process.env.REACT_APP_BLINDS_URL}/screen/${marker?.properties?.screen}/${marker?.properties?.image?.split('/').slice(-1)[0]}/${marker?.properties?.activeGame}" fontweight="600">Click her for screen details</a>
+                <a href="http://monad.vinciis.in/#/screen/${marker?.properties?.screen}/${marker?.properties?.image?.split('/').slice(-1)[0]}/${marker?.properties?.activeGame}" fontweight="600">Click her for screen details</a>
               </div>`)
           ).addTo(map);
         })
