@@ -86,12 +86,12 @@ export const Routes = () => {
         <PublicRoute exact path="/key-management" component={KeyManagement} layout={AppLayout} />
 
         <PublicRoute exact path={"/upload"} component={Active} layout={AppLayout} />
-        <PublicRoute exact path="/upload-photos" component={PhotoView} layout={AppLayout} />
-        <PublicRoute exact path="/upload-tags" component={UploadTags} layout={AppLayout} />
-        <PublicRoute exact path="/upload-delay" component={UploadDelay} layout={AppLayout} />
-        <PublicRoute exact path="/upload-confirm" component={UploadConfirm} layout={AppLayout} />
-        <PublicRoute exact path="/upload-success" component={Success} layout={AppLayout} />
-        <PublicRoute exact path="/upload-archive" component={UploadArchive} layout={AppLayout} />
+        <WalletRoute exact path="/upload-photos" component={PhotoView} layout={AppLayout} />
+        <WalletRoute exact path="/upload-tags" component={UploadTags} layout={AppLayout} />
+        <WalletRoute exact path="/upload-delay" component={UploadDelay} layout={AppLayout} />
+        <WalletRoute exact path="/upload-confirm" component={UploadConfirm} layout={AppLayout} />
+        <WalletRoute exact path="/upload-success" component={Success} layout={AppLayout} />
+        <WalletRoute exact path="/upload-archive" component={UploadArchive} layout={AppLayout} />
         <PublicRoute exact path="/upload-camera" component={CameraHome} layout={AppLayout} />
 
         <PublicRoute exact path="/setting" component={Setting} layout={AppLayout} />

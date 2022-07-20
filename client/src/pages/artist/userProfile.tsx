@@ -1,4 +1,4 @@
-import React, { useMemo, memo} from 'react'
+import React, { useMemo, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -21,9 +21,11 @@ import { DragAndDropUploader } from 'components/widgets';
 import { NftFeaturedCard, ThumbnailCard } from "components/cards";
 import { NftMediaContainer } from 'components/common';
 import { ThumbnailContainer } from 'components/cards/NftFeaturedCard';
+import { useWallet } from 'components/contexts';
 
 
 export function UserProfile(props: any) {
+  const [walletName, setWalletName] = useState<any>("");
 
   const { data: artist, isLoading, isError } = useArtist({ id: props?.match?.params?.id });
   // console.log(artist)
@@ -34,6 +36,7 @@ export function UserProfile(props: any) {
       pieces: artist?.nfts?.length
     };
   }, [artist]);
+  const { hasEncryptedData, getCommon } = useWallet();
 
   const [name, setName] = React.useState<any>('');
   const [avatar, setAvatar] = React.useState<any>('');
@@ -50,7 +53,6 @@ export function UserProfile(props: any) {
 
   const [profileModal, setProfileModal] = React.useState<boolean>(false);
   const [addressModal, setAddressModal] = React.useState<boolean>(false);
-  const [uploadNftModal, setUploadNftModal] = React.useState<boolean>(false);
 
 
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -76,6 +78,16 @@ export function UserProfile(props: any) {
 
   const dispatch = useDispatch()
   React.useEffect(() => {
+    hasEncryptedData().then((res) => {
+      if(res) {
+        getCommon().then((jwk: any) => setWalletName(jwk))
+      }
+      
+    }).catch((e: any) => {
+      props.history.push("/login")
+      console.log(e)
+    });
+
     if (successUpdate) {
     window.alert('Profile updated successfully');
       dispatch({
@@ -129,25 +141,15 @@ export function UserProfile(props: any) {
     }));
     setProfileModal(false);
     setAddressModal(false);
-    setUploadNftModal(false);
   };
-
-  const uploadNftOpen = () => {
-    setProfileModal(false);
-    setAddressModal(false);
-    setUploadNftModal(!uploadNftModal);
-
-  }
 
   const userProfileEditOpen = () => {
     setAddressModal(false);
-    setUploadNftModal(false);
     setProfileModal(!profileModal);
   }
 
   const userAddressEditOpen = () => {
     setProfileModal(false);
-    setUploadNftModal(false);
     setAddressModal(!addressModal);
   }
 
@@ -394,30 +396,23 @@ export function UserProfile(props: any) {
               <Box m="">
                 <Flex p="2" align="center" justify="space-between">
                   <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
-                  <IconButton onClick={uploadNftOpen} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
+                  <IconButton onClick={() => props.history.push("/upload-photos")} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
                 </Flex>
-                {uploadNftModal ? (
-                  <Box m="2" rounded="md" shadow="card">
-                    <DragAndDropUploader />
-                  </Box>
-                ) : (
-                  <>
-                    {artist?.nfts?.length !== 0 && (
-                      <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
-                        {artist?.nfts?.map((nft: Record<string, any>) => (
-                          <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
-                            {isLoading ? (
-                              <LoadingBox></LoadingBox>
-                            ) : isError ? (
-                              <MessageBox message={isError}></MessageBox>
-                            ) : (
-                              <ThumbnailCard nft={nft} />
-                            )}
-                          </Box>
-                        ))}
-                      </SimpleGrid>
-                    )}
-                  </>
+
+                {artist?.nfts?.length !== 0 && (
+                  <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
+                    {artist?.nfts?.map((nft: Record<string, any>) => (
+                      <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
+                        {isLoading ? (
+                          <LoadingBox></LoadingBox>
+                        ) : isError ? (
+                          <MessageBox message={isError}></MessageBox>
+                        ) : (
+                          <ThumbnailCard nft={nft} />
+                        )}
+                      </Box>
+                    ))}
+                  </SimpleGrid>
                 )}
               </Box>
             </Stack>

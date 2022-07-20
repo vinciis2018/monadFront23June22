@@ -122,16 +122,14 @@ export const createArTx = async (dataBuffer: any, initialState: any) => {
  *
  * @returns transaction with tags added
  */
-export const signArTx = async (tx: any, initialState: any, media: any) => {
+export const signArTx = async (tx: any, initialState: any, media: any, walletName: any) => {
+  let arweave = await initArweave();
   try {
-    /* 
-    First, we sign the transaction using Finnie.
-  */
-    await window.koiiWallet.sign(tx);
-
-    /* 
-    With a signed transaction, now we can upload it to the chain
-  */
+    /* First, we sign the transaction using Finnie. */
+ console.log(tx, walletName)
+    // await window.koiiWallet.sign(tx);
+    await arweave.transactions.sign(tx, walletName)
+    /* With a signed transaction, now we can upload it to the chain */
     await uploadArTx(tx);
 
     const body = {
@@ -142,9 +140,8 @@ export const signArTx = async (tx: any, initialState: any, media: any) => {
       media
     };
 
-    /* 
-    The last step is to register it into Koii using Finnie
-  */
+    /* The last step is to register it into Koii using Finnie */
+    //  any other way to register content on koii
     await window.koiiWallet.registerData(tx.id);
 
     await generateCardWithData(body).catch(() => {});

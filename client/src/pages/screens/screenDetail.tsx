@@ -344,7 +344,7 @@ export function ScreenDetail (props: any) {
                           color="green"
                           fontSize="10px"
                         />
-                        <Text px="2" fontSize="sm" color="green.500" fontWeight="600">{screenGameData?.gameType}</Text>
+                        <Text px="2" fontSize="sm" color="green.500" fontWeight="600">{screenGameData?.state?.gameType}</Text>
                    
                       </Flex>
                     )}

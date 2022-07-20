@@ -16,7 +16,9 @@ import { convertToAr, getMediaType } from "services/utils";
 import { initializeArTx, signArTx } from "api/upload";
 import {BsUpload} from 'react-icons/bs';
 
-export function DragAndDropUploader() {
+export function DragAndDropUploader(walletName: any) {
+  // const [key, setKey] = useState<any>("");
+  
   /* Finnie */
   const {
     state: { connectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected }
@@ -61,7 +63,7 @@ export function DragAndDropUploader() {
   async function doSignArTx() {
     try {
       setState(prevState => ({ ...prevState, status: "loading" }));
-      await signArTx(data?.tx, data?.initialState, data?.file);
+      await signArTx(data?.tx, data?.initialState, data?.file, walletName);
       setState(prevState => ({ ...prevState, step: 4, status: "success", data: { tx: prevState?.data?.tx } }));
     } catch (error) {
       setState(prevState => ({ ...prevState, status: "error" }));

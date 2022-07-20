@@ -1,17 +1,21 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 // hooks
 import { useUpload } from "components/contexts";
 import { useFormik } from "formik";
 import { useHistory } from "react-router-dom";
+import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai"
+import { useDropzone } from "react-dropzone";
 
 import { icon_check, icon_back2, icon_close } from "assets/svgs";
 import HChip from "components/atoms/HChip";
 import { Box, Tooltip, Checkbox, FormControl, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 import { MessageBox } from "components/helpers";
+import { convertToAr, getMediaType } from "services/utils";
 
 export function UploadTags() {
   const navigate = useHistory();
-  const { imageUrl, tags, setTags, setDescription, setTitle, setNsfw } = useUpload();
+  
+  const { imageUrl, setImageUrl, tags, setTags, setDescription, setTitle, setNsfw } = useUpload();
   const [myTitle, setMyTitle] = useState<any>("");
   const [myDescription, setMyDesription] = useState<any>("");
   const [myNsfw, setMyNsfw] = useState<any>("");
@@ -26,10 +30,14 @@ export function UploadTags() {
         tagString.split(",").map((_string: any) => _string.split(" ").join(""))
       );
     }
-  }, [setTags, tagString]);
+    if(imageUrl) {
+      setImageUrl(imageUrl);
+    }
+  }, [setTags, tagString, imageUrl]);
 
   const onSubmit = () => {
     let error = "";
+    if (!imageUrl) error = "No media found"
     if (myTitle === "") error = "Please input a title";
     if (myDescription === "") error = "Please input a description";
     if (error !== "") {
@@ -64,7 +72,10 @@ export function UploadTags() {
           </Flex>
           <hr />
           <Stack>
-            <Image rounded="lg" src={imageUrl} alt="icon" width={"auto"} height={111} />
+              <Box onClick={() => setImageUrl("")}>
+                <ThumbnailContainer fileThumbnail={imageUrl} file={imageUrl} />
+              </Box>
+            {/* <Image rounded="lg" src={imageUrl} alt="icon" width={"auto"} height={111} onClick/> */}
             <FormControl id="title">
               <FormLabel fontSize="xs">Find the perfect name</FormLabel>
               <Stack direction="row" align="center">
@@ -129,12 +140,44 @@ export function UploadTags() {
                   </Checkbox>
                 </Stack>
               </FormControl>
-              {err && <MessageBox>{err}</MessageBox>}
+              {err && <MessageBox variant="danger">{err}</MessageBox>}
             <Button variant="outline" color="violet.500" onClick={onSubmit}>Submit</Button>
           </Stack>
         </Stack>
       </Center>
     </Box>
-    
   );
 }
+
+
+const ThumbnailContainer = ({ file, fileThumbnail }: { file: any; fileThumbnail: any }) => {
+  let mediaType;
+
+  useEffect(() => {
+    if(file?.type) {
+      mediaType = getMediaType(file?.type);
+    } else {
+      mediaType = file.split(";")[0]
+    }
+    console.log(mediaType)
+  }, [mediaType])
+
+  return (
+    <>
+      <Text align="center" fontSize="xs">Click to upload a new one from your storage</Text>
+      {mediaType === "image" || "data:image/png" || "data:image/jpeg" ? (
+        <Image src={fileThumbnail} alt="click to upload" boxSize="100%" objectFit="cover" width={"auto"} height={111} />
+      ) : mediaType === undefined ? (
+        <Image src={fileThumbnail} />
+      ) : mediaType === "data:video/mp4" ? (
+        <Box rounded="md" as="video" height="100%" width="100%" muted autoPlay playsInline>
+          <source src={fileThumbnail} />
+        </Box>
+      ) : (
+        <Box rounded="md" as="video" height="100%" width="100%" muted autoPlay playsInline>
+          <source src={fileThumbnail} />
+        </Box>
+      )}
+    </>
+  );
+};

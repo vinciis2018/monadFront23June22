@@ -54,7 +54,7 @@ export function Footer() {
               <Heading fontSize="sm">Important Links: </Heading>
                 <Link to='/home' fontSize="sm">Team </Link>
                 <Link to='/home' fontSize="sm">Vinciis</Link>
-                <Link to='/home' fontSize="sm">Blinds</Link>
+                <Link to='/home' fontSize="sm">Monad</Link>
                 <Link to='/home' fontSize="sm">More</Link>
             </HStack>
             <HStack mx="auto" justify="" px="10" py="2">
@@ -68,11 +68,8 @@ export function Footer() {
               <Link fontSize="sm" to='https://docs.google.com/document/d/1datLSwSXYT7L99IEoc_03c6VArlwlmnSBJuNpi2Wlgc/edit?usp=sharing' className="white">
                 White Paper*
               </Link>
-              <Link fontSize="sm" to='https://drive.google.com/file/d/1Cmt6S0v9hZmvqUG_mLAXzVYlxjwyMmZ9/view?usp=sharing' className="white">
-                Venetian Demo
-              </Link>
-              <Link fontSize="sm" to='https://drive.google.com/file/d/1smjuwkWB5vvcZQKAONZ5ot9JKVpmimki/view' className="white">
-                User Demo
+              <Link fontSize="sm" to='https://drive.google.com/drive/folders/1sgbuQPIn5nXD39d6z0nOO7mvDm8rhrta?usp=sharing' className="white">
+                Demo Links
               </Link>
             </HStack>
           </Box>

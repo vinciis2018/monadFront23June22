@@ -70,7 +70,7 @@ export function PinCreate() {
               <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="kisi ko batana ni" aria-label='A tooltip'>
                 <Image alt="kisi ko batana ni" p="4" src="https://cdn3d.iconscout.com/3d/premium/thumb/no-message-3025708-2526906.png" />
               </Tooltip>
-              <Box py={width > 500 ? "20" : "0"} px="4" align="center">
+              <Box py={width > 500 ? "2" : "0"} px="0" align="center">
                 <Text textAlign="center" px="4" pt="4" fontSize="sm" fontWeight="600">
                   DONOT DISCLOSE YOUR PIN TO ANYONE
                 </Text>

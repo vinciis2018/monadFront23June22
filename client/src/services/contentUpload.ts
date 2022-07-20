@@ -1,17 +1,17 @@
 import { IpfsCidWithMetadata } from "models";
-import axios, { extractData } from "services/axios";
+import { instance, extractData } from "services/axios";
 
 export class ContentUploadService {
   static submitCidWithMetadata(data: IpfsCidWithMetadata): Promise<void> {
-    return axios.post("accept-cid", data);
+    return instance.post("accept-cid", data);
   }
 
   static updateCidWithMetadata(data: IpfsCidWithMetadata): Promise<void> {
-    return axios.post("edit-cid", data).then(extractData);
+    return instance.post("edit-cid", data).then(extractData);
   }
 
   static getAll(owner: string): Promise<IpfsCidWithMetadata[]> {
-    return axios
+    return instance
       .post<{ cids: IpfsCidWithMetadata[] }>("get-cids", { owner })
       .then(extractData)
       .then(({ cids }) => cids);

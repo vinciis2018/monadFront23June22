@@ -1,20 +1,39 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 // hooks
 import { useUpload } from "components/contexts";
 import { useHistory } from "react-router-dom";
 import { icon_back2, icon_close } from "assets/svgs";
 import { Box, Tooltip, FormControl, Image, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
-import { DragAndDropUploader } from "components/widgets";
+import { useDropzone } from "react-dropzone";
+import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai"
+import { convertToAr, getMediaType } from "services/utils";
 
 export function PhotoView() {
   // hooks
   const navigate = useHistory();
-  const { imageUrl } = useUpload();
+  const { imageUrl, setImageUrl } = useUpload();
   const [usingCam, setUsingCam] = useState<Boolean>(true);
+
+  const [{ step, status, data }, setState] = useState<{ step: number; status: string; data: any }>({ step: 1, status: "idle", data: null });
+  const onDropAccepted = useCallback(async acceptedFiles => {
+    setState(prevState => ({ ...prevState, step: 2, data: { ...data?.prevState, file: acceptedFiles[0], fileThumbnail: URL.createObjectURL(acceptedFiles[0]) } }));
+    // setImageUrl(acceptedFiles[0]);
+    const file = acceptedFiles[0];
+    new Promise((resolve,reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+   }).then((res) => {
+      setImageUrl(JSON.stringify(res).replace(/^"(.*)"$/, '$1'))
+    });
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDropAccepted, accept: "image/*, video/*, .json", multiple: false, maxSize: 15728640 });
 
   useEffect(() => {
     if(imageUrl) {
       setUsingCam(true);
+      setImageUrl(imageUrl);
     } else {
       setUsingCam(false);
     }
@@ -41,23 +60,57 @@ export function PhotoView() {
           <hr />
           {usingCam ? (
             <Box rounded="lg" align="center" >
-              <Image rounded="lg" src={imageUrl} alt="icon" width="360px" />
+              {/* <Image onClick={() => setImageUrl("")} rounded="lg" src={imageUrl} alt="icon" width="360px" /> */}
+              <Box onClick={() => setImageUrl("")}>
+                <ThumbnailContainer fileThumbnail={imageUrl} file={imageUrl} />
+              </Box>
               <Button width="100%" variant="outline" color="violet.500" mt="4" onClick={() => navigate.push("/upload-tags")} >Add Details</Button>
             </Box>
-          ) : (
-            <Box rounded="lg" align="center">
-              <Text p="2" fontSize="xs" fontWeight="600">Upload any image, video or any other media file and store them forever as your own NFT. </Text>
-              <DragAndDropUploader />
-              <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="NFT matlab koii bhi media jiska ownership fix ho" aria-label='A tooltip'>
-                <Box align="center" >
-                  <Image  width="" alt="NFT matlab koii bhi media jiska ownership fix ho" p="4" src={`https://cdn3d.iconscout.com/3d/premium/thumb/searching-with-telescope-3025710-2526908.png`}/>
+           ) : (
+             <Center flexDir="column" w="100%" bg="gray.100" border="1px dashed" p="2" borderColor="blue.500" rounded="md" cursor="pointer" {...getRootProps()}>
+                <input {...getInputProps()} />
+                <Box align="center" direction="column" maxW="500px" mx="auto" mt="2">
+                  <AiOutlineUpload fontWeight="600" fontSize="2xl" />
+                  <Text p="2" fontSize="sm">Click or drag n' drop here to upload. </Text>
                 </Box>
-              </Tooltip>
-            </Box>
-          )}
+              </Center>
+           )}
         </Stack>
       </Center>
     </Box>
     
   );
 }
+
+
+const ThumbnailContainer = ({ file, fileThumbnail }: { file: any; fileThumbnail: any }) => {
+  let mediaType;
+
+  useEffect(() => {
+    if(file?.type) {
+      mediaType = getMediaType(file?.type);
+    } else {
+      mediaType = file.split(";")[0]
+    }
+    console.log(mediaType)
+  }, [mediaType])
+
+  return (
+    <>
+    <Text align="center" fontSize="xs">Click to upload a new one from your storage</Text>
+      {mediaType === "image" || "data:image/png" || "data:image/jpeg" ? (
+        <Image src={fileThumbnail} alt="click to upload" boxSize="100%" objectFit="cover" width={"auto"} height={111} />
+      ) : mediaType === undefined ? (
+        <Image src={fileThumbnail} />
+      ) : mediaType === "data:video/mp4" ? (
+        <Box rounded="md" as="video" height="100%" width="100%" muted autoPlay playsInline>
+          <source src={fileThumbnail} />
+        </Box>
+      ) : (
+        <Box rounded="md" as="video" height="100%" width="100%" muted autoPlay playsInline>
+          <source src={fileThumbnail} />
+        </Box>
+      )}
+    </>
+  );
+};

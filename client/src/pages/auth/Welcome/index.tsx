@@ -61,7 +61,6 @@ export function Welcome() {
               <Text px="4" fontSize="sm">
                 Hey {userInfo.name}, thank you for your registration.
                 <br />Please follow the instruction process for creating your finnie wallet on Monad.
-                <br />What are you waiting for then, click to proceed
               </Text>
             </Box>
           )}

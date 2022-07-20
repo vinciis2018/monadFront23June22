@@ -35,6 +35,11 @@ export function LoginHelper() {
     wipeTempSavedPin,
   } = useWallet();
 
+  
+  const onClick = () => {
+    checkPin(pin);
+  };
+
   const checkPin = (pincode: string) => {
     if (pincode !== "") {
       checkAndTriggerSelfDestruct(pincode).then((cleared) => {
@@ -46,7 +51,6 @@ export function LoginHelper() {
             .then(async (res) => {
               const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
               const status = await login(expired);
-              console.log(status)
             })
             .catch((error: Error) => {
               console.log(error)
@@ -81,18 +85,18 @@ export function LoginHelper() {
   };
 
   return (
-    <Center maxW="container.lg" minH="600" mx="auto" pb="8">
+    <Center maxW="container.lg" mx="auto">
       {loading ? (
         <LoadingBox></LoadingBox>
       ) : error ? (
         <MessageBox>{error}</MessageBox>
       ) : (
-        <Stack align="center" p="8" rounded="lg" shadow="card">
+        <Stack>
           {err && <MessageBox>{err}</MessageBox>}
           {message !== "" && <MessageBox>{message}</MessageBox>}
           <Box align="center" onClick={activeFocusArea}>
             <Text color="black" textAlign="center" px="4" pt="4" fontSize="xs" fontWeight="600">
-              Enter your 6 digit secret pin
+              Enter your 6 digit secret pin to unlock
             </Text>
             <HPasswordInput
               label="Enter Access PIN"
@@ -101,6 +105,7 @@ export function LoginHelper() {
               focused={pinFocus}
               labelAlign="center"
             />
+            <Button mt="2" variant="outline" width="50%" color="violet.500" onClick={onClick}>Log In</Button>
           </Box>
         </Stack>
       )}

@@ -138,7 +138,7 @@ export function Nav(props: any) {
                 </Button>
               ) : (
                 <Stack direction="row" align="center" spacing="1">
-                  <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
+                  <IconButton as={Link} to={`/artist/${getArweavePublicAddress()}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="md" h="33px" />
                   <Center onClick={onOpen} bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
                     <Image  width="100%" rounded="full" src={userInfo?.avatar} />
                   </Center>
@@ -168,11 +168,11 @@ export function Nav(props: any) {
                           <CgNotifications size="20px" />
                           <Text p="2" fontWeight="600">Notifications</Text>
                         </Flex>
-                        <Flex p="2" as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} align="center" shadow="card" rounded="lg">
+                        <Flex p="2" as={Link} to={`/userProfile/${getArweavePublicAddress()}`} align="center" shadow="card" rounded="lg">
                           <RiUserSmileLine size="20px" />
                           <Text p="2" fontWeight="600">Profile</Text>
                         </Flex>
-                        <Flex p="2" as={Link} to={`/wallet/${userInfo?.defaultWallet}`} align="center" shadow="card" rounded="lg">
+                        <Flex p="2" as={Link} to={`/wallet/${getArweavePublicAddress()}`} align="center" shadow="card" rounded="lg">
                           <RiWallet3Line size="20px" />
                           <Text p="2" fontWeight="600">Wallet</Text>
                         </Flex>
@@ -196,15 +196,14 @@ export function Nav(props: any) {
                     </DrawerContent>
                   </Drawer>
                   {isConnected ? (
-                    <Badge onClick={isModalOpen} variant="outline" colorScheme="black" rounded="full">
+                    <Badge variant="outline" colorScheme="black" rounded="full">
                       <Menu>
-                        <MenuButton>
-                        <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
-                          <Text p="2" lineHeight="1"  fontWeight="600" >AD Credits: {myWallet ? (walletBalance?.ar) + ( walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
-                        </Tooltip>
+                        <MenuButton onClick={isModalOpen} >
+                          <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
+                            <Text p="2" lineHeight="1"  fontWeight="600" >AD Credits: {myWallet ? (walletBalance?.ar) + ( walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
+                          </Tooltip>
                         </MenuButton>
                         <MenuList  align="center" >
-                          <RiWallet3Line size="20px" />
                           <MenuItem>
                             <Box align="center" p="2">
                               <Text fontSize="sm" fontWeight="600">AD Credits = RAT + AR + KOII</Text>
@@ -213,34 +212,37 @@ export function Nav(props: any) {
                             </Box>
                           </MenuItem>
                           <MenuItem color="black" align="center">
-                            <Stack align="center" direction="row" spacing="4" cursor="pointer" px="2" py="1" rounded="full" fontSize="sm" fontWeight="600">
-                              {/* Rat balance */}
-                              <Stack direction="row" align="center">
-                                <RatIcon color="black" boxSize="20px" />
-                                <Text fontSize="xs" lineHeight="1">{walletBalance?.ratData?.toFixed?.(3)}</Text>
+                            <Stack direction="row" align="center" justify="space-between">
+                              <Stack align="left" direction="row" spacing="4" cursor="pointer" px="2" py="1" rounded="full" fontSize="sm" fontWeight="600">
+                                {/* Rat balance */}
+                                <Stack direction="row" align="center">
+                                  <RatIcon color="black" boxSize="20px" />
+                                  <Text fontSize="xs" lineHeight="1">{walletBalance?.ratData?.toFixed?.(3)}</Text>
+                                </Stack>
+                                {/* Koii balance */}
+                                <Stack direction="row" align="center">
+                                  <KoiiIcon color="black" boxSize="22px" />
+                                  <Text fontSize="xs" lineHeight="1">{walletBalance?.koii?.toFixed?.(2)}</Text>
+                                </Stack>
+                                {/* Arweave balance */}
+                                <Stack direction="row" align="center">
+                                  <ArweaveIcon color="black" boxSize="20px" />
+                                  <Text fontSize="xs" lineHeight="1">{walletBalance?.ar?.toFixed?.(3)}</Text>
+                                </Stack>
                               </Stack>
-                              {/* Koii balance */}
-                              <Stack direction="row" align="center">
-                                <KoiiIcon color="black" boxSize="22px" />
-                                <Text fontSize="xs" lineHeight="1">{walletBalance?.koii?.toFixed?.(2)}</Text>
-                              </Stack>
-                              {/* Arweave balance */}
-                              <Stack direction="row" align="center">
-                                <ArweaveIcon color="black" boxSize="20px" />
-                                <Text fontSize="xs" lineHeight="1">{walletBalance?.ar?.toFixed?.(3)}</Text>
-                              </Stack>
+                              {/* <Stack align="right">
+                                <RiWallet3Line size="20px" />
+                              </Stack> */}
                             </Stack>
                           </MenuItem>
                         </MenuList>
                       </Menu>
                     </Badge>
                   ) : (
-                    <>
-                      <IconButton onClick={loginHandler} aria-label=""
-                        bg={isLoading ? "red.200" : "red.500"}
-                        icon={<RiWallet3Line color="black" size="20px"/>}
-                      />
-                    </>
+                    <IconButton onClick={loginHandler} aria-label=""
+                      bg={isLoading ? "red.200" : "red.500"}
+                      icon={<RiWallet3Line color="black" size="20px"/>}
+                    />
                   )}
                 </Stack>
               )}
@@ -277,10 +279,10 @@ export function Nav(props: any) {
                       <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
                         Notifications                    
                       </MenuItem>
-                      <MenuItem as={Link} to={`/userProfile/${userInfo?.defaultWallet}`} color="black" icon={<RiUserSmileLine size="20px" />}>
+                      <MenuItem as={Link} to={`/userProfile/${getArweavePublicAddress()}`} color="black" icon={<RiUserSmileLine size="20px" />}>
                         Profile                    
                       </MenuItem>
-                      <MenuItem as={Link} to={`/wallet/${userInfo?.defaultWallet}`} color="black" icon={<RiWallet3Line size="20px" />}>
+                      <MenuItem as={Link} to={`/wallet/${getArweavePublicAddress()}`} color="black" icon={<RiWallet3Line size="20px" />}>
                         Wallet
                       </MenuItem>
                       <MenuItem as={Link} to={`/upload-camera`} color="black" icon={<AiOutlineCamera size="20px" />}>
@@ -312,7 +314,7 @@ export function Nav(props: any) {
                   )}
                 </Flex>
               )}
-              <IconButton as={Link} to={`/artist/${userInfo?.defaultWallet}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
+              <IconButton as={Link} to={`/artist/${getArweavePublicAddress()}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
             </Flex>
           )}
           {/* {modalOpen && (

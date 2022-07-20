@@ -1,6 +1,6 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import { getWalletDetails, createWallet, editWallet, transferTokens } from '../../Actions/walletActions';
+import { editWallet, transferTokens } from '../../Actions/walletActions';
 import { ReactNode, useMemo, memo } from "react";
 import { useDropzone } from "react-dropzone";
 

@@ -90,7 +90,7 @@ export default function LayoutUpload(props: Props) {
   const {
     children,
     bgColor = theme.palette.primary.main,
-    paddingTop = "95px",
+    paddingTop = "90px",
   } = props;
   const { lock } = useLogin();
   // const [openNavDrawer, setOpenNavDrawer] = useState(false);
@@ -121,7 +121,7 @@ export default function LayoutUpload(props: Props) {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton onClick={() => onClose()} />
-          <DrawerHeader direction="row" p="4" align="center">
+          {/* <DrawerHeader direction="row" p="4" align="center">
             <Flex pt="10" align="center" justify="space-between">
               <AiOutlineHome onClick={() => navigate.push("/")} size="20px" color="black"/>
               <GrGallery onClick={() => navigate.push("/gallery")} size="20px" color="black" />
@@ -129,8 +129,8 @@ export default function LayoutUpload(props: Props) {
               <AiOutlineSetting onClick={() => navigate.push("/setting")} size="20px" color="black" />
               <AiOutlineLock onClick={lockScreen} size="20px" color="black" />
             </Flex>
-          </DrawerHeader>
-          <DrawerBody>
+          </DrawerHeader> */}
+          <DrawerBody pt="10">
             {children}
             {pathname !== "/upload" ? (
               <Box>

@@ -12,19 +12,22 @@ import { getFormattedDateFromTimestamp } from "utils/util";
 import { ERROR_IDS } from "utils/constants";
 import { Box, Tooltip, Checkbox, FormControl, Image, FormLabel, Slider, SliderTrack, SliderMark, SliderFilledTrack, SliderThumb, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 import { Login } from "pages/auth";
+import { LoginHelper } from "components/helpers";
 
 export function UploadConfirm() {
   const navigate = useHistory();
   const [loading, setLoading] = useState(false);
+  const [enterPin, setEnterPin] = useState(false)
   const { addFile } = useIpfs();
-  const { getArweavePublicAddress, isConnected, signMessage } = useWallet();
+  const {  isUnlocked, getArweavePublicAddress, isConnected, signMessage } = useWallet();
 
 
   const { imageUrl, tags, title, description, nsfw, releaseDate } = useUpload();
 
   useEffect(() => {
     if(!isConnected) {
-      window.alert("Please unlock wallet first")
+      // window.alert("Please unlock wallet first")
+      setEnterPin(true)
     }
   }, []);
 
@@ -79,7 +82,8 @@ export function UploadConfirm() {
           {loading && (
               <HLoading loading={loading} />
           )}
-          {isConnected ? (
+ 
+          {!enterPin ? (
             <SimpleGrid columns={[1, 2]} gap="2">
               <Box>
                 <Stack p="4" align="center">
@@ -156,7 +160,7 @@ export function UploadConfirm() {
               </Box>
             </SimpleGrid>
           ) : (
-            <Login />
+            <LoginHelper />
           )}
           
         </Stack>

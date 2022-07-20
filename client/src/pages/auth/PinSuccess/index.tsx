@@ -22,7 +22,7 @@ export function PinSuccess() {
   const { register } = useLogin();
   const [pwaMode, setPwaMode] = useState(false);
   const [open, setOpen] = useState(false);
-  const [installable, setInstallable] = useState(true);
+  const [installable, setInstallable] = useState(false);
   const [recModal, setRecModal] = useState<Boolean>(false);
 
   const userSignin = useSelector((state: any) => state.userSignin);
@@ -95,6 +95,7 @@ export function PinSuccess() {
   useEffect(() => {
     if (isPWA()) {
       setPwaMode(true);
+      setInstallable(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -142,7 +143,7 @@ export function PinSuccess() {
                   </Box>
                 </Tooltip>
 
-                <Box align="center">
+                <Box align="center" p="2">
                   <Button width="50%" variant="outline" color="violet.500" onClick={onClick}>
                     {pwaMode ? "Let's Go" : "Save & Launch"}
                   </Button>

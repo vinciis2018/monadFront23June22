@@ -14,7 +14,7 @@ export default customAxios;
 
 //change to an environment url eventually
 export const instance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_URL,
+  baseURL: process.env.REACT_APP_UPLOAD_URL,
 });
 
 // TODO: we could do better by creating an instance and assign the instance configs/options.

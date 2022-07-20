@@ -13,19 +13,20 @@ import {
   CameraType,
   FacingMode,
 } from "react-camera-pro/dist/components/Camera/types";
+import { AiOutlineArrowLeft, AiOutlineUpload } from "react-icons/ai"
 
-import { AiOutlineArrowLeft, AiOutlineLock } from "react-icons/ai"
 
 export function Active() {
   const navigate = useHistory();
+
   const { setImageUrl } = useUpload();
   const camera = useRef<CameraType>(null);
   const [facingMode, setFacingMode] = useState<FacingMode>("environment");
   const [showKeyPhraseSaveModal, setShowKeyPhraseSaveModal] = useState<boolean>(true);
   const { logout } = useLogin();
   const { getArweavePublicAddress } = useWallet();
-  console.log(`${getArweavePublicAddress()}`)
   
+
   const handleCloseModal = () => {
     setShowKeyPhraseSaveModal(false);
   };
@@ -73,12 +74,10 @@ export function Active() {
             <Text fontSize="xl" fontWeight="600" >
               Welcome to Finnie
             </Text>
-            <AiOutlineLock onClick={() => navigate.push("/logout")} size="20px" color="black" />
+            <AiOutlineUpload onClick={() => navigate.push("/upload-photos")} size="20px" color="black" />
           </Flex>
           <hr />
-          <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="click karo, paisa hi paisa hoga" aria-label='A tooltip'>
-            <Image  alt="click karo, paisa hi paisa hoga" p="4" src={`https://cdn3d.iconscout.com/3d/premium/thumb/startup-3025714-2526912.png`}/>
-          </Tooltip>
+
           <LayoutUpload paddingTop="0px">
             <Camera
               ref={camera}
@@ -95,8 +94,12 @@ export function Active() {
               }}
             />
             <CameraHandlers onShut={takePhoto} onSwitch={onSwitch} />
-   
+  
           </LayoutUpload>
+          <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="click karo, paisa hi paisa hoga" aria-label='A tooltip'>
+            <Image  alt="click karo, paisa hi paisa hoga" p="4" src={`https://cdn3d.iconscout.com/3d/premium/thumb/startup-3025714-2526912.png`}/>
+          </Tooltip>
+          
           <KeyPhraseSaveModal
             onClose={handleCloseModal}
             open={showKeyPhraseSaveModal}
