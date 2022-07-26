@@ -18,7 +18,6 @@ import { SCREEN_REVIEW_CREATE_RESET } from '../../Constants/screenConstants';
 
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
-import { useFinnie } from 'components/finnie';
 
 export function ScreenDetail (props: any) {
   const screenId = props.match.params.id;

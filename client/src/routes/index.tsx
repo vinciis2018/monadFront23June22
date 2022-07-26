@@ -74,27 +74,27 @@ export const Routes = () => {
         <PublicRoute exact path="/signin" component={Signin} layout={AppLayout} />
         <PublicRoute exact path="/signup" component={Signup} layout={AppLayout} />
 
-        <PublicRoute exact path="/login" component={Login} layout={AppLayout} />
+        <PrivateRoute exact path="/login" component={Login} layout={AppLayout} />
         <PublicRoute exact path="/logout" component={Logout} layout={AppLayout} />
 
-        <PublicRoute exact path="/welcome" component={Welcome} layout={AppLayout} />
-        <PublicRoute exact path="/pin-create" component={PinCreate} layout={AppLayout} />
-        <PublicRoute exact path="/pin-success" component={PinSuccess} layout={AppLayout} />
-        <PublicRoute exact path="/key-recovery" component={KeyRecovery} layout={AppLayout} />
-        <PublicRoute exact path="/key-confirm" component={KeyConfirm} layout={AppLayout} />
-        <PublicRoute exact path="/key-phrase-save" component={KeyPhraseSave} layout={AppLayout} />
-        <PublicRoute exact path="/key-management" component={KeyManagement} layout={AppLayout} />
+        <PrivateRoute exact path="/welcome" component={Welcome} layout={AppLayout} />
+        <PrivateRoute exact path="/pin-create" component={PinCreate} layout={AppLayout} />
+        <PrivateRoute exact path="/pin-success" component={PinSuccess} layout={AppLayout} />
+        <PrivateRoute exact path="/key-recovery" component={KeyRecovery} layout={AppLayout} />
+        <PrivateRoute exact path="/key-confirm" component={KeyConfirm} layout={AppLayout} />
+        <PrivateRoute exact path="/key-phrase-save" component={KeyPhraseSave} layout={AppLayout} />
+        <PrivateRoute exact path="/key-management" component={KeyManagement} layout={AppLayout} />
 
-        <PublicRoute exact path={"/upload"} component={Active} layout={AppLayout} />
+        <PrivateRoute exact path={"/upload"} component={Active} layout={AppLayout} />
         <WalletRoute exact path="/upload-photos" component={PhotoView} layout={AppLayout} />
         <WalletRoute exact path="/upload-tags" component={UploadTags} layout={AppLayout} />
         <WalletRoute exact path="/upload-delay" component={UploadDelay} layout={AppLayout} />
         <WalletRoute exact path="/upload-confirm" component={UploadConfirm} layout={AppLayout} />
         <WalletRoute exact path="/upload-success" component={Success} layout={AppLayout} />
         <WalletRoute exact path="/upload-archive" component={UploadArchive} layout={AppLayout} />
-        <PublicRoute exact path="/upload-camera" component={CameraHome} layout={AppLayout} />
+        <PrivateRoute exact path="/upload-camera" component={CameraHome} layout={AppLayout} />
 
-        <PublicRoute exact path="/setting" component={Setting} layout={AppLayout} />
+        <PrivateRoute exact path="/setting" component={Setting} layout={AppLayout} />
         <WalletRoute exact path="/setting/advanced" component={Advanced} layout={AppLayout} />
         <WalletRoute exact path="/setting/update-pin" component={UpdatePin} layout={AppLayout} />
         <WalletRoute exact path="/setting/wifi-test" component={WifiTesting} layout={AppLayout} />

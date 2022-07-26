@@ -24,8 +24,8 @@ import { detailsScreen } from '../../Actions/screenActions';
 import { LoadingBox, MessageBox } from "components/helpers";
 
 import { useNft } from 'api/hooks/useNft';
-import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
+import { useWallet } from "components/contexts";
 
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
 import { createAdvertGame, removeAdvertGame, getAdvertGameDetails, getScreenGameDetails } from '../../Actions/gameActions';
@@ -39,12 +39,13 @@ export function AdvertEdit (props: any) {
   
   const navigate = useHistory();
   
+  const [walletAddress, setWalletAddress] = React.useState<any>();
   const [txId, setTxId] = React.useState<any>(props.match.params.txId);
   const {data: nft, isLoading, isError} = useNft({id: txId});
 
   const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected }
-  } = useFinnie();
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading: finnieLoading
+  } = useWallet();
 
   const { data: artist, 
     isLoading: isLoadingArtist, 
@@ -180,9 +181,10 @@ export function AdvertEdit (props: any) {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    if(!isFinnieConnected) {
-      connectFinnie()
+    if(!finnieLoading) {
+      setWalletAddress(getArweavePublicAddress())
     }
+
     if (!video || video._id !== videoId || successVideoUpdate) {
       dispatch({
         type: VIDEO_UPDATE_RESET
@@ -634,7 +636,7 @@ const openTimeModal = () => {
                     </Stack>
                   ) : (
                     <Stack p="2" >
-                      {isFinnieConnected && (
+                      {!finnieLoading && (
                         <Stack>
                           {advert !== null && (
                             <Stack>

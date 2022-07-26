@@ -16,14 +16,13 @@ import { useLogin, useWallet } from "components/contexts";
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
 import { useArtist } from "api/hooks";
-import { useFinnie } from 'components/finnie';
 
 export function AdvertCreate (props: any) {
   const screenId = props.match.params.screenId;
   const walletAddress = props.match.params.walletAddress;
 
   const {
-    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading
   } = useWallet();
 
   const { data: artist, 
@@ -70,7 +69,7 @@ export function AdvertCreate (props: any) {
   const dispatch = useDispatch();
   React.useEffect(() => {
 
-    if(!isConnected) {
+    if(isLoading) {
       window.alert("Please login with your wallet to continue")
     }
 
@@ -87,7 +86,7 @@ export function AdvertCreate (props: any) {
     dispatch,
     txId,
     successVideoSave,
-    isConnected,
+    isLoading,
     artist
   ])
 
@@ -142,7 +141,7 @@ export function AdvertCreate (props: any) {
         </Stack>
 
         <Stack p="2" >
-          {isConnected && (
+          {!isLoading && (
             <Stack>
               {advert !== null && (
                 <Stack>

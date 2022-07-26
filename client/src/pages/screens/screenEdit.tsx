@@ -18,7 +18,6 @@ import {getScreenCalender} from '../../Actions/calenderActions';
 import { createScreenGame, removeScreenGame, getScreenGameDetails } from '../../Actions/gameActions';
 
 import { triggerPort } from 'services/utils';
-import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
 import { arweaveWalletConnect } from 'api/arweaveWallet';
@@ -30,7 +29,7 @@ export function ScreenEdit (props: any) {
   const screenId = props.match.params.id;
   
   const {
-    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading
   } = useWallet();
 
   const { data: artist, 
@@ -122,7 +121,7 @@ export function ScreenEdit (props: any) {
   const dispatch = useDispatch();
   React.useEffect(() => {
 
-    if(isConnected) {
+    if(!isLoading) {
       getArweavePublicAddress()
     } 
 
@@ -321,7 +320,7 @@ export function ScreenEdit (props: any) {
               <LoadingBox></LoadingBox>
             ) : (
               <Stack align="center">
-                {isConnected && artist?.nfts?.length !== 0 && (
+                {!isLoading && artist?.nfts?.length !== 0 && (
                   <FormControl p="2" id="image"> 
                     <Select
                       placeholder="screen image"

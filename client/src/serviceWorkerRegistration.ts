@@ -139,6 +139,7 @@ export function unregister() {
     navigator.serviceWorker.ready
       .then((registration) => {
         registration.unregister();
+        console.log("service worker registered");
       })
       .catch((error) => {
         console.error(error.message);

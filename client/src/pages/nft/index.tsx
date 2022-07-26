@@ -35,7 +35,7 @@ import { KoiiIcon } from "components/icons";
 import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
 import { motion } from "framer-motion";
 
-import { ReportModal, ShareModal, TipArtistModal } from "components/modals";
+import { ReportModal, ShareModal } from "components/modals";
 
 import { RiFlagFill } from "react-icons/ri";
 

@@ -13,7 +13,6 @@ import { USER_UPDATE_PROFILE_RESET, USER_UPDATE_RESET } from '../../Constants/us
 
 import { CopyableAddress, EmptyState, ErrorState } from "components/ui";
 import { triggerPort } from 'services/utils';
-import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
 import { LoadingBox, MessageBox } from 'components/helpers';
@@ -79,10 +78,7 @@ export function UserProfile(props: any) {
   const dispatch = useDispatch()
   React.useEffect(() => {
     hasEncryptedData().then((res) => {
-      if(res) {
-        getCommon().then((jwk: any) => setWalletName(jwk))
-      }
-      
+      getCommon().then((jwk: any) => setWalletName(jwk))
     }).catch((e: any) => {
       props.history.push("/login")
       console.log(e)
@@ -393,28 +389,33 @@ export function UserProfile(props: any) {
                   })} 
                 </Stack>
               </Box>
-              <Box m="">
-                <Flex p="2" align="center" justify="space-between">
-                  <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
-                  <IconButton onClick={() => props.history.push("/upload-photos")} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
-                </Flex>
-
-                {artist?.nfts?.length !== 0 && (
-                  <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
-                    {artist?.nfts?.map((nft: Record<string, any>) => (
-                      <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
-                        {isLoading ? (
-                          <LoadingBox></LoadingBox>
-                        ) : isError ? (
-                          <MessageBox message={isError}></MessageBox>
-                        ) : (
-                          <ThumbnailCard nft={nft} />
-                        )}
-                      </Box>
-                    ))}
-                  </SimpleGrid>
-                )}
-              </Box>
+              {artist?.nfts ? (
+                <Box m="">
+                  <Flex p="2" align="center" justify="space-between">
+                    <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
+                    <IconButton onClick={() => props.history.push("/upload-photos")} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
+                  </Flex>
+      
+                  {artist?.nfts?.length !== 0 && (
+                    <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
+                      {artist?.nfts?.map((nft: Record<string, any>) => (
+                        <Box align="center" p="" key={nft?.id} rounded="md" shadow="card" onClick={() => props.history.push(`/nft/${nft?.id}`)} >
+                          {isLoading ? (
+                            <LoadingBox></LoadingBox>
+                          ) : isError ? (
+                            <MessageBox variant="danger">{isError}</MessageBox>
+                          ) : (
+                            <ThumbnailCard nft={nft} />
+                          )}
+                        </Box>
+                      ))}
+                    </SimpleGrid>
+                  )}
+                </Box>
+              ) : (
+                <MessageBox>"Please wait while your media loads"</MessageBox>
+              )}
+              
             </Stack>
           )}
         </Box>

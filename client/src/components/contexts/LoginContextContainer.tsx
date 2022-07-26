@@ -39,7 +39,7 @@ const ContextProvider = ({ children }: WithChildren) => {
   const [user, setUser, clearUser] = useLocalStorage<User>("user", undefined);
 
   // TODO: Context in a context is not a good pattern I guess
-  const { isUnlocked, isPinSetup, isConnected } = useWallet();
+  const { isUnlocked, isPinSetup, isLoading } = useWallet();
   
 
   const askForPermissions = () => {
@@ -96,7 +96,7 @@ const ContextProvider = ({ children }: WithChildren) => {
     if (user) {
       const expired = user.expired;
       const current = Math.floor(Date.now() / 1000);
-      if (current - Number(expired) < 0 && isConnected) {
+      if (current - Number(expired) < 0 && !isLoading) {
 
         if (AUTH_ROUTES.includes(pathname)) {
           const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins

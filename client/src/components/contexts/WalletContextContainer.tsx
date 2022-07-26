@@ -18,12 +18,13 @@ import {
 } from "services";
 import { ERROR_IDS } from "utils/constants";
 import { WithChildren } from "types/utils";
+import { getAddress, getBalances, getExhangeRate, getHistoricalData, getLastTransaction, getPrice } from "api/sdk";
 
 interface Context {
   mnemonics: string | undefined;
   isLoading: boolean;
-  isConnected: any;
   getCommon: any;
+  
   hasEncryptedData(): Promise<boolean>;
   generateAndSave(pin: string): Promise<void>;
   importAndSave(pin: string, mnemonics: string): Promise<void>;
@@ -51,8 +52,6 @@ export const ContextProvider = ({ children }: WithChildren) => {
   );
   const [mnemonics, setMnemonics] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [isConnected, setIsConnected] = useState<any>(false);
-
 
   /**
    * Func Helpers
@@ -121,12 +120,11 @@ export const ContextProvider = ({ children }: WithChildren) => {
   const isUnlocked = async (): Promise<boolean> => {
     const data = Boolean((await hasEncryptedData()) || $jwk);
     if(data) {
-      setIsConnected(true);
       setIsLoading(false);
     } else {
       setIsLoading(true)
     }
-    return isConnected;
+    return isLoading;
   };
 
   const getCommon = () => {
@@ -196,8 +194,8 @@ export const ContextProvider = ({ children }: WithChildren) => {
       value={{
         mnemonics,
         isLoading,
-        isConnected,
         getCommon,
+
         hasEncryptedData,
         generateAndSave,
         importAndSave,

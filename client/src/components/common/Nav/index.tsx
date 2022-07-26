@@ -2,8 +2,6 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 
-// context
-import { useFinnie } from "components/finnie";
 import { signout } from '../../../Actions/userActions';
 
 import {useWindowSize} from "components/utils";
@@ -20,12 +18,21 @@ import Logo from "assets/logo.png";
 import Name from "assets/name.png";
 
 import { LoadingBox, MessageBox } from "components/helpers";
+
+// context
 import { useLogin, useWallet } from "components/contexts";
 import { LoginHelper } from "components/helpers";
 import { editWallet } from "../../../Actions/walletActions";
+import { isPWA } from "utils/util";
+import { getBalances } from "api/sdk";
 
 export function Nav(props: any) {
   const { width } = useWindowSize();
+  const [pwaMode, setPwaMode] = React.useState(false);
+  const [ walletBalance , setWalletBalance ] = React.useState({ar: 0, koii: 0, ratData: 0});
+  const [ price , setPrice ] = React.useState();
+
+
   const navigate = useHistory();
 
   const style = {
@@ -40,12 +47,12 @@ export function Nav(props: any) {
   };
   const [modalOpen, setModalOpen] = React.useState<Boolean>(false);
   /* Finnie */
-  const {
-    state: { connectFinnie, disconnectFinnie, walletAddress, walletBalance },
-  } = useFinnie();
+  // const {
+  //   state: { walletBalance },
+  // } = useBalance();
 
   const {
-    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading, isConnected
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading
   } = useWallet();
 
   const [myWallet, setMyWallet] = React.useState<String>(getArweavePublicAddress());
@@ -62,8 +69,12 @@ export function Nav(props: any) {
   } = userSignin;
 
   React.useEffect(() => {
+
+    if (isPWA()) {
+      setPwaMode(true);
+    }
+
     const walletAdd = getArweavePublicAddress();
-    const isUn = isUnlocked();
 
     if(walletAdd !== userInfo?.defaultWallet) {
       dispatch(editWallet({ walletAdd }))
@@ -72,23 +83,23 @@ export function Nav(props: any) {
       lockMyWallet();
     } else {
       setMyWallet(walletAdd);
-      connectFinnie();
     }
 
-    if (isConnected) {
+    if (!isLoading) {
       setModalOpen(false)
-      getArweavePublicAddress(),
-      connectFinnie();
+      getBalances(walletAdd).then((res: any) => {
+        setWalletBalance(res)
+      });
     }
+
   },[
     dispatch,
     userInfo,
-    walletAddress,
-    isConnected
+    isLoading,
+    // walletBalance
   ]);
 
   const signoutHandler = () => {
-    disconnectFinnie();
     lock();
     logout();
     lockMyWallet();
@@ -125,7 +136,75 @@ export function Nav(props: any) {
         <MessageBox variant="danger">{errorUserInfo}</MessageBox>
       ) : (
         <Box >
-          {width > 500 && (
+          {width < 500 ? (
+            <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
+              {!userInfo ? (
+                <>
+                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={Link} to={`/signin`} size="sm" fontSize="xs">
+                    Please Signin
+                  </Button>
+                </>
+              ) : (
+                <Flex align="center">
+                  <Menu>  
+                    <MenuButton>
+                      <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
+                        <Center as={Link} to="/" bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
+                          <Image width="100%" rounded="full" src={userInfo?.avatar} />
+                        </Center>
+                      </Tooltip>
+                    </MenuButton>
+                    <MenuList>
+                      <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
+                        Explore                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/screens`} color="black" icon={<AiOutlineFundProjectionScreen size="20px" />}>
+                        Screens                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
+                        Adverts                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
+                        Notifications                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/userProfile/${getArweavePublicAddress()}`} color="black" icon={<RiUserSmileLine size="20px" />}>
+                        Profile                    
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/wallet/${getArweavePublicAddress()}`} color="black" icon={<RiWallet3Line size="20px" />}>
+                        Wallet
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/upload-camera`} color="black" icon={<AiOutlineCamera size="20px" />}>
+                        Camera
+                      </MenuItem>
+                      <MenuItem as={Link} to={`/setting`} color="black" icon={<AiOutlineSetting size="20px" />}>
+                        Settings
+                      </MenuItem>
+                      <MenuItem onClick={lockWallet} color="black" icon={<IoRemoveCircle size="20px" />}>
+                        Disconnect
+                      </MenuItem>
+                      <MenuItem onClick={signoutHandler} color="black" icon={<RiLogoutBoxRLine size="20px" />}>
+                        Logout
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>  
+                  {!isLoading ? (
+                    <Badge onClick={isModalOpen} borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
+                      <Flex align="center" justify="space-between">
+                        <Text lineHeight="1" p="1">{myWallet ? (walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
+                        <RiWallet3Line size="15px" color="black"/>
+                      </Flex>
+                    </Badge>
+                  ) : (
+                    <IconButton onClick={onClick} aria-label="Connect"
+                      bg={isLoading ? "red.200" : "red.500"}
+                      icon={<RiWallet3Line color="black" size="20px"/>}
+                    />
+                  )}
+                </Flex>
+              )}
+              <IconButton as={Link} to={`/artist/${getArweavePublicAddress()}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
+            </Flex>
+          ) : (
             <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
               <Stack as={Link} to="/" direction="row" align="center">
                 <Image width={{ base: 30, lg: "50px" }} src={Logo} />
@@ -195,7 +274,7 @@ export function Nav(props: any) {
                       </DrawerBody>
                     </DrawerContent>
                   </Drawer>
-                  {isConnected ? (
+                  {!isLoading ? (
                     <Badge variant="outline" colorScheme="black" rounded="full">
                       <Menu>
                         <MenuButton onClick={isModalOpen} >
@@ -247,75 +326,8 @@ export function Nav(props: any) {
                 </Stack>
               )}
             </Flex>
-          )}
-          {width <= 500 && (
-            <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
-              {!userInfo ? (
-                <>
-                  <Button bgGradient="linear-gradient(to left, #BC78EC, #7833B6)" as={Link} to={`/signin`} size="sm" fontSize="xs">
-                    Please Signin
-                  </Button>
-                </>
-              ) : (
-                <Flex align="center">
-                  <Menu>  
-                    <MenuButton>
-                      <Tooltip bg="violet.500" color="white" hasArrow placement="bottom" label="Click for Menu">
-                        <Center as={Link} to="/" bg="gray.100" border="1px solid white" shadow="card" mx="auto" rounded="full" color="blue.100" boxSize="50px" flexBasis="50px" flexShrink="0">
-                          <Image width="100%" rounded="full" src={userInfo?.avatar} />
-                        </Center>
-                      </Tooltip>
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem as={Link} to={`/mapbox`} color="black" icon={<RiGlobeLine size="20px" />}>
-                        Explore                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/screens`} color="black" icon={<AiOutlineFundProjectionScreen size="20px" />}>
-                        Screens                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/adverts`} color="black" icon={<RiAdvertisementLine size="20px" />}>
-                        Adverts                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/pleaBucket`} color="black" icon={<CgNotifications size="20px" />}>
-                        Notifications                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/userProfile/${getArweavePublicAddress()}`} color="black" icon={<RiUserSmileLine size="20px" />}>
-                        Profile                    
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/wallet/${getArweavePublicAddress()}`} color="black" icon={<RiWallet3Line size="20px" />}>
-                        Wallet
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/upload-camera`} color="black" icon={<AiOutlineCamera size="20px" />}>
-                        Camera
-                      </MenuItem>
-                      <MenuItem as={Link} to={`/setting`} color="black" icon={<AiOutlineSetting size="20px" />}>
-                        Settings
-                      </MenuItem>
-                      <MenuItem onClick={() => lock()} color="black" icon={<IoRemoveCircle size="20px" />}>
-                        Disconnect
-                      </MenuItem>
-                      <MenuItem onClick={signoutHandler} color="black" icon={<RiLogoutBoxRLine size="20px" />}>
-                        Logout
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>  
-                  {isConnected ? (
-                    <Badge onClick={isModalOpen} borderRadius='full' px='4' py="2" variant="outline" colorScheme='black'>
-                      <Flex align="center" justify="space-between">
-                        <Text lineHeight="1" p="1">{myWallet ? (walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData) : "wallet locked"}</Text>
-                        <RiWallet3Line size="15px" color="black"/>
-                      </Flex>
-                    </Badge>
-                  ) : (
-                    <IconButton onClick={onClick} aria-label="Connect"
-                      bg={isLoading ? "red.200" : "red.500"}
-                      icon={<RiWallet3Line color="black" size="20px"/>}
-                    />
-                  )}
-                </Flex>
-              )}
-              <IconButton as={Link} to={`/artist/${getArweavePublicAddress()}`} icon={<RiSearch2Line size="20px" color="black" />} aria-label="search-what-you-are-looking-for" bg="none" rounded="sm" h="33px" />
-            </Flex>
+
+           
           )}
           {/* {modalOpen && (
             <LoginHelper />

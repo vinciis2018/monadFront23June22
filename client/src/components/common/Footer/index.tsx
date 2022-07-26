@@ -1,3 +1,4 @@
+import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 // ui
 import { Box, Flex, Link, Center, Image, Stack, Heading, Text, HStack, IconButton} from "@chakra-ui/react";
@@ -10,10 +11,12 @@ import { AiOutlineFundProjectionScreen, AiOutlineSetting, AiOutlineHome } from "
 import {useWindowSize} from "components/utils";
 import Logo from "assets/logo.png";
 import Name from "assets/name.png";
+import { isPWA } from "utils/util";
 
 
 export function Footer() {
   const { width } = useWindowSize();
+  const [pwaMode, setPwaMode] = React.useState(false);
 
   const style = {
     bgColor:"gray.100",
@@ -27,9 +30,27 @@ export function Footer() {
 
   };
 
+  React.useEffect(() => {
+    if (isPWA()) {
+      setPwaMode(true);
+    }
+  }, [])
+
   return (
     <Box as="footer" role="" color="black" bg="gray.100">
-      {width > 500 && (
+       {width < 500 ? (
+        <Box __css={style}>
+          <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="2" px="4">
+            <span />
+            <IconButton as={RouterLink} to={`/`} bg="none" icon={<AiOutlineHome size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton>
+            <IconButton as={RouterLink} to={`/screens`} bg="none" icon={<AiOutlineFundProjectionScreen size="20px" color="black" />} aria-label="Vinciis Instagram"></IconButton>
+            <IconButton as={RouterLink} to={`/mapbox`} bg="none" icon={<CgAdd size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton>
+            <IconButton as={RouterLink} to={`/pleaBucket`} bg="none" icon={<CgNotifications size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton>
+            <IconButton as={RouterLink} to={`/setting`} bg="none" icon={<AiOutlineSetting size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton>
+            <span />
+          </Flex>
+        </Box>
+      ) : (
         <Stack mx="auto" maxW="container.md" justify="space-between" align="center" py="2" px="4">
           <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="3">
             <HStack px="10" py="5">
@@ -92,19 +113,7 @@ export function Footer() {
           </Stack>
         </Stack>
       )}
-      {width <= 500 && (
-        <Box __css={style}>
-          <Flex mx="auto" maxW="container.lg" justify="space-between" align="center" py="2" px="4">
-            <span />
-            <IconButton as={RouterLink} to={`/`} bg="none" icon={<AiOutlineHome size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton>
-            <IconButton as={RouterLink} to={`/screens`} bg="none" icon={<AiOutlineFundProjectionScreen size="20px" color="black" />} aria-label="Vinciis Instagram"></IconButton>
-            <IconButton as={RouterLink} to={`/mapbox`} bg="none" icon={<CgAdd size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton>
-            <IconButton as={RouterLink} to={`/pleaBucket`} bg="none" icon={<CgNotifications size="20px" color="black" />} aria-label="Vinciis Twitter"></IconButton>
-            <IconButton as={RouterLink} to={`/setting`} bg="none" icon={<AiOutlineSetting size="20px" color="black" />} aria-label="Vinciis Facebook"></IconButton>
-            <span />
-          </Flex>
-        </Box>
-      )}
+     
     </Box>
   );
 }

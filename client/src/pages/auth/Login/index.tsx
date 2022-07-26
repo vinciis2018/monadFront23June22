@@ -55,7 +55,7 @@ export function Login() {
               if (target) {
                 navigate.push("/" + target);
               } 
-                navigate.push("/setting");
+                navigate.goBack();
             })
             .catch((error: Error) => {
               if (error.message.includes(ERROR_IDS.NO_CONTENT)) {

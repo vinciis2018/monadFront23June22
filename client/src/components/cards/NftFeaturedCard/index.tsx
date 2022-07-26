@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useNft } from "api/hooks";
 // ui
 import { Flex, Link, Image, Heading, Text, Center, Spinner, Box, Stack, ButtonGroup, Button, Skeleton, useDisclosure } from "@chakra-ui/react";
-import { ReportModal, ShareModal, TipArtistModal } from "components/modals";
+import { ReportModal, ShareModal } from "components/modals";
 // assets
 import fallbackImage from "assets/fallback.png";
 
@@ -117,7 +117,6 @@ const Footbar = ({ nft }: Props) => {
       {/* Modals */}
       {isReportModalOpen && <ReportModal isOpen={isReportModalOpen} onClose={closeReportModal} nftId={nft?.id} nftTitle={nft?.title} />}
       {isShareModalOpen && <ShareModal isOpen={isShareModalOpen} onClose={closeShareModal} nftId={nft?.id} nftTitle={nft?.title} />}
-      {isTipModalOpen && <TipArtistModal isOpen={isTipModalOpen} onClose={closeTipModal} artistAddress={nft?.owner} artistName={nft?.name} />}
 
       <Stack direction="row" p="2" roundedBottom="md" bg="blue.500" color="white" zIndex="3">
         <ButtonGroup

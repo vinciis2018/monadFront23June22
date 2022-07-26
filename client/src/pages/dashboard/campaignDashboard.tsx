@@ -16,7 +16,6 @@ import { getVideoDetails, likeVideo, unlikeVideo, deleteVideo } from '../../Acti
 
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
-import { useFinnie } from 'components/finnie';
 
 
 export function CampaignDashboard(props: any) {
@@ -26,11 +25,6 @@ export function CampaignDashboard(props: any) {
   const {data: nft, isLoading, isError} = useNft({id: txId});
   const {data: nftData } = useNftData({id: txId});
   console.log("nft", {nft})
-
-  /* Finnie */
-  const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
-  } = useFinnie();
 
   const [campaignModalOpen, setCampaignModalOpen] = React.useState<boolean>(false);
 

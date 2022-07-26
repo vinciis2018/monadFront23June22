@@ -17,16 +17,11 @@ import { getScreenGameDetails } from '../../Actions/gameActions';
 
 import { useNftData, useNft } from 'api/hooks/useNft';
 import { NftMediaContainer } from 'components/common/NftMediaContainer/index';
-import { useFinnie } from 'components/finnie';
 
 
 export function ScreenDashboard(props: any) {
   const screenId = props.match.params.id;
   // const txId = props.match.params.txId;
-  /* Finnie */
-  const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
-  } = useFinnie();
 
   const [dashboardModalOpen, setDashboardModalOpen] = React.useState<boolean>(false);
 
@@ -84,10 +79,6 @@ export function ScreenDashboard(props: any) {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-
-    if(!isFinnieConnected) {
-      connectFinnie();
-    }
 
     if(!screen) {
       dispatch(detailsScreen(screenId));

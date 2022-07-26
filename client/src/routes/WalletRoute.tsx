@@ -20,9 +20,7 @@ function EmptyLayout({ children }: Props) {
 const WalletRoute: React.FC<PrivateRouteProps> = ({ component: Component, layout: Layout = EmptyLayout, ...rest }) => {
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo } = userSignin;
-  const {isUnlocked, unlock, lock, getArweavePublicAddress, isLoading, isConnected
-    // walletBalance, walletPrice, xchangeRate, lastTxn, tokenHis 
-  } = useWallet();
+  const {isUnlocked, unlock, lock, getArweavePublicAddress, isLoading } = useWallet();
 
   return (
     <Route
@@ -31,7 +29,7 @@ const WalletRoute: React.FC<PrivateRouteProps> = ({ component: Component, layout
         if (!userInfo) {
           return <Redirect to="/signin" />;
         }
-        if(!isConnected) {
+        if(isLoading) {
           return <Redirect to="/login" />;
         }
         return (

@@ -52,7 +52,6 @@ import {
   USER_ITEMS_SUCCESS,
   USER_ITEMS_FAIL
 } from "../Constants/userConstants"
-import { useFinnie } from '../components/finnie';
 
 
 

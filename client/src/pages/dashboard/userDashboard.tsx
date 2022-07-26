@@ -13,7 +13,6 @@ import { USER_UPDATE_PROFILE_RESET, USER_UPDATE_RESET } from '../../Constants/us
 
 import { CopyableAddress, EmptyState, ErrorState } from "components/ui";
 import { triggerPort } from 'services/utils';
-import { useFinnie } from 'components/finnie';
 import { useArtist } from "api/hooks";
 import { Map } from 'pages/map/Map';
 import { LoadingBox, MessageBox } from 'components/helpers';
@@ -28,10 +27,6 @@ export function UserDashboard(props: any) {
   const { pageNumber = 1 } = useParams<any>();
 
   const { data: artist, isLoading, isError } = useArtist({ id: props?.match?.params?.id });
-  /* Finnie */
-  const {
-    state: { connectFinnie, walletAddress, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
-  } = useFinnie();
 
   const artistData = useMemo(() => {
     return {
@@ -74,12 +69,8 @@ export function UserDashboard(props: any) {
   const dispatch = useDispatch()
   React.useEffect(() => {
     
-    if(!isFinnieConnected) {
-      connectFinnie();
-    }
-
     if (!user) {
-      dispatch(detailsUser({userId: userInfo._id, walletAddress: walletAddress}));
+      dispatch(detailsUser({userId: userInfo._id, walletAddress: props?.match?.params?.id}));
     }
     dispatch(userScreensList(userInfo));
     dispatch(userVideosList(userInfo));
@@ -108,7 +99,7 @@ export function UserDashboard(props: any) {
               <Box p="2" shadow="card" rounded="lg">
                 <Text onClick={() => props.history.push(`/dashboard/user/${userInfo?.defaultWallet}`)} p="2"fontWeight="600" fontSize="md">{userInfo?.name}</Text>
                 <Text px="2" fontWeight="" fontSize="xs" color="gray.500">User ID: {userInfo._id}</Text>
-                <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text>
+                {/* <Text p="2" fontWeight="" fontSize="xs">₹ {walletPrice?.totalPrice?.toFixed(3)}</Text> */}
                 <SimpleGrid gap="2" columns={[3]} p="2">
                   <Box onClick={() => props.history.push(`/screens`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Screens</Text>

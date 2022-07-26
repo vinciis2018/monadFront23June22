@@ -1,14 +1,8 @@
 import React, {useEffect, useCallback, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { editWallet, transferTokens } from '../../Actions/walletActions';
-import { ReactNode, useMemo, memo } from "react";
-import { useDropzone } from "react-dropzone";
-
 import {Link as RouterLink, useHistory} from 'react-router-dom';
 import { Box, Tooltip, Image, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
-
-import { useArtist } from "api/hooks";
-import { NftFeaturedCard } from "components/cards";
 
 import {LoadingBox, MessageBox} from 'components/helpers';
 import { detailsUser } from '../../Actions/userActions';
@@ -24,16 +18,20 @@ import {BiChevronDown, BiChevronUp, BiTransfer, BiWallet} from 'react-icons/bi';
 import {ArrowBackIcon, ArrowDownIcon, ArrowUpIcon, EditIcon, InfoIcon, CalendarIcon, TimeIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons"
 import {AiOutlineSetting} from 'react-icons/ai';
 import { BsGear, BsCloudUpload, BsArrowUpRight, BsArrowDownLeft, BsArrowUpRightCircle } from 'react-icons/bs';
-import { useFinnie } from 'components/finnie';
-import { arweaveWalletConnect } from 'api/arweaveWallet';
 import { ArweaveIcon, KoiiIcon, RatIcon } from 'components/icons';
-import { getExhangeRate, getHistoricalData } from 'api/sdk';
 import { useWallet } from 'components/contexts';
+import { getAddress, getBalances, getExhangeRate, getHistoricalData, getLastTransaction, getPrice } from "api/sdk";
 
 export function Wallet(props: any) {
 
   const walletAddAr = props.match.params.id;
   const navigate = useHistory();
+
+  const [walletBalance, setWalletBalance] = useState<any>({ar: 0, koii: 0, ratData: 0});
+  const [walletPrice, setWalletPrice ] = useState<any>();
+  const [exchangeValue, setExchangeValue] = useState<any>("1");
+  const [lastTxn, setLastTxn] = useState<any>();
+  const [tokenHis, setTokenHis] = useState<any>();
 
   const [keyModal, setKeyModal] = useState<any>(false)
   const [toWallet, setToWallet] = useState<any>("");
@@ -43,7 +41,6 @@ export function Wallet(props: any) {
 
   const [walletId, setWalletId] = useState<any>("");
   const [walletName, setWalletName] = useState<any>("");
-  const [exchangeValue, setExchangeValue] = useState<any>("1");
 
 
   const [anftModalVisible, setAnftModalVisible] = useState<any>(false);
@@ -76,10 +73,10 @@ export function Wallet(props: any) {
 
 
   /* Finnie */
-  const {
-    state: { connectFinnie, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
-  } = useFinnie();
-  const { getArweavePublicAddress, hasEncryptedData, isUnlocked, getCommon } = useWallet();
+  // const {
+  //   state: { connectFinnie, isLoading: finnieLoading, walletBalance, isFinnieConnected, walletPrice, xchangeRate, lastTxn, tokenHis },
+  // } = useFinnie();
+  const { getArweavePublicAddress, hasEncryptedData, isUnlocked, getCommon, isLoading } = useWallet();
 
   const redirect = props?.location?.search
     ? props?.location?.search.split('=')[1]
@@ -91,6 +88,33 @@ export function Wallet(props: any) {
     if(!walletAdd) {
       navigate.push("/login")
     }
+    
+    if(!isLoading) {
+      getBalances(walletAdd).then((res: any) => {
+        setWalletBalance(res)
+      });
+      getPrice(walletAdd).then(res => {
+        setWalletPrice(res);
+      });
+      getExhangeRate({
+        to: "INR",
+        from: "USD",
+        quant: "1"
+      }).then((res: any) => {
+        setExchangeValue(res)
+      });
+      getLastTransaction({
+        walletAddress: walletAdd
+      }).then((res: any) => {
+        setLastTxn(res);
+        setAllTrxn(res?.debDetail.concat(res?.credDetail));
+      });
+      getHistoricalData({
+        ticker: "AR"
+      }).then((res: any) => {
+        setTokenHis(res)
+      });
+    }
 
     if(userInfo) {
       setWalletId(walletAdd)
@@ -101,11 +125,6 @@ export function Wallet(props: any) {
 
     if(walletAdd === walletAddAr) {
       navigate.push(`/wallet/${walletAdd}`);
-    }
-
-    if(lastTxn) {
-      setAllTrxn(lastTxn.debDetail.concat(lastTxn.credDetail));
-      setExchangeValue(xchangeRate);
     }
 
     if(successWalletEdit) {
@@ -133,7 +152,6 @@ export function Wallet(props: any) {
     userInfo,
     walletAddAr,
     walletId,
-    lastTxn,
     successTokensTransfer,
     toWallet,
     quantity,
@@ -191,7 +209,7 @@ export function Wallet(props: any) {
                 <Text fontWeight="600">Wallet Details</Text>
                 <IconButton as={RouterLink} to={`/setting`} bg="none" icon={<AiOutlineSetting size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
               </Stack>
-              {isFinnieConnected ? (
+              {!isLoading ? (
                 <Stack>
                   <Box p="4" rounded="lg" shadow="card" >
                     <Flex align="center" justify="space-between">
@@ -201,7 +219,7 @@ export function Wallet(props: any) {
                     <Flex align="center" justify="space-between">
                       <Text fontWeight="600" fontSize="sm">AD-Credits: </Text>
                       <Flex align="center" justify="space-between">
-                        <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData)}</Text>
+                        <Text p="2" fontWeight="600" fontSize="sm">₹ {(walletBalance?.ar) + (walletBalance?.koii) + (walletBalance?.ratData) || 0 }</Text>
                         <InfoIcon onClick={openADUModalHandler} fontSize="15px" color="green.500" />
                       </Flex>
                     </Flex>
@@ -291,15 +309,15 @@ export function Wallet(props: any) {
                     <SimpleGrid gap="4" columns={[2, 3]}>
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <ArweaveIcon m="2" color="black" boxSize="30px" />
-                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(5)}</Text>
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ar?.toFixed?.(5) || 0}</Text>
                         <Flex align="center" justify="space-between">
-                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice) * exchangeValue).toFixed?.(5)}</Text>
-                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice)).toFixed?.(5)}</Text>
+                          <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ar) * (walletPrice?.arPrice) * exchangeValue).toFixed?.(5) || 0}</Text>
+                          <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ar) * (walletPrice?.arPrice)).toFixed?.(5) || 0}</Text>
                         </Flex>
                       </Box>
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <KoiiIcon m="2" color="black" boxSize="30px" />
-                        <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(5)}</Text>
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.koii?.toFixed?.(5) || 0}</Text>
                         <Flex align="center" justify="space-between">
                           {/* <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.koii) * (walletPrice?.koiiPrice) * exchangeValue).toFixed?.(3)} *</Text> */}
                           {/* <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.koii) * (walletPrice?.koiiPrice)).toFixed?.(3)} *</Text> */}
@@ -308,7 +326,7 @@ export function Wallet(props: any) {
                   
                       <Box p="4" shadow="card" rounded="lg" align="center">
                         <RatIcon m="2" color="black" boxSize="30px" />
-                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.toFixed?.(3)}</Text>
+                        <Text fontWeight="600" fontSize="sm">{walletBalance?.ratData?.toFixed?.(3) || 0}</Text>
                         <Flex align="center" justify="space-between">
                           {/* <Text fontWeight="600" fontSize="xs">̥₹ {((walletBalance?.ratData) * (walletPrice?.ratPrice)).toFixed?.(3)} *</Text> */}
                           {/* <Text fontWeight="600" fontSize="xs">$ {((walletBalance?.ratData)/exchangeValue).toFixed?.(3)} *</Text> */}

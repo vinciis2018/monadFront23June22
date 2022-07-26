@@ -1,7 +1,7 @@
-import { useState, useCallback, ReactNode } from "react";
+import { useEffect, useState, useCallback, ReactNode } from "react";
 import { Link as RouterLink } from "react-router-dom";
 // context
-import { useFinnie } from "components/finnie";
+import { useWallet } from "components/contexts";
 // Dropzone
 import { useDropzone } from "react-dropzone";
 // ui
@@ -15,14 +15,27 @@ import { convertToAr, getMediaType } from "services/utils";
 // api
 import { initializeArTx, signArTx } from "api/upload";
 import {BsUpload} from 'react-icons/bs';
+import { getBalances } from "api/sdk";
 
 export function DragAndDropUploader(walletName: any) {
   // const [key, setKey] = useState<any>("");
-  
-  /* Finnie */
+  const [walletBalance, setWalletBalance] = useState({ar: 0, koii: 0, ratData: 0});
+
   const {
-    state: { connectFinnie, walletAddress, isLoading, walletBalance, isFinnieConnected }
-  } = useFinnie();
+    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading
+  } = useWallet();
+
+  const [walletAddress, setWalletAddress] = useState(getArweavePublicAddress())
+
+  useEffect(() => {
+    const walletAdd = getArweavePublicAddress();
+    if(!isLoading) {
+      setWalletAddress(walletAdd);
+      getBalances(walletAdd).then((res: any) => {
+        setWalletBalance(res)
+      });
+    }
+  }, [])
 
   const [{ step, status, data }, setState] = useState<{ step: number; status: string; data: any }>({ step: 1, status: "idle", data: null });
 
@@ -38,10 +51,7 @@ export function DragAndDropUploader(walletName: any) {
     try {
       let address: any;
       setState(prevState => ({ ...prevState, status: "loading" }));
-      // connect to finnie -if not-
-      if (!isFinnieConnected) {
-        address = await connectFinnie(true);
-      }
+      address = getArweavePublicAddress();
       // Initialize a tx to get it's fee.
       await initializeArTx({ walletAddress: walletAddress || address, data: { ...data, ...values } }).then(res => {
         setState(prevState => ({ ...prevState, data: { ...prevState?.data, ...res } }));

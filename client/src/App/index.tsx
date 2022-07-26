@@ -4,7 +4,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { Routes } from "routes";
 // providers
 import { QueryClient, QueryClientProvider } from "react-query";
-import { FinnieProvider } from "components/finnie";
+// import { FinnieProvider } from "components/finnie";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryParamProvider } from "use-query-params";
 import {
@@ -40,15 +40,15 @@ export const App = () => {
                 <BackupProvider>
                   <LoginProvider>
                     <UploadProvider>
-                      {/* Finnie Provider */}
-                      <FinnieProvider>
-                        <RouterWrapper>
-                          {/* Query Params */}
-                          <QueryParamProvider ReactRouterRoute={Route}>
-                            <Routes />
-                          </QueryParamProvider>
-                        </RouterWrapper>
-                      </FinnieProvider>
+                        {/* Finnie Provider */}
+                        {/* <FinnieProvider> */}
+                          <RouterWrapper>
+                            {/* Query Params */}
+                            <QueryParamProvider ReactRouterRoute={Route}>
+                              <Routes />
+                            </QueryParamProvider>
+                          </RouterWrapper>
+                        {/* </FinnieProvider> */}
                     </UploadProvider>
                   </LoginProvider>
                 </BackupProvider>

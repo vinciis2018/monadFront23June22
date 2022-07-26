@@ -19,13 +19,13 @@ export function UploadConfirm() {
   const [loading, setLoading] = useState(false);
   const [enterPin, setEnterPin] = useState(false)
   const { addFile } = useIpfs();
-  const {  isUnlocked, getArweavePublicAddress, isConnected, signMessage } = useWallet();
+  const {  isUnlocked, getArweavePublicAddress, isLoading, signMessage } = useWallet();
 
 
   const { imageUrl, tags, title, description, nsfw, releaseDate } = useUpload();
 
   useEffect(() => {
-    if(!isConnected) {
+    if(isLoading) {
       // window.alert("Please unlock wallet first")
       setEnterPin(true)
     }
