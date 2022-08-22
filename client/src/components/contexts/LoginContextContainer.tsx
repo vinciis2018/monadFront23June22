@@ -21,10 +21,10 @@ interface User {
 interface Context {
   user: User | undefined;
   // TODO: better helper func types.
-  login: (expired: number) => void;
-  register: (expired: number) => void;
-  lock: () => void;
-  logout: () => void;
+  loginUser: (expired: number) => void;
+  registerUser: (expired: number) => void;
+  lockUser: () => void;
+  logoutUser: () => void;
 
   // TODO: Move it to separate context or something
   setSeedPhraseSaved(): Promise<void>;
@@ -172,10 +172,10 @@ const ContextProvider = ({ children }: WithChildren) => {
     <Ctx.Provider
       value={{
         user,
-        login: loginUser,
-        register: registerUser,
-        logout: logoutUser,
-        lock: lockUser,
+        loginUser,
+        registerUser,
+        logoutUser,
+        lockUser,
         setSeedPhraseSaved,
       }}
     >

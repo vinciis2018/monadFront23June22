@@ -52,12 +52,12 @@ export function Nav(props: any) {
   // } = useBalance();
 
   const {
-    isUnlocked, lock: lockMyWallet, getArweavePublicAddress, isLoading
+    isUnlocked, lock, getArweavePublicAddress, isLoading
   } = useWallet();
 
   const [myWallet, setMyWallet] = React.useState<String>(getArweavePublicAddress());
 
-  const { logout, lock } = useLogin();
+  const { logoutUser, lockUser } = useLogin();
 
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -78,9 +78,9 @@ export function Nav(props: any) {
 
     if(walletAdd !== userInfo?.defaultWallet) {
       dispatch(editWallet({ walletAdd }))
+      lockUser();
+      logoutUser();
       lock();
-      logout();
-      lockMyWallet();
     } else {
       setMyWallet(walletAdd);
     }
@@ -100,21 +100,23 @@ export function Nav(props: any) {
   ]);
 
   const signoutHandler = () => {
+    lockUser();
+    logoutUser();
     lock();
-    logout();
-    lockMyWallet();
+    window.localStorage.removeItem('portWallet')
     dispatch(signout());
   }
 
   const lockWallet = () => {
+    lockUser();
+    logoutUser();
     lock();
-    logout();
-    lockMyWallet();
+    window.localStorage.removeItem('portWallet')
     navigate.push("/login")
 
   }
 
-  const onClick = () => {
+  const onWalletClick = () => {
     if(!userInfo) {
       navigate.push("/signin")
     }
@@ -195,7 +197,7 @@ export function Nav(props: any) {
                       </Flex>
                     </Badge>
                   ) : (
-                    <IconButton onClick={onClick} aria-label="Connect"
+                    <IconButton onClick={onWalletClick} aria-label="Connect"
                       bg={isLoading ? "red.200" : "red.500"}
                       icon={<RiWallet3Line color="black" size="20px"/>}
                     />

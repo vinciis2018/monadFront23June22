@@ -54,7 +54,8 @@ import {
   PleaBucket,
   GalleryView,
   GalleryDetail,
-  Page404
+  Page404,
+  CampaignCreator
 } from "pages";
 
 // ui
@@ -113,6 +114,8 @@ export const Routes = () => {
         <PrivateRoute exact path="/screen/:id/:txId?/:gameId?" component={ScreenDetail} layout={AppLayout} />
         <PrivateRoute exact path="/edit/screen/:id" component={ScreenEdit} layout={AppLayout} />
         <PublicRoute exact path="/myscreen/play/:id" component={ScreenPlayer} />
+        <PublicRoute exact path="/edit_campaign/" component={CampaignCreator} layout={AppLayout}/>
+
 
         <PublicRoute exact path="/adverts" component={Adverts} layout={AppLayout} />
         <PrivateRoute exact path="/advert/:id/:txId?/:screenId?" component={AdvertDetail} layout={AppLayout} />

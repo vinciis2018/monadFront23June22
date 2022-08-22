@@ -48,6 +48,13 @@ export function ScreenDetail (props: any) {
     error: errorScreenVideos 
   } = screenVideos;
 
+  const screenVideoDelete = useSelector((state: any) => state.screenVideoDelete);
+  const {
+    loading: loadingVideoDelete,
+    error: errorVideoDelete,
+    success: successVideoDelete
+  } = screenVideoDelete;
+
   const screenCalender = useSelector((state: any) => state.screenCalender);
   const {
     loading: loadingScreenCalender,
@@ -130,6 +137,7 @@ export function ScreenDetail (props: any) {
     // screen,
     // txId,
     // nft,
+    successVideoDelete
   ])
 
   const allyPleaHandler = () => {
@@ -252,7 +260,13 @@ export function ScreenDetail (props: any) {
                                   {screen?.allies?.length}
                                 </Text>
                               ) : (
-                                <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                                <>
+                                  {userInfo.isAlly ? (
+                                    <IconButton onClick={allyPleaHandler} bg="none" icon={<VscRequestChanges size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                                  ) : (
+                                    <Text fontSize="xs">You're not an Ally yet...</Text>
+                                  )}
+                                </>
                               )}
                             </>
                           )}
@@ -443,27 +457,33 @@ export function ScreenDetail (props: any) {
                   {videos.length === 0 && <MessageBox>Please upload your first campaign</MessageBox>}
                   {videos.map((video: any) => (
                     <Box key={video._id} color="gray.200" border="1px" p="2" rounded="md" shadow="card">
-                      <Flex justify="space-between" align="center">
-                        <Flex as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} >
-                          <Image 
-                            px="1px"
-                            src={video?.thumbnail}
-                            width="150px"
-                            height="100px"
-                            rounded="md"
-                          />
-                          <Box color="black" p="2">
-                            <Text px="1" fontSize="md" fontWeight="600">{video?.title}</Text>
-                            <Text px="1" fontSize="xs" fontWeight="600"color="gray.500">{video?.category}</Text>
-                            <Text px="1" fontSize="xs" fontWeight=""color="gray.500">{video?.description}</Text>
-                            <Text p="1" fontSize="sm" fontWeight=""color="gray.500">Uploaded by: {video?.uploaderName}</Text>
+                      {loadingVideoDelete ? (
+                        <LoadingBox></LoadingBox>
+                      ) : errorVideoDelete ? (
+                        <MessageBox variant="danger">{errorScreenVideos}</MessageBox>
+                      ) : (
+                        <Flex justify="space-between" align="center">
+                          <Flex as={RouterLink} to={`/advert/${video._id}/${video?.video.split('/').slice(-1)[0]}/${video.screen}`} >
+                            <Image 
+                              px="1px"
+                              src={video?.thumbnail}
+                              width="150px"
+                              height="100px"
+                              rounded="md"
+                            />
+                            <Box color="black" p="2">
+                              <Text px="1" fontSize="md" fontWeight="600">{video?.title}</Text>
+                              <Text px="1" fontSize="xs" fontWeight="600"color="gray.500">{video?.category}</Text>
+                              <Text px="1" fontSize="xs" fontWeight=""color="gray.500">{video?.description}</Text>
+                              <Text p="1" fontSize="sm" fontWeight=""color="gray.500">Uploaded by: {video?.uploaderName}</Text>
 
-                          </Box>
+                            </Box>
+                          </Flex>
+                            {deleteModal && video.uploader === userInfo?.defaultWallet && (
+                              <IconButton onClick={() => deletePlaylistHandler(video)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
+                            )}
                         </Flex>
-                          {deleteModal && video.uploader === userInfo?.defaultWallet && (
-                            <IconButton onClick={() => deletePlaylistHandler(video)} bg="none" icon={<AiOutlineDelete size="20px" color="black" />} aria-label="Edit Screen Details"></IconButton>
-                          )}
-                      </Flex>
+                      )}
                     </Box>
                   ))}
                 </Stack>

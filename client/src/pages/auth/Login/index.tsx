@@ -12,7 +12,7 @@ import { LoadingBox, MessageBox } from "components/helpers";
 export function Login() {
   const navigate = useHistory();
   const searchParams = new URLSearchParams();
-  const { login } = useLogin();
+  const { loginUser } = useLogin();
   const [err, setErr] = useState("");
   const [activeBtn, setActiveBtn] = useState(false);
   const [pinFocus, setPinFocus] = useState(true);
@@ -51,7 +51,7 @@ export function Login() {
           unlock(pincode)
             .then(async (res) => {
               const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
-              await login(expired);
+              await loginUser(expired);
               if (target) {
                 navigate.push("/" + target);
               } 

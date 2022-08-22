@@ -23,7 +23,7 @@ export function Active() {
   const camera = useRef<CameraType>(null);
   const [facingMode, setFacingMode] = useState<FacingMode>("environment");
   const [showKeyPhraseSaveModal, setShowKeyPhraseSaveModal] = useState<boolean>(true);
-  const { logout } = useLogin();
+  const { logoutUser } = useLogin();
   const { getArweavePublicAddress } = useWallet();
   
 
@@ -62,7 +62,7 @@ export function Active() {
   };
 
   const lockScreen = () => {
-    logout();
+    logoutUser();
   };
 
   return (

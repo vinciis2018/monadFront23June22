@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 export const Logout = () => {
   const navigate = useHistory();
-  const { logout } = useLogin();
+  const { logoutUser } = useLogin();
   const { lock } = useWallet();
 
   const redirect = navigate?.location?.search
@@ -14,7 +14,7 @@ export const Logout = () => {
 
 
   useEffect(() => {
-    logout();
+    logoutUser();
     lock();
     /* eslint-disable-next-line */
     navigate.push(redirect);

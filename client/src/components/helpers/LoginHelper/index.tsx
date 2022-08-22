@@ -12,7 +12,7 @@ import { LoadingBox, MessageBox } from "components/helpers";
 export function LoginHelper() {
   const navigate = useHistory();
   const searchParams = new URLSearchParams();
-  const { login } = useLogin();
+  const { loginUser } = useLogin();
   const [err, setErr] = useState("");
   const [pinFocus, setPinFocus] = useState(true);
   const [pin, setPin] = useState("");
@@ -50,7 +50,7 @@ export function LoginHelper() {
           unlock(pincode)
             .then(async (res) => {
               const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
-              const status = await login(expired);
+              const status = await loginUser(expired);
             })
             .catch((error: Error) => {
               console.log(error)

@@ -92,7 +92,7 @@ export default function LayoutUpload(props: Props) {
     bgColor = theme.palette.primary.main,
     paddingTop = "90px",
   } = props;
-  const { lock } = useLogin();
+  const { lockUser } = useLogin();
   // const [openNavDrawer, setOpenNavDrawer] = useState(false);
   const { pathname } = useLocation();
   const curRouteIndex = topRoutes.findIndex((_route) =>
@@ -100,7 +100,7 @@ export default function LayoutUpload(props: Props) {
   );
 
   const lockScreen = () => {
-    lock();
+    lockUser();
   };
 
 

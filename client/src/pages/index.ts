@@ -1,7 +1,11 @@
 export { Home } from "./home";
+
 export { Nft } from "./nft";
+
 export { Artist } from "./artist";
+
 export { MapBox } from "./map";
+
 export { 
   Signin, 
   Signup, 
@@ -15,11 +19,35 @@ export {
   KeyRecovery,
   Welcome
 } from "./auth";
-export { Wallet, Payment } from "./wallet";
-export { Screens, ScreenDetail, ScreenEdit, ScreenPlayer } from "./screens";
-export { Adverts, AdvertDetail, AdvertCreate, AdvertEdit } from "./adverts";
+
+export { 
+  Wallet, 
+  Payment 
+} from "./wallet";
+
+export { 
+  Screens, 
+  ScreenDetail, 
+  ScreenEdit, 
+  ScreenPlayer 
+} from "./screens";
+
+export { 
+  Adverts, 
+  AdvertDetail, 
+  AdvertCreate, 
+  AdvertEdit,
+  CampaignCreator 
+} from "./adverts";
+
 export { UserProfile } from "./artist/userProfile";
-export { ScreenDashboard, UserDashboard, CampaignDashboard } from "./dashboard";
+
+export { 
+  ScreenDashboard, 
+  UserDashboard, 
+  CampaignDashboard 
+} from "./dashboard";
+
 export { PleaBucket} from "./pleas";
 
 export { 

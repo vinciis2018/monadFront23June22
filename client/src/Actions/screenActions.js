@@ -325,6 +325,22 @@ export const screenVideosList = (screenId) => async (dispatch) => {
   }
 };
 
+// export const screenPlaylistDetail = (video, screenId) => async (dispatch) => {
+//   dispatch({ type: "SCREEN_PLAYLIST_DETAIL_LOADING", payload: video });
+
+//   try {
+//     const {data} = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens/${screenId}/screenVideos/playlist`, video);
+//     dispatch({ type: "SCREEN_PLAYLIST_DETAIL_SUCCESS", payload: data });
+//   } catch (error) {
+//     console.log(error);
+//     dispatch({
+//       type: "SCREEN_PLAYLIST_DETAIL_FAIL", payload: error.response && error.response.data.message
+//         ? error.response.data.message
+//         : error.message
+//     });
+//   }
+// }
+
 
 // upload video screen 
 

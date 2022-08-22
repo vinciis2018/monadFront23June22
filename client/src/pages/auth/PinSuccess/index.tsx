@@ -19,7 +19,7 @@ let deferredPrompt: Event;
 export function PinSuccess() {
 
   const navigate = useHistory();
-  const { register } = useLogin();
+  const { registerUser } = useLogin();
   const [pwaMode, setPwaMode] = useState(false);
   const [open, setOpen] = useState(false);
   const [installable, setInstallable] = useState(false);
@@ -36,9 +36,9 @@ export function PinSuccess() {
     setOpen(false);
   };
 
-  const registerUser = async () => {
+  const registerWalletUser = async () => {
     const expired = Math.floor(Date.now() / 1000) + 10 * 60; // 10 mins
-    await register(expired);
+    await registerUser(expired);
 
     getTempSavedPin().then((pin: string | null) => {
       if (pin) {
@@ -69,7 +69,7 @@ export function PinSuccess() {
       // Show the install prompt
       await appInstallLuncher();
     } else {
-      await registerUser();
+      await registerWalletUser();
     }
   };
 
@@ -84,7 +84,7 @@ export function PinSuccess() {
     dt.userChoice.then((choiceResult: any) => {
       if (choiceResult.outcome === "accepted") {
         console.log("User accepted the install prompt");
-        registerUser();
+        registerWalletUser();
       } else {
         console.log("User dismissed the install prompt");
         setOpen(true);
@@ -172,7 +172,7 @@ export function PinSuccess() {
                       </Text>
                     </ModalBody>
                     <ModalFooter>
-                      <Button onClick={registerUser} autoFocus variant="outline" color="violet.500">
+                      <Button onClick={registerWalletUser} autoFocus variant="outline" color="violet.500">
                         OK
                       </Button>
                     </ModalFooter>

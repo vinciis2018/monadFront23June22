@@ -24,8 +24,8 @@ export function Setting() {
   const userSignin = useSelector((state: any) => state.userSignin);
   const { userInfo, loading, error } = userSignin;
 
-  const { logout, lock } = useLogin();
-  const { lock: lockMyWallet } = useWallet();
+  const { logoutUser, lockUser } = useLogin();
+  const { lock } = useWallet();
 
   const { getArweavePublicAddress } = useWallet();
   const gotoRecovery = () => {
@@ -62,9 +62,9 @@ export function Setting() {
       navigate?.push("/login")
     } else {
       if(userInfo?.defaultWallet !== wallet) {
-        logout();
+        logoutUser();
+        lockUser();
         lock();
-        lockMyWallet();
       }
     }
 
@@ -109,7 +109,7 @@ export function Setting() {
                 </Flex>
                 <Box align="center">
                   <Text fontWeight="600" color="violet.500" onClick={onClick}>
-                    {pwaMode && "Save on HomeScreen"}
+                    {pwaMode && <Text>"Save on HomeScreen"</Text>}
                   </Text>
                 </Box>
                 <Flex align="center" justify="space-between">
