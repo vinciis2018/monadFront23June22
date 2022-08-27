@@ -140,7 +140,7 @@ export function ScreenDashboard(props: any) {
                   <AiOutlineDelete aria-label="hidden" onClick={() => deleteScreenHandler(screen)} />
                 </Flex>
                 <SimpleGrid gap="4" columns={[3]} p="2">
-                  <Box onClick={() => props.history.push(`/screen/${screen._id}`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
+                  <Box onClick={() => props.history.push(`/screen/${screen._id}/${screen?.image.split("/").slice(-1)[0]}/${screen?.activeGameContract}`)} bgGradient="linear-gradient(to bottom, #BC78EC20, #7833B660)" align="center" shadow="card" rounded="lg" p="2">
                     <Text fontWeight="" fontSize="xs">Playlist</Text>
                     <Text p="2" fontWeight="600" fontSize="lg">{screen?.videos?.length}</Text>
                   </Box>
