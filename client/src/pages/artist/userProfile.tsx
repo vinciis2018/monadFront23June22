@@ -395,7 +395,9 @@ export function UserProfile(props: any) {
                     <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
                     <IconButton onClick={() => props.history.push("/upload-photos")} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
                   </Flex>
-      
+                  {artist?.nfts?.length !== 0 && (
+                    <MessageBox>"You don't have any media to show"</MessageBox>
+                  )}
                   {artist?.nfts?.length !== 0 && (
                     <SimpleGrid p="2"  w="100%" minW="0" minH="0" gap="2" columns={[2, 4]}>
                       {artist?.nfts?.map((nft: Record<string, any>) => (
