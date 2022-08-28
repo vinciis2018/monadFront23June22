@@ -395,7 +395,7 @@ export function UserProfile(props: any) {
                     <Text fontSize="lg" fontWeight="600" >My NFTs</Text>
                     <IconButton onClick={() => props.history.push("/upload-photos")} bg="none" icon={<BsUpload size="15px" color="black" />} aria-label="Edit user details"></IconButton>
                   </Flex>
-                  {artist?.nfts?.length !== 0 && (
+                  {artist?.nfts?.length === 0 && (
                     <MessageBox>"You don't have any media to show"</MessageBox>
                   )}
                   {artist?.nfts?.length !== 0 && (
