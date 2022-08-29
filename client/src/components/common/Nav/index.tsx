@@ -76,7 +76,7 @@ export function Nav(props: any) {
 
     const walletAdd = getArweavePublicAddress();
 
-    if(walletAdd !== userInfo?.defaultWallet) {
+    if(userInfo?.defaultWallet && walletAdd !== userInfo?.defaultWallet) {
       dispatch(editWallet({ walletAdd }))
       lockUser();
       logoutUser();
@@ -96,6 +96,7 @@ export function Nav(props: any) {
     dispatch,
     userInfo,
     isLoading,
+    getArweavePublicAddress()
     // walletBalance
   ]);
 
@@ -328,12 +329,8 @@ export function Nav(props: any) {
                 </Stack>
               )}
             </Flex>
-
-           
           )}
-          {/* {modalOpen && (
-            <LoginHelper />
-          )} */}
+
         </Box>
       )}
     </Box>

@@ -78,7 +78,7 @@ export const Routes = () => {
         <PrivateRoute exact path="/login" component={Login} layout={AppLayout} />
         <PublicRoute exact path="/logout" component={Logout} layout={AppLayout} />
 
-        <PrivateRoute exact path="/welcome" component={Welcome} layout={AppLayout} />
+        <PublicRoute exact path="/welcome" component={Welcome} layout={AppLayout} />
         <PrivateRoute exact path="/pin-create" component={PinCreate} layout={AppLayout} />
         <PrivateRoute exact path="/pin-success" component={PinSuccess} layout={AppLayout} />
         <PrivateRoute exact path="/key-recovery" component={KeyRecovery} layout={AppLayout} />

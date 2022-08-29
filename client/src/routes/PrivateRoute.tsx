@@ -28,7 +28,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, layou
         if (!userInfo) {
           return <Redirect to="/signin" />;
         } else {
-          if (!userInfo.defaultWallet) {
+          if (!userInfo?.defaultWallet) {
             return <Redirect to="/welcome" />
           } 
         }

@@ -30,8 +30,9 @@ export function Signup(props: any) {
       alert('Password and confirm password donot match');
     } else {
       dispatch(signup(name, email, password));
-      navigate.push("/welcome");
       alert('user created, please create a wallet to proceed');
+      navigate.push("/welcome");
+
     }
   };
 

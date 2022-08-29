@@ -88,6 +88,7 @@ export function Login() {
 
   return (
     <Box px="2" pt="20">
+      
       <Center maxW="container.lg" minH="600" mx="auto" pb="8">
         {loading ? (
           <LoadingBox></LoadingBox>
@@ -95,10 +96,15 @@ export function Login() {
           <MessageBox>{error}</MessageBox>
         ) : (
           <Stack align="center" p="8" rounded="lg" shadow="card">
+            {userInfo?.defaultWallet === undefined || null && (
+              <Text>{userInfo.defaultWallet}</Text>
+            )}
             {err && <MessageBox>{err}</MessageBox>}
               <Stack>
                 <Text p="2" fontSize="lg" textAlign="center" fontWeight="600">Please login to continue</Text>
                 <hr />
+              <Text>{userInfo.defaultWallet}</Text>
+
                 <Tooltip rounded="lg" shadow="card" bgColor="violet.500" p="4" label="paisa hi paisa hoga" aria-label='A tooltip'>
                   <Image  alt="paisa hi paisa hoga" p="4" src={`https://cdna.iconscout.com/img/get-started.23be618.png?w=500&h=0&f=png`}/>
                 </Tooltip>
@@ -117,7 +123,7 @@ export function Login() {
                 </Box>
               </Stack>
             <Button variant="outline" width="50%" color="violet.500" onClick={onClick}>Log In</Button>
-            <Text pt="4" fontSize="sm">If Signing in with a different account</Text>
+            <Text pt="4" fontSize="sm">If Signing in with a different Wallet</Text>
             <Text color="violet.500" onClick={() => navigate.push("/welcome")} textAlign="center" fontSize="" fontWeight="600">Use a new Wallet</Text>
           </Stack>
 
