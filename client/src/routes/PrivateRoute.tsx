@@ -27,11 +27,11 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, layou
       render={(props) => {
         if (!userInfo) {
           return <Redirect to="/signin" />;
-        } else {
-          if (!userInfo?.defaultWallet) {
-            return <Redirect to="/welcome" />
-          } 
         }
+        
+        if (!userInfo?.defaultWallet) {
+          return <Redirect to="/welcome" />
+        } 
         
         return (
           <Layout {...props}>
