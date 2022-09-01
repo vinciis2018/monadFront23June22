@@ -197,7 +197,7 @@ export const createScreen = () => async (dispatch, getState) => {
   });
   const { userSignin: { userInfo } } = getState();
   try {
-    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens`, {}, {
+    const { data } = await Axios.post(`${process.env.REACT_APP_BLINDS_SERVER}/api/screens`, userInfo, {
       headers: {
         Authorization: `Bearer ${userInfo.token}`
       }
