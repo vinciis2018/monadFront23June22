@@ -4,7 +4,7 @@ import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { Box, Heading, Image, FormControl, Select, FormLabel, Input, Center, Link, Flex, Stack, SimpleGrid, VStack, Text, Button, IconButton, HStack } from "@chakra-ui/react";
 
 import {LoadingBox, MessageBox} from '../../../components/helpers';
-import { signup } from '../../../Actions/userActions';
+import { signup, signout } from '../../../Actions/userActions';
 
 
 export function Signup(props: any) {
@@ -41,8 +41,8 @@ export function Signup(props: any) {
     if (userInfo) {
       props?.history?.push(redirect);
     }
-    
-  }, [props?.history, redirect, userInfo]);
+    dispatch(signout())
+  }, [dispatch, props?.history, redirect, userInfo]);
 
   return (
     <Box px="2" pt="20">
