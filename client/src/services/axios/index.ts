@@ -12,6 +12,8 @@ customAxios.defaults.headers.post["Content-Type"] = "application/json";
 
 export default customAxios;
 
+
+
 //change to an environment url eventually
 export const instance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_UPLOAD_URL,
