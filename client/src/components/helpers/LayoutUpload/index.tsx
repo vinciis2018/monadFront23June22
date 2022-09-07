@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 // hooks
 import { useLogin, useUpload } from "components/contexts";
 import { styled, useTheme } from "@mui/material/styles";
-import { Box } from "@mui/system";
 import { useLocation } from "react-router-dom";
 import CameraHandlers from "components/helpers/CameraHandlers";
 import { Camera } from "react-camera-pro";
@@ -45,7 +44,8 @@ import {
   Tooltip,
   Image,
   Button,
-  Flex
+  Flex,
+  Box
 } from '@chakra-ui/react'
 
 import { AiOutlineArrowLeft, AiOutlineLock, AiOutlineSetting, AiOutlineCamera, AiOutlineHome } from "react-icons/ai";

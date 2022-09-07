@@ -54,6 +54,7 @@ import {
   PleaBucket,
   GalleryView,
   GalleryDetail,
+  IPFS,
   Page404,
   CampaignCreator
 } from "pages";
@@ -86,7 +87,8 @@ export const Routes = () => {
         <PrivateRoute exact path="/key-phrase-save" component={KeyPhraseSave} layout={AppLayout} />
         <PrivateRoute exact path="/key-management" component={KeyManagement} layout={AppLayout} />
 
-        <PrivateRoute exact path={"/upload"} component={Active} layout={AppLayout} />
+        <PublicRoute exact path="/ipfs" component={IPFS} layout={AppLayout} />
+        <PrivateRoute exact path="/upload" component={Active} layout={AppLayout} />
         <WalletRoute exact path="/upload-photos" component={PhotoView} layout={AppLayout} />
         <WalletRoute exact path="/upload-tags" component={UploadTags} layout={AppLayout} />
         <WalletRoute exact path="/upload-delay" component={UploadDelay} layout={AppLayout} />

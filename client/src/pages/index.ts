@@ -58,7 +58,8 @@ export {
   UploadConfirm,
   Success,
   UploadArchive,
-  CameraHome
+  CameraHome,
+  IPFS
 } from "./uploading";
 
 export { 

@@ -1,13 +1,5 @@
 /* eslint-disable no-console */
-import { styled } from "@mui/system";
-import ModalUnstyled from "@mui/base/ModalUnstyled";
-import { Typography } from "@mui/material";
-import {
-  icon_back2,
-  icon_close,
-  icon_warning_triangle,
-  warning_red_icon,
-} from "assets/svgs";
+
 import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Flex, Box } from "@chakra-ui/react";
 

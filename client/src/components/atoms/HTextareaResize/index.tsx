@@ -2,8 +2,9 @@ import { KeyboardEvent, ChangeEvent } from "react";
 import { Typography } from "@mui/material";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { styled } from "@mui/material/styles";
-import { Box } from "@mui/system";
-
+import {
+  Box
+} from '@chakra-ui/react'
 interface Props {
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onPressSpace?: () => void;
@@ -63,6 +64,6 @@ export default function HTextareaResize({
   );
 }
 
-const TextareaWrapper = styled(Box)(({ theme }) => ({
+const TextareaWrapper = styled(Box)(({ }) => ({
   width: "100%",
 }));

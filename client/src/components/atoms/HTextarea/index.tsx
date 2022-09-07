@@ -1,8 +1,9 @@
 import { KeyboardEvent, ChangeEvent } from "react";
 import { TextField, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Box } from "@mui/system";
-
+import {
+  Box
+} from '@chakra-ui/react'
 interface Props {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onPressSpace?: () => void;
@@ -51,6 +52,6 @@ export default function HTextarea({
   );
 }
 
-const TextareaWrapper = styled(Box)(({ theme }) => ({
+const TextareaWrapper = styled(Box)(({ }) => ({
   width: "100%",
 }));

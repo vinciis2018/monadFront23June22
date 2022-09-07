@@ -6,3 +6,4 @@ export { UploadConfirm } from "./UploadConfirm";
 export { Success } from "./Success";
 export { UploadArchive } from "./UploadArchive";
 export { CameraHome } from "./CameraHome";
+export {IPFS} from "./IPFS";
